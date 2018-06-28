@@ -349,7 +349,7 @@
 <li>Call the <code>rbind</code> function to combine the list by rows, and obtain a single data frame.</li>
 </ul>
 <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">myfiles = list.files(pattern = &quot;*.csv&quot;)</span><br><span class="line">trips = do.call(rbind, lapply(myfiles, read.csv, header = TRUE, stringsAsFactors = FALSE))</span><br><span class="line">head(trips)</span><br></pre></td></tr></table></figure>
-<p><img src="/2017/08/01/loadMulti-merge/head.jpg" alt="first six rows in the data frame"></p>
+<p><img src="/2017/08/01/loadMulti-merge/head.jpg" alt="first six rows of the data frame"><br><img src="/2017/08/01/loadMulti-merge/2017/08/01/loadMulti-merge/head.jpg" title="first six rows in the data frame"></p>
 <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">dim(trips)</span><br><span class="line">[1] 754   9</span><br></pre></td></tr></table></figure>
 <h2 id="Step-2-Summary-of-departure-and-arrival-delay"><a href="#Step-2-Summary-of-departure-and-arrival-delay" class="headerlink" title="Step 2: Summary of departure and arrival delay"></a>Step 2: Summary of departure and arrival delay</h2><ul>
 <li>Summary function provides minimum, 1st quantile, median, mean, 3rd quantile, maximum and the number of NA.</li>
