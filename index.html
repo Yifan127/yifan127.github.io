@@ -249,7 +249,7 @@
   
   
   <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2018/06/28/loadAndMerge/">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2017/08/01/loadAndMerge/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="name" content="Yifan Zhang">
@@ -268,7 +268,7 @@
         
           <h1 class="post-title" itemprop="name headline">
                 
-                <a class="post-title-link" href="/2018/06/28/loadAndMerge/" itemprop="url">Load and merge multiple csv files into R</a></h1>
+                <a class="post-title-link" href="/2017/08/01/loadAndMerge/" itemprop="url">Load and merge multiple csv files into R</a></h1>
         
 
         <div class="post-meta">
@@ -280,8 +280,8 @@
               
                 <span class="post-meta-item-text">Posted on</span>
               
-              <time title="Post created" itemprop="dateCreated datePublished" datetime="2018-06-28T17:55:35+12:00">
-                2018-06-28
+              <time title="Post created" itemprop="dateCreated datePublished" datetime="2017-08-01T17:55:35+12:00">
+                2017-08-01
               </time>
             
 
@@ -342,13 +342,15 @@
       
         
           
-            <h2 id="Step-1-Loads-the-60-csv-files-to-a-data-frame"><a href="#Step-1-Loads-the-60-csv-files-to-a-data-frame" class="headerlink" title="Step 1: Loads the 60 csv files to a data frame"></a>Step 1: Loads the 60 csv files to a data frame</h2><ul>
-<li>Gets all the csv file names in my current working directory.</li>
-<li>Reads them to a list by applying read.csv function to all of them.</li>
-<li>Call rbind function to combine the list by rows, and obtains a data frame.</li>
+            <p>Data description:<br>The dataset consists of 60 CSV files, each containing information on Auckland Bus delays. The file name contains a date-time component that reflects the exact time of the request for each file. For example: trip_updates_20170401053101.csv.</p>
+<h3 id="Load-the-60-csv-files-to-a-data-frame"><a href="#Load-the-60-csv-files-to-a-data-frame" class="headerlink" title="Load the 60 csv files to a data frame"></a>Load the 60 csv files to a data frame</h3><ul>
+<li>Put all the csv files in my current working directory.</li>
+<li>Read them to a list by applying read.csv function to all of them.</li>
+<li>Call the <code>rbind</code> function to combine the list by rows, and obtain a single data frame.</li>
 </ul>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">myfiles = list.files(pattern = &quot;*.csv&quot;)</span><br><span class="line">trips = do.call(rbind, lapply(myfiles, read.csv, header = TRUE, stringsAsFactors = FALSE))</span><br><span class="line">dim(trips)</span><br><span class="line">head(trips)</span><br></pre></td></tr></table></figure>
-<h2 id="Step-2-Summary-of-departure-and-arrival-delay"><a href="#Step-2-Summary-of-departure-and-arrival-delay" class="headerlink" title="Step 2: Summary of departure and arrival delay"></a>Step 2: Summary of departure and arrival delay</h2><ul>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">myfiles = list.files(pattern = &quot;*.csv&quot;)</span><br><span class="line">trips = do.call(rbind, lapply(myfiles, read.csv, header = TRUE, stringsAsFactors = FALSE))</span><br><span class="line">head(trips)</span><br></pre></td></tr></table></figure>
+<h2 id="trip-route-vehicle-departure-arrival-stop-sequence-stop-id-timestamp-datetime"><a href="#trip-route-vehicle-departure-arrival-stop-sequence-stop-id-timestamp-datetime" class="headerlink" title="trip                       route vehicle departure arrival stop_sequence stop_id  timestamp       datetime"></a>trip                       route vehicle departure arrival stop_sequence stop_id  timestamp       datetime</h2><h2 id="1-8300033770-20170322104732-v52-21-30002-20170322104732-v52-21-6215-NA-252-6-7168-1490975922-20170401050001"><a href="#1-8300033770-20170322104732-v52-21-30002-20170322104732-v52-21-6215-NA-252-6-7168-1490975922-20170401050001" class="headerlink" title="1 8300033770-20170322104732_v52.21 30002-20170322104732_v52.21    6215        NA     252             6    7168 1490975922 20170401050001"></a>1 8300033770-20170322104732_v52.21 30002-20170322104732_v52.21    6215        NA     252             6    7168 1490975922 20170401050001</h2><h2 id="2-7380067868-20170322104732-v52-21-38011-20170322104732-v52-21-65FB-NA-122-19-2004-1490975980-20170401050001"><a href="#2-7380067868-20170322104732-v52-21-38011-20170322104732-v52-21-65FB-NA-122-19-2004-1490975980-20170401050001" class="headerlink" title="2 7380067868-20170322104732_v52.21 38011-20170322104732_v52.21    65FB        NA    -122            19    2004 1490975980 20170401050001"></a>2 7380067868-20170322104732_v52.21 38011-20170322104732_v52.21    65FB        NA    -122            19    2004 1490975980 20170401050001</h2><h2 id="3-7380059280-20170322104732-v52-21-38012-20170322104732-v52-21-65FC-2-NA-11-6955-1490975942-20170401050001"><a href="#3-7380059280-20170322104732-v52-21-38012-20170322104732-v52-21-65FC-2-NA-11-6955-1490975942-20170401050001" class="headerlink" title="3 7380059280-20170322104732_v52.21 38012-20170322104732_v52.21    65FC         2      NA            11    6955 1490975942 20170401050001"></a>3 7380059280-20170322104732_v52.21 38012-20170322104732_v52.21    65FC         2      NA            11    6955 1490975942 20170401050001</h2><h2 id="4-8300033770-20170322104732-v52-21-30002-20170322104732-v52-21-6215-275-NA-7-8502-1490976035-20170401050102"><a href="#4-8300033770-20170322104732-v52-21-30002-20170322104732-v52-21-6215-275-NA-7-8502-1490976035-20170401050102" class="headerlink" title="4 8300033770-20170322104732_v52.21 30002-20170322104732_v52.21    6215       275      NA             7    8502 1490976035 20170401050102"></a>4 8300033770-20170322104732_v52.21 30002-20170322104732_v52.21    6215       275      NA             7    8502 1490976035 20170401050102</h2><h2 id="5-7380067868-20170322104732-v52-21-38011-20170322104732-v52-21-65FB-NA-122-19-2004-1490975980-20170401050102"><a href="#5-7380067868-20170322104732-v52-21-38011-20170322104732-v52-21-65FB-NA-122-19-2004-1490975980-20170401050102" class="headerlink" title="5 7380067868-20170322104732_v52.21 38011-20170322104732_v52.21    65FB        NA    -122            19    2004 1490975980 20170401050102"></a>5 7380067868-20170322104732_v52.21 38011-20170322104732_v52.21    65FB        NA    -122            19    2004 1490975980 20170401050102</h2><h2 id="6-7380059280-20170322104732-v52-21-38012-20170322104732-v52-21-65FC-22-NA-13-2035-1490976030-20170401050102"><a href="#6-7380059280-20170322104732-v52-21-38012-20170322104732-v52-21-65FC-22-NA-13-2035-1490976030-20170401050102" class="headerlink" title="6 7380059280-20170322104732_v52.21 38012-20170322104732_v52.21    65FC       -22      NA            13    2035 1490976030 20170401050102"></a>6 7380059280-20170322104732_v52.21 38012-20170322104732_v52.21    65FC       -22      NA            13    2035 1490976030 20170401050102</h2><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">dim(trips)</span><br></pre></td></tr></table></figure>
+<h2 id="1-754-9"><a href="#1-754-9" class="headerlink" title="[1] 754   9"></a>[1] 754   9</h2><h2 id="Step-2-Summary-of-departure-and-arrival-delay"><a href="#Step-2-Summary-of-departure-and-arrival-delay" class="headerlink" title="Step 2: Summary of departure and arrival delay"></a>Step 2: Summary of departure and arrival delay</h2><ul>
 <li>Summary function provides minimum, 1st quantile, median, mean, 3rd quantile, maximum and the number of NA.</li>
 </ul>
 <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">summary(trips[c(&quot;arrival&quot;, &quot;departure&quot;)])</span><br></pre></td></tr></table></figure>
@@ -521,7 +523,7 @@
               
               <div class="site-state-item site-state-tags">
                 
-                  <span class="site-state-item-count">2</span>
+                  <span class="site-state-item-count">3</span>
                   <span class="site-state-item-name">tags</span>
                 
               </div>

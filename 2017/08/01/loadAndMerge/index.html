@@ -68,7 +68,7 @@
 
 
 
-  <meta name="keywords" content="multiple files,meger," />
+  <meta name="keywords" content="multiple files,merge," />
 
 
 
@@ -79,18 +79,18 @@
 
 
 
-<meta name="description" content="Step 1: Loads the 60 csv files to a data frame Gets all the csv file names in my current working directory. Reads them to a list by applying read.csv function to all of them. Call rbind function to co">
-<meta name="keywords" content="multiple files,meger">
+<meta name="description" content="Data description:The dataset consists of 60 CSV files, each containing information on Auckland Bus delays. The file name contains a date-time component that reflects the exact time of the request for">
+<meta name="keywords" content="multiple files,merge">
 <meta property="og:type" content="article">
 <meta property="og:title" content="Load and merge multiple csv files into R">
-<meta property="og:url" content="http://yoursite.com/2018/06/28/loadAndMerge/index.html">
+<meta property="og:url" content="http://yoursite.com/2017/08/01/loadAndMerge/index.html">
 <meta property="og:site_name" content="Machine Learning and Data Science">
-<meta property="og:description" content="Step 1: Loads the 60 csv files to a data frame Gets all the csv file names in my current working directory. Reads them to a list by applying read.csv function to all of them. Call rbind function to co">
+<meta property="og:description" content="Data description:The dataset consists of 60 CSV files, each containing information on Auckland Bus delays. The file name contains a date-time component that reflects the exact time of the request for">
 <meta property="og:locale" content="default">
-<meta property="og:updated_time" content="2018-06-28T08:46:20.882Z">
+<meta property="og:updated_time" content="2018-06-28T09:11:07.375Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="Load and merge multiple csv files into R">
-<meta name="twitter:description" content="Step 1: Loads the 60 csv files to a data frame Gets all the csv file names in my current working directory. Reads them to a list by applying read.csv function to all of them. Call rbind function to co">
+<meta name="twitter:description" content="Data description:The dataset consists of 60 CSV files, each containing information on Auckland Bus delays. The file name contains a date-time component that reflects the exact time of the request for">
 
 
 
@@ -120,7 +120,7 @@
 
 
 
-  <link rel="canonical" href="http://yoursite.com/2018/06/28/loadAndMerge/"/>
+  <link rel="canonical" href="http://yoursite.com/2017/08/01/loadAndMerge/"/>
 
 
 
@@ -253,7 +253,7 @@
   
   
   <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2018/06/28/loadAndMerge/">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2017/08/01/loadAndMerge/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="name" content="Yifan Zhang">
@@ -282,8 +282,8 @@
               
                 <span class="post-meta-item-text">Posted on</span>
               
-              <time title="Post created" itemprop="dateCreated datePublished" datetime="2018-06-28T17:55:35+12:00">
-                2018-06-28
+              <time title="Post created" itemprop="dateCreated datePublished" datetime="2017-08-01T17:55:35+12:00">
+                2017-08-01
               </time>
             
 
@@ -342,13 +342,15 @@
       
 
       
-        <h2 id="Step-1-Loads-the-60-csv-files-to-a-data-frame"><a href="#Step-1-Loads-the-60-csv-files-to-a-data-frame" class="headerlink" title="Step 1: Loads the 60 csv files to a data frame"></a>Step 1: Loads the 60 csv files to a data frame</h2><ul>
-<li>Gets all the csv file names in my current working directory.</li>
-<li>Reads them to a list by applying read.csv function to all of them.</li>
-<li>Call rbind function to combine the list by rows, and obtains a data frame.</li>
+        <p>Data description:<br>The dataset consists of 60 CSV files, each containing information on Auckland Bus delays. The file name contains a date-time component that reflects the exact time of the request for each file. For example: trip_updates_20170401053101.csv.</p>
+<h3 id="Load-the-60-csv-files-to-a-data-frame"><a href="#Load-the-60-csv-files-to-a-data-frame" class="headerlink" title="Load the 60 csv files to a data frame"></a>Load the 60 csv files to a data frame</h3><ul>
+<li>Put all the csv files in my current working directory.</li>
+<li>Read them to a list by applying read.csv function to all of them.</li>
+<li>Call the <code>rbind</code> function to combine the list by rows, and obtain a single data frame.</li>
 </ul>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">myfiles = list.files(pattern = &quot;*.csv&quot;)</span><br><span class="line">trips = do.call(rbind, lapply(myfiles, read.csv, header = TRUE, stringsAsFactors = FALSE))</span><br><span class="line">dim(trips)</span><br><span class="line">head(trips)</span><br></pre></td></tr></table></figure>
-<h2 id="Step-2-Summary-of-departure-and-arrival-delay"><a href="#Step-2-Summary-of-departure-and-arrival-delay" class="headerlink" title="Step 2: Summary of departure and arrival delay"></a>Step 2: Summary of departure and arrival delay</h2><ul>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">myfiles = list.files(pattern = &quot;*.csv&quot;)</span><br><span class="line">trips = do.call(rbind, lapply(myfiles, read.csv, header = TRUE, stringsAsFactors = FALSE))</span><br><span class="line">head(trips)</span><br></pre></td></tr></table></figure>
+<h2 id="trip-route-vehicle-departure-arrival-stop-sequence-stop-id-timestamp-datetime"><a href="#trip-route-vehicle-departure-arrival-stop-sequence-stop-id-timestamp-datetime" class="headerlink" title="trip                       route vehicle departure arrival stop_sequence stop_id  timestamp       datetime"></a>trip                       route vehicle departure arrival stop_sequence stop_id  timestamp       datetime</h2><h2 id="1-8300033770-20170322104732-v52-21-30002-20170322104732-v52-21-6215-NA-252-6-7168-1490975922-20170401050001"><a href="#1-8300033770-20170322104732-v52-21-30002-20170322104732-v52-21-6215-NA-252-6-7168-1490975922-20170401050001" class="headerlink" title="1 8300033770-20170322104732_v52.21 30002-20170322104732_v52.21    6215        NA     252             6    7168 1490975922 20170401050001"></a>1 8300033770-20170322104732_v52.21 30002-20170322104732_v52.21    6215        NA     252             6    7168 1490975922 20170401050001</h2><h2 id="2-7380067868-20170322104732-v52-21-38011-20170322104732-v52-21-65FB-NA-122-19-2004-1490975980-20170401050001"><a href="#2-7380067868-20170322104732-v52-21-38011-20170322104732-v52-21-65FB-NA-122-19-2004-1490975980-20170401050001" class="headerlink" title="2 7380067868-20170322104732_v52.21 38011-20170322104732_v52.21    65FB        NA    -122            19    2004 1490975980 20170401050001"></a>2 7380067868-20170322104732_v52.21 38011-20170322104732_v52.21    65FB        NA    -122            19    2004 1490975980 20170401050001</h2><h2 id="3-7380059280-20170322104732-v52-21-38012-20170322104732-v52-21-65FC-2-NA-11-6955-1490975942-20170401050001"><a href="#3-7380059280-20170322104732-v52-21-38012-20170322104732-v52-21-65FC-2-NA-11-6955-1490975942-20170401050001" class="headerlink" title="3 7380059280-20170322104732_v52.21 38012-20170322104732_v52.21    65FC         2      NA            11    6955 1490975942 20170401050001"></a>3 7380059280-20170322104732_v52.21 38012-20170322104732_v52.21    65FC         2      NA            11    6955 1490975942 20170401050001</h2><h2 id="4-8300033770-20170322104732-v52-21-30002-20170322104732-v52-21-6215-275-NA-7-8502-1490976035-20170401050102"><a href="#4-8300033770-20170322104732-v52-21-30002-20170322104732-v52-21-6215-275-NA-7-8502-1490976035-20170401050102" class="headerlink" title="4 8300033770-20170322104732_v52.21 30002-20170322104732_v52.21    6215       275      NA             7    8502 1490976035 20170401050102"></a>4 8300033770-20170322104732_v52.21 30002-20170322104732_v52.21    6215       275      NA             7    8502 1490976035 20170401050102</h2><h2 id="5-7380067868-20170322104732-v52-21-38011-20170322104732-v52-21-65FB-NA-122-19-2004-1490975980-20170401050102"><a href="#5-7380067868-20170322104732-v52-21-38011-20170322104732-v52-21-65FB-NA-122-19-2004-1490975980-20170401050102" class="headerlink" title="5 7380067868-20170322104732_v52.21 38011-20170322104732_v52.21    65FB        NA    -122            19    2004 1490975980 20170401050102"></a>5 7380067868-20170322104732_v52.21 38011-20170322104732_v52.21    65FB        NA    -122            19    2004 1490975980 20170401050102</h2><h2 id="6-7380059280-20170322104732-v52-21-38012-20170322104732-v52-21-65FC-22-NA-13-2035-1490976030-20170401050102"><a href="#6-7380059280-20170322104732-v52-21-38012-20170322104732-v52-21-65FC-22-NA-13-2035-1490976030-20170401050102" class="headerlink" title="6 7380059280-20170322104732_v52.21 38012-20170322104732_v52.21    65FC       -22      NA            13    2035 1490976030 20170401050102"></a>6 7380059280-20170322104732_v52.21 38012-20170322104732_v52.21    65FC       -22      NA            13    2035 1490976030 20170401050102</h2><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">dim(trips)</span><br></pre></td></tr></table></figure>
+<h2 id="1-754-9"><a href="#1-754-9" class="headerlink" title="[1] 754   9"></a>[1] 754   9</h2><h2 id="Step-2-Summary-of-departure-and-arrival-delay"><a href="#Step-2-Summary-of-departure-and-arrival-delay" class="headerlink" title="Step 2: Summary of departure and arrival delay"></a>Step 2: Summary of departure and arrival delay</h2><ul>
 <li>Summary function provides minimum, 1st quantile, median, mean, 3rd quantile, maximum and the number of NA.</li>
 </ul>
 <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">summary(trips[c(&quot;arrival&quot;, &quot;departure&quot;)])</span><br></pre></td></tr></table></figure>
@@ -433,7 +435,7 @@
           
             <a href="/tags/multiple-files/" rel="tag"># multiple files</a>
           
-            <a href="/tags/meger/" rel="tag"># meger</a>
+            <a href="/tags/merge/" rel="tag"># merge</a>
           
         </div>
       
@@ -541,7 +543,7 @@
               
               <div class="site-state-item site-state-tags">
                 
-                  <span class="site-state-item-count">2</span>
+                  <span class="site-state-item-count">3</span>
                   <span class="site-state-item-name">tags</span>
                 
               </div>
@@ -574,7 +576,7 @@
             
 
             
-              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#Step-1-Loads-the-60-csv-files-to-a-data-frame"><span class="nav-number">1.</span> <span class="nav-text">Step 1: Loads the 60 csv files to a data frame</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Step-2-Summary-of-departure-and-arrival-delay"><span class="nav-number">2.</span> <span class="nav-text">Step 2: Summary of departure and arrival delay</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Step-3-Defines-a-function-to-truncate-the-trip-route-and-route-id"><span class="nav-number">3.</span> <span class="nav-text">Step 3: Defines a function to truncate the trip, route, and route_id</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Step-4-Truncates-the-trip-and-route"><span class="nav-number">4.</span> <span class="nav-text">Step 4: Truncates the trip and route</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Step-5-Reads-route-and-agency-files-and-truncates-route-id"><span class="nav-number">5.</span> <span class="nav-text">Step 5: Reads route and agency files, and truncates route_id</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Step-6-Merges-trips-route-and-agency"><span class="nav-number">6.</span> <span class="nav-text">Step 6: Merges trips, route and agency</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Step-7-Calculates-average-departure-and-arrival-by-agency"><span class="nav-number">7.</span> <span class="nav-text">Step 7: Calculates average departure and arrival by agency</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Step-8-Plots-a-point-chart"><span class="nav-number">8.</span> <span class="nav-text">Step 8: Plots a point chart</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Step-9-Removes-duplicated-observations"><span class="nav-number">9.</span> <span class="nav-text">Step 9: Removes duplicated observations</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Step-10-The-impact-of-duplication"><span class="nav-number">10.</span> <span class="nav-text">Step 10: The impact of duplication</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Step-11-Plots-a-chart-of-the-impact"><span class="nav-number">11.</span> <span class="nav-text">Step 11: Plots a chart of the impact</span></a></li></ol></div>
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-3"><a class="nav-link" href="#Load-the-60-csv-files-to-a-data-frame"><span class="nav-number">1.</span> <span class="nav-text">Load the 60 csv files to a data frame</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#trip-route-vehicle-departure-arrival-stop-sequence-stop-id-timestamp-datetime"><span class="nav-number"></span> <span class="nav-text">trip                       route vehicle departure arrival stop_sequence stop_id  timestamp       datetime</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#1-8300033770-20170322104732-v52-21-30002-20170322104732-v52-21-6215-NA-252-6-7168-1490975922-20170401050001"><span class="nav-number"></span> <span class="nav-text">1 8300033770-20170322104732_v52.21 30002-20170322104732_v52.21    6215        NA     252             6    7168 1490975922 20170401050001</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#2-7380067868-20170322104732-v52-21-38011-20170322104732-v52-21-65FB-NA-122-19-2004-1490975980-20170401050001"><span class="nav-number"></span> <span class="nav-text">2 7380067868-20170322104732_v52.21 38011-20170322104732_v52.21    65FB        NA    -122            19    2004 1490975980 20170401050001</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#3-7380059280-20170322104732-v52-21-38012-20170322104732-v52-21-65FC-2-NA-11-6955-1490975942-20170401050001"><span class="nav-number"></span> <span class="nav-text">3 7380059280-20170322104732_v52.21 38012-20170322104732_v52.21    65FC         2      NA            11    6955 1490975942 20170401050001</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#4-8300033770-20170322104732-v52-21-30002-20170322104732-v52-21-6215-275-NA-7-8502-1490976035-20170401050102"><span class="nav-number"></span> <span class="nav-text">4 8300033770-20170322104732_v52.21 30002-20170322104732_v52.21    6215       275      NA             7    8502 1490976035 20170401050102</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#5-7380067868-20170322104732-v52-21-38011-20170322104732-v52-21-65FB-NA-122-19-2004-1490975980-20170401050102"><span class="nav-number"></span> <span class="nav-text">5 7380067868-20170322104732_v52.21 38011-20170322104732_v52.21    65FB        NA    -122            19    2004 1490975980 20170401050102</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#6-7380059280-20170322104732-v52-21-38012-20170322104732-v52-21-65FC-22-NA-13-2035-1490976030-20170401050102"><span class="nav-number"></span> <span class="nav-text">6 7380059280-20170322104732_v52.21 38012-20170322104732_v52.21    65FC       -22      NA            13    2035 1490976030 20170401050102</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#1-754-9"><span class="nav-number"></span> <span class="nav-text">[1] 754   9</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Step-2-Summary-of-departure-and-arrival-delay"><span class="nav-number"></span> <span class="nav-text">Step 2: Summary of departure and arrival delay</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Step-3-Defines-a-function-to-truncate-the-trip-route-and-route-id"><span class="nav-number"></span> <span class="nav-text">Step 3: Defines a function to truncate the trip, route, and route_id</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Step-4-Truncates-the-trip-and-route"><span class="nav-number"></span> <span class="nav-text">Step 4: Truncates the trip and route</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Step-5-Reads-route-and-agency-files-and-truncates-route-id"><span class="nav-number"></span> <span class="nav-text">Step 5: Reads route and agency files, and truncates route_id</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Step-6-Merges-trips-route-and-agency"><span class="nav-number"></span> <span class="nav-text">Step 6: Merges trips, route and agency</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Step-7-Calculates-average-departure-and-arrival-by-agency"><span class="nav-number"></span> <span class="nav-text">Step 7: Calculates average departure and arrival by agency</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Step-8-Plots-a-point-chart"><span class="nav-number"></span> <span class="nav-text">Step 8: Plots a point chart</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Step-9-Removes-duplicated-observations"><span class="nav-number"></span> <span class="nav-text">Step 9: Removes duplicated observations</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Step-10-The-impact-of-duplication"><span class="nav-number"></span> <span class="nav-text">Step 10: The impact of duplication</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Step-11-Plots-a-chart-of-the-impact"><span class="nav-number"></span> <span class="nav-text">Step 11: Plots a chart of the impact</span></a></div>
             
 
           </div>
