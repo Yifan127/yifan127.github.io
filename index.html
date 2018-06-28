@@ -368,7 +368,7 @@
 <p><img src="/2017/08/01/mergeaggregate/summary.jpg" alt=""></p>
 <p>Notice that there are missing values in both departure and arrival. And more of the arrival delays are missing. The following code plots histogram of these two variables.</p>
 <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">library(ggplot2)</span><br><span class="line">p1 = ggplot(trips, aes(departure)) + geom_histogram(binwidth = 20) + xlim(c(-1000, 2300))</span><br><span class="line">p2 = ggplot(trips, aes(arrival)) + geom_histogram(binwidth = 20) + xlim(c(-1000, 2300))</span><br><span class="line"></span><br><span class="line">library(ggpubr)</span><br><span class="line">ggarrange(p1, p2,</span><br><span class="line">          ncol = 2, nrow = 1, common.legend = TRUE)</span><br></pre></td></tr></table></figure>
-<img src="/2017/08/01/mergeaggregate/2017/08/01/mergeaggregate/histogram.jpg" title="histogram">
+<p><img src="/2017/08/01/mergeaggregate/histogram.jpg" alt=""></p>
 <p>The distribution of arrival and departure are similar, with a slight skew to left. Also, we can see that there is one record with very large arrival delay of around 38 minutes.</p>
 <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">trips$arrival[which.max(trips$arrival)]/60</span><br></pre></td></tr></table></figure>
 <p>[1] 38.06667</p>
