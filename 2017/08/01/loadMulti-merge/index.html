@@ -68,7 +68,7 @@
 
 
 
-  <meta name="keywords" content="Hexo, NexT" />
+  <meta name="keywords" content="multiple files,merge," />
 
 
 
@@ -79,13 +79,20 @@
 
 
 
-<meta property="og:type" content="website">
-<meta property="og:title" content="Machine Learning and Data Science">
-<meta property="og:url" content="http://yoursite.com/index.html">
+<meta name="description" content="Data description:The dataset consists of 60 CSV files, each containing information on Auckland Bus delays. The file name contains a date-time component that reflects the exact time of the request for">
+<meta name="keywords" content="multiple files,merge">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Load and merge multiple csv files into R">
+<meta property="og:url" content="http://yoursite.com/2017/08/01/loadMulti-merge/index.html">
 <meta property="og:site_name" content="Machine Learning and Data Science">
+<meta property="og:description" content="Data description:The dataset consists of 60 CSV files, each containing information on Auckland Bus delays. The file name contains a date-time component that reflects the exact time of the request for">
 <meta property="og:locale" content="default">
+<meta property="og:image" content="http://yoursite.com/2017/08/01/loadMulti-merge/head.jpg">
+<meta property="og:updated_time" content="2018-06-28T09:23:12.249Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="Machine Learning and Data Science">
+<meta name="twitter:title" content="Load and merge multiple csv files into R">
+<meta name="twitter:description" content="Data description:The dataset consists of 60 CSV files, each containing information on Auckland Bus delays. The file name contains a date-time component that reflects the exact time of the request for">
+<meta name="twitter:image" content="http://yoursite.com/2017/08/01/loadMulti-merge/head.jpg">
 
 
 
@@ -115,13 +122,13 @@
 
 
 
-  <link rel="canonical" href="http://yoursite.com/"/>
+  <link rel="canonical" href="http://yoursite.com/2017/08/01/loadMulti-merge/"/>
 
 
 
 
 
-  <title>Machine Learning and Data Science</title>
+  <title>Load and merge multiple csv files into R | Machine Learning and Data Science</title>
   
 
 
@@ -140,8 +147,7 @@
     
   
 
-  <div class="container sidebar-position-left 
-  page-home">
+  <div class="container sidebar-position-left page-post-detail">
     <div class="headband"></div>
 
     <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
@@ -234,9 +240,9 @@
         <div class="content-wrap">
           <div id="content" class="content">
             
-  <section id="posts" class="posts-expand">
+
+  <div id="posts" class="posts-expand">
     
-      
 
   
 
@@ -266,9 +272,7 @@
 
         
         
-          <h1 class="post-title" itemprop="name headline">
-                
-                <a class="post-title-link" href="/2017/08/01/loadMulti-merge/" itemprop="url">Load and merge multiple csv files into R</a></h1>
+          <h1 class="post-title" itemprop="name headline">Load and merge multiple csv files into R</h1>
         
 
         <div class="post-meta">
@@ -340,9 +344,7 @@
       
 
       
-        
-          
-            <p>Data description:<br>The dataset consists of 60 CSV files, each containing information on Auckland Bus delays. The file name contains a date-time component that reflects the exact time of the request for each file. For example: trip_updates_20170401053101.csv.</p>
+        <p>Data description:<br>The dataset consists of 60 CSV files, each containing information on Auckland Bus delays. The file name contains a date-time component that reflects the exact time of the request for each file. For example: trip_updates_20170401053101.csv.</p>
 <h3 id="Load-the-60-csv-files-to-a-data-frame"><a href="#Load-the-60-csv-files-to-a-data-frame" class="headerlink" title="Load the 60 csv files to a data frame"></a>Load the 60 csv files to a data frame</h3><ul>
 <li>Put all the csv files in the current working directory.</li>
 <li>Read them to a list by applying read.csv function to all of them.</li>
@@ -418,8 +420,6 @@
 </ul>
 <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">meltmean.diff = melt(mean.agency.diff, id = &quot;agency_id&quot;)</span><br><span class="line">pp(meltmean.diff, title = &quot;Impact of Duplication&quot;)</span><br></pre></td></tr></table></figure>
 
-          
-        
       
     </div>
     
@@ -434,14 +434,22 @@
 
     <footer class="post-footer">
       
+        <div class="post-tags">
+          
+            <a href="/tags/multiple-files/" rel="tag"># multiple files</a>
+          
+            <a href="/tags/merge/" rel="tag"># merge</a>
+          
+        </div>
+      
+
+      
+      
+      
 
       
 
       
-
-      
-      
-        <div class="post-eof"></div>
       
     </footer>
   </div>
@@ -451,10 +459,11 @@
   </article>
 
 
-    
-  </section>
 
-  
+    <div class="post-spread">
+      
+    </div>
+  </div>
 
 
           </div>
@@ -462,6 +471,10 @@
 
 
           
+
+  
+
+
 
         </div>
         
@@ -482,8 +495,17 @@
       
 
       
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap">
+            Table of Contents
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview-wrap">
+            Overview
+          </li>
+        </ul>
+      
 
-      <section class="site-overview-wrap sidebar-panel sidebar-panel-active">
+      <section class="site-overview-wrap sidebar-panel">
         <div class="site-overview">
           <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
             
@@ -547,6 +569,22 @@
         </div>
       </section>
 
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-3"><a class="nav-link" href="#Load-the-60-csv-files-to-a-data-frame"><span class="nav-number">1.</span> <span class="nav-text">Load the 60 csv files to a data frame</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Step-2-Summary-of-departure-and-arrival-delay"><span class="nav-number"></span> <span class="nav-text">Step 2: Summary of departure and arrival delay</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Step-3-Defines-a-function-to-truncate-the-trip-route-and-route-id"><span class="nav-number"></span> <span class="nav-text">Step 3: Defines a function to truncate the trip, route, and route_id</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Step-4-Truncates-the-trip-and-route"><span class="nav-number"></span> <span class="nav-text">Step 4: Truncates the trip and route</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Step-5-Reads-route-and-agency-files-and-truncates-route-id"><span class="nav-number"></span> <span class="nav-text">Step 5: Reads route and agency files, and truncates route_id</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Step-6-Merges-trips-route-and-agency"><span class="nav-number"></span> <span class="nav-text">Step 6: Merges trips, route and agency</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Step-7-Calculates-average-departure-and-arrival-by-agency"><span class="nav-number"></span> <span class="nav-text">Step 7: Calculates average departure and arrival by agency</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Step-8-Plots-a-point-chart"><span class="nav-number"></span> <span class="nav-text">Step 8: Plots a point chart</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Step-9-Removes-duplicated-observations"><span class="nav-number"></span> <span class="nav-text">Step 9: Removes duplicated observations</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Step-10-The-impact-of-duplication"><span class="nav-number"></span> <span class="nav-text">Step 10: The impact of duplication</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Step-11-Plots-a-chart-of-the-impact"><span class="nav-number"></span> <span class="nav-text">Step 11: Plots a chart of the impact</span></a></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
       
 
       
@@ -680,6 +718,10 @@
   
 
   
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.1.4"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.1.4"></script>
+
+
 
   
 
