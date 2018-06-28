@@ -88,11 +88,12 @@
 <meta property="og:description" content="Data description:The dataset consists of 60 CSV files, each containing information on Auckland Bus delays. The file name contains a date-time component that reflects the exact time of the request for">
 <meta property="og:locale" content="default">
 <meta property="og:image" content="http://yoursite.com/2017/08/01/loadMultiMerge/head.jpg">
+<meta property="og:image" content="http://yoursite.com/2017/08/01/loadMultiMerge/2017/08/01/loadMultiMerge/head.jpg">
 <meta property="og:image" content="http://yoursite.com/2017/08/01/loadMultiMerge/summary.jpg">
 <meta property="og:image" content="http://yoursite.com/2017/08/01/loadMultiMerge/histogram.jpg">
 <meta property="og:image" content="http://yoursite.com/2017/08/01/loadMultiMerge/delaybyagency.jpg">
 <meta property="og:image" content="http://yoursite.com/2017/08/01/loadMultiMerge/plot.jpg">
-<meta property="og:updated_time" content="2018-06-28T11:33:00.705Z">
+<meta property="og:updated_time" content="2018-06-28T11:40:35.321Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="Load and merge multiple csv files into R">
 <meta name="twitter:description" content="Data description:The dataset consists of 60 CSV files, each containing information on Auckland Bus delays. The file name contains a date-time component that reflects the exact time of the request for">
@@ -366,7 +367,7 @@
 <li>Call the <code>rbind</code> function to combine the list by rows, and obtain a single data frame.</li>
 </ul>
 <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">myfiles = list.files(pattern = &quot;*.csv&quot;)</span><br><span class="line">trips = do.call(rbind, lapply(myfiles, read.csv, header = TRUE, stringsAsFactors = FALSE))</span><br><span class="line">head(trips)</span><br></pre></td></tr></table></figure>
-<p><img src="/2017/08/01/loadMultiMerge/head.jpg" alt="first six rows of the data frame"></p>
+<p><img src="/2017/08/01/loadMultiMerge/head.jpg" alt="first six rows of the data frame"><br><img src="/2017/08/01/loadMultiMerge/2017/08/01/loadMultiMerge/head.jpg" title="head"></p>
 <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">dim(trips)</span><br></pre></td></tr></table></figure>
 <p>[1] 754   9</p>
 <h3 id="Summary-of-departure-and-arrival-delay"><a href="#Summary-of-departure-and-arrival-delay" class="headerlink" title="Summary of departure and arrival delay"></a>Summary of departure and arrival delay</h3><p>We are interested in two variables: departure and arrival. The <code>summary</code> function can generate simple statistics.</p>
