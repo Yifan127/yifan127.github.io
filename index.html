@@ -343,6 +343,17 @@
         
           
             <p>Data description:<br>The dataset consists of 60 CSV files, each containing information on Auckland Bus delays. The file name contains a date-time component that reflects the exact time of the request for each file. For example: trip_updates_20170401053101.csv.</p>
+<p>The goal:</p>
+<ol>
+<li>Load the 60 CSV files into R and create a single data frame. Provide a summary of the arrival and delay values.</li>
+<li>Merge the route and agency data files and calculate average arrival and departure values for each Bus Agency.</li>
+</ol>
+<p>Functions, packages and plots:</p>
+<ol>
+<li>Functions: <code>list.files()</code>, <code>lapply()</code>, <code>sapply()</code>, <code>rbind()</code>, <code>cbind()</code>, <code>do.call()</code>, <code>which.max()</code>, <code>strsplit()</code>, <code>merge()</code>, <code>aggregate()</code>, <code>melt()</code></li>
+<li>Packages: <code>reshape2</code>, <code>ggplot2</code>, <code>ggpubr</code></li>
+<li>Plot: histogram</li>
+</ol>
 <h3 id="Load-the-60-csv-files-to-a-data-frame"><a href="#Load-the-60-csv-files-to-a-data-frame" class="headerlink" title="Load the 60 csv files to a data frame"></a>Load the 60 csv files to a data frame</h3><ul>
 <li>Put all the csv files in the current working directory.</li>
 <li>Read them to a list by applying the  <code>read.csv</code> function to all of them.</li>
