@@ -87,17 +87,16 @@
 <meta property="og:site_name" content="Machine Learning and Data Science">
 <meta property="og:description" content="Data description:The dataset consists of 60 CSV files, each containing information on Auckland Bus delays. The file name contains a date-time component that reflects the exact time of the request for">
 <meta property="og:locale" content="default">
-<meta property="og:image" content="http://yoursite.com/2017/08/01/loadMultiMerge/head.jpg">
 <meta property="og:image" content="http://yoursite.com/2017/08/01/loadMultiMerge/2017/08/01/loadMultiMerge/head.jpg">
-<meta property="og:image" content="http://yoursite.com/2017/08/01/loadMultiMerge/summary.jpg">
-<meta property="og:image" content="http://yoursite.com/2017/08/01/loadMultiMerge/histogram.jpg">
-<meta property="og:image" content="http://yoursite.com/2017/08/01/loadMultiMerge/delaybyagency.jpg">
-<meta property="og:image" content="http://yoursite.com/2017/08/01/loadMultiMerge/plot.jpg">
-<meta property="og:updated_time" content="2018-06-28T11:40:35.321Z">
+<meta property="og:image" content="http://yoursite.com/2017/08/01/loadMultiMerge/2017/08/01/loadMultiMerge/summary.jpg">
+<meta property="og:image" content="http://yoursite.com/2017/08/01/loadMultiMerge/2017/08/01/loadMultiMerge/histogram.jpg">
+<meta property="og:image" content="http://yoursite.com/2017/08/01/loadMultiMerge/2017/08/01/loadMultiMerge/delaybyagency.jpg">
+<meta property="og:image" content="http://yoursite.com/2017/08/01/loadMultiMerge/2017/08/01/loadMultiMerge/plot.jpg">
+<meta property="og:updated_time" content="2018-06-28T11:42:35.714Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="Load and merge multiple csv files into R">
 <meta name="twitter:description" content="Data description:The dataset consists of 60 CSV files, each containing information on Auckland Bus delays. The file name contains a date-time component that reflects the exact time of the request for">
-<meta name="twitter:image" content="http://yoursite.com/2017/08/01/loadMultiMerge/head.jpg">
+<meta name="twitter:image" content="http://yoursite.com/2017/08/01/loadMultiMerge/2017/08/01/loadMultiMerge/head.jpg">
 
 
 
@@ -367,15 +366,15 @@
 <li>Call the <code>rbind</code> function to combine the list by rows, and obtain a single data frame.</li>
 </ul>
 <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">myfiles = list.files(pattern = &quot;*.csv&quot;)</span><br><span class="line">trips = do.call(rbind, lapply(myfiles, read.csv, header = TRUE, stringsAsFactors = FALSE))</span><br><span class="line">head(trips)</span><br></pre></td></tr></table></figure>
-<p><img src="/2017/08/01/loadMultiMerge/head.jpg" alt="first six rows of the data frame"><br><img src="/2017/08/01/loadMultiMerge/2017/08/01/loadMultiMerge/head.jpg" title="head"></p>
+<img src="/2017/08/01/loadMultiMerge/2017/08/01/loadMultiMerge/head.jpg" title="head">
 <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">dim(trips)</span><br></pre></td></tr></table></figure>
 <p>[1] 754   9</p>
 <h3 id="Summary-of-departure-and-arrival-delay"><a href="#Summary-of-departure-and-arrival-delay" class="headerlink" title="Summary of departure and arrival delay"></a>Summary of departure and arrival delay</h3><p>We are interested in two variables: departure and arrival. The <code>summary</code> function can generate simple statistics.</p>
 <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">summary(trips[c(&quot;arrival&quot;, &quot;departure&quot;)])</span><br></pre></td></tr></table></figure>
-<p><img src="/2017/08/01/loadMultiMerge/summary.jpg" alt="summary"></p>
+<img src="/2017/08/01/loadMultiMerge/2017/08/01/loadMultiMerge/summary.jpg" title="summary">
 <p>Notice that there are missing values in both departure and arrival. And more of the arrival delays are missing. The following code plots histogram of these two variables.</p>
 <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">library(ggplot2)</span><br><span class="line">p1 = ggplot(trips, aes(departure)) + geom_histogram(binwidth = 20) + xlim(c(-1000, 2300))</span><br><span class="line">p2 = ggplot(trips, aes(arrival)) + geom_histogram(binwidth = 20) + xlim(c(-1000, 2300))</span><br><span class="line"></span><br><span class="line">library(ggpubr)</span><br><span class="line">ggarrange(p1, p2,</span><br><span class="line">          ncol = 2, nrow = 1, common.legend = TRUE)</span><br></pre></td></tr></table></figure>
-<p><img src="/2017/08/01/loadMultiMerge/histogram.jpg" alt="histogram"></p>
+<img src="/2017/08/01/loadMultiMerge/2017/08/01/loadMultiMerge/histogram.jpg" title="histogram">
 <p>The distribution of arrival and departure are similar, with a slight skew to left. Also, we can see that there is one record with very large arrival delay of around 38 minutes.</p>
 <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">trips$arrival[which.max(trips$arrival)]/60</span><br></pre></td></tr></table></figure>
 <p>[1] 38.06667</p>
@@ -395,9 +394,9 @@
 <li>Apply mean function to get the average values</li>
 </ul>
 <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">mean.agency = aggregate(tripsplus[c(&quot;departure&quot;,&quot;arrival&quot;)], by = list(agency_id = tripsplus$agency_id), mean, na.rm = TRUE)</span><br><span class="line">mean.agency</span><br></pre></td></tr></table></figure>
-<p><img src="/2017/08/01/loadMultiMerge/delaybyagency.jpg" alt="average delay"></p>
+<img src="/2017/08/01/loadMultiMerge/2017/08/01/loadMultiMerge/delaybyagency.jpg" title="delaybyagency">
 <h3 id="A-scatter-plot-to-display-the-average-departure-and-arrival-by-agency"><a href="#A-scatter-plot-to-display-the-average-departure-and-arrival-by-agency" class="headerlink" title="A scatter plot to display the average departure and arrival by agency"></a>A scatter plot to display the average departure and arrival by agency</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line">library(reshape2)</span><br><span class="line">meltmean = melt(mean.agency, id = &quot;agency_id&quot;)</span><br><span class="line"></span><br><span class="line">pp = function(df, title)&#123;</span><br><span class="line">  ggplot(df, aes(agency_id, value, colour = variable, group = variable)) +</span><br><span class="line">    geom_point(size = 4) +</span><br><span class="line">    geom_hline(yintercept = 0) +</span><br><span class="line">    geom_vline(xintercept = 0) +</span><br><span class="line">    ggtitle(title) +</span><br><span class="line">    labs(x = &quot;Agency ID&quot;, y = &quot;Time&quot;, colour = &quot;Delay&quot;)</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">pp(meltmean, title = &quot;Average Departure and Arrival Delays by Agency&quot;)</span><br></pre></td></tr></table></figure>
-<p><img src="/2017/08/01/loadMultiMerge/plot.jpg" alt="scatter plot"></p>
+<img src="/2017/08/01/loadMultiMerge/2017/08/01/loadMultiMerge/plot.jpg" title="plot">
 <p>The result shows that<br>1) Birkenhead Transport (BTL) has the largest average departure and arrival delays<br>2) Eastern (HE) has a very small average  departure and arrival delay<br>3) Go Bus (GBT) and Ritchies Transport (RTH) are early on average for both arrivals and departures!</p>
 <p>However, this is a small data sets, and the data was collected in a small time range.</p>
 <h3 id="Removes-duplicated-observations"><a href="#Removes-duplicated-observations" class="headerlink" title="Removes duplicated observations"></a>Removes duplicated observations</h3><p>There are some duplicated observations, so a single delayed bus could have an even large impact on the results. Therefore, we need to removes all duplicated.</p>
