@@ -360,7 +360,6 @@
 <li>Call the <code>rbind</code> function to combine the list by rows, and obtain a single data frame.</li>
 </ul>
 <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">myfiles = list.files(pattern = &quot;*.csv&quot;)</span><br><span class="line">trips = do.call(rbind, lapply(myfiles, read.csv, header = TRUE, stringsAsFactors = FALSE))</span><br><span class="line">head(trips)</span><br></pre></td></tr></table></figure>
-<img src="/2017/08/01/loadMultiMerge/2017/08/01/loadMultiMerge/head.jpg" title="head">
 <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">dim(trips)</span><br></pre></td></tr></table></figure>
 <p>[1] 754   9</p>
 <h3 id="Summary-of-departure-and-arrival-delay"><a href="#Summary-of-departure-and-arrival-delay" class="headerlink" title="Summary of departure and arrival delay"></a>Summary of departure and arrival delay</h3><p>We are interested in two variables: departure and arrival. The <code>summary</code> function can generate simple statistics.</p>
