@@ -87,7 +87,7 @@
 <meta property="og:site_name" content="Machine Learning and Data Science">
 <meta property="og:description" content="In cross validation, we split the data randomly into k parts, use one part for the test set and the remaining k-1 parts for the training set, and estimate the prediction error with the test set estima">
 <meta property="og:locale" content="default">
-<meta property="og:updated_time" content="2018-06-29T11:16:04.277Z">
+<meta property="og:updated_time" content="2018-06-29T11:22:15.147Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="Cross-Validation Prediction Error">
 <meta name="twitter:description" content="In cross validation, we split the data randomly into k parts, use one part for the test set and the remaining k-1 parts for the training set, and estimate the prediction error with the test set estima">
@@ -346,12 +346,12 @@
 <p>In this post, I will use the abalone data set downloaded from UCI.</p>
 <h3 id="Read-the-data-and-save-it-to-a-local-CSV-file"><a href="#Read-the-data-and-save-it-to-a-local-CSV-file" class="headerlink" title="Read the data and save it to a local CSV file"></a>Read the data and save it to a local CSV file</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">url = &quot;https://archive.ics.uci.edu/ml/machine-learning-databases/abalone/abalone.data&quot;</span><br><span class="line"></span><br><span class="line">abalone = read.csv(url, header = FALSE)</span><br><span class="line">names(abalone) = c(&quot;Sex&quot;, &quot;Length&quot;, &quot;Diameter&quot;, &quot;Height&quot;, &quot;Whole_weight&quot;,</span><br><span class="line">                   &quot;Shucked_weight&quot;, &quot;Viscera_weight&quot;, &quot;Shell_weight&quot;, &quot;Rings&quot;)</span><br><span class="line">write.csv(abalone, &quot;abalone.csv&quot;)</span><br><span class="line">dim(abalone)</span><br></pre></td></tr></table></figure>
 <p>[1] 4177    9</p>
-<h3 id="Fit-a-simple-linear-regression-model-and-compute-the-in-sample-error-PE"><a href="#Fit-a-simple-linear-regression-model-and-compute-the-in-sample-error-PE" class="headerlink" title="Fit a simple linear regression model and compute the in-sample error (PE)"></a>Fit a simple linear regression model and compute the in-sample error (PE)</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">lmfit = lm(Rings ~ ., data = abalone)</span><br><span class="line">pred = predict(lmfit, newdata = abalone)</span><br><span class="line"># mean squared predict error (in-sample)</span><br><span class="line">mean((abalone$Rings - pred)^2)</span><br></pre></td></tr></table></figure>
+<h3 id="Fit-a-simple-linear-regression-model-and-compute-the-in-sample-prediction-error-PE"><a href="#Fit-a-simple-linear-regression-model-and-compute-the-in-sample-prediction-error-PE" class="headerlink" title="Fit a simple linear regression model and compute the in-sample prediction error (PE)"></a>Fit a simple linear regression model and compute the in-sample prediction error (PE)</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">lmfit = lm(Rings ~ ., data = abalone)</span><br><span class="line">pred = predict(lmfit, newdata = abalone)</span><br><span class="line"># mean squared predict error (in-sample)</span><br><span class="line">mean((abalone$Rings - pred)^2)</span><br></pre></td></tr></table></figure>
 <p>[1] 4.802664</p>
-<h3 id="10-fold-cross-validation-prediction-Error"><a href="#10-fold-cross-validation-prediction-Error" class="headerlink" title="10 fold cross-validation prediction Error"></a>10 fold cross-validation prediction Error</h3><p>The following code is used to compute the cross-validation mean squared prediction Error (CVPE)</p>
+<h3 id="10-fold-cross-validation-prediction-Error"><a href="#10-fold-cross-validation-prediction-Error" class="headerlink" title="10 fold cross-validation prediction Error"></a>10 fold cross-validation prediction Error</h3><p>The following code is used to compute the cross-validation mean squared prediction error (CVPE)</p>
 <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line"># 10-fold cv</span><br><span class="line">k = 10</span><br><span class="line">shuffer = sample(nrow(abalone))</span><br><span class="line">chunk = nrow(abalone)/k</span><br><span class="line">cvpe = rep(0, k)</span><br><span class="line">for(i in 1:k)&#123;</span><br><span class="line">  testindex = shuffer[((i-1)*chunk+1):(i*chunk)]</span><br><span class="line">  test = abalone[testindex, ]</span><br><span class="line">  train = abalone[-testindex, ]</span><br><span class="line">  cvlm = lm(Rings ~ ., data = train)</span><br><span class="line">  testpred = predict(cvlm, newdata = test)</span><br><span class="line">  actual = test$Rings</span><br><span class="line">  cvpe[i] = mean((testpred - actual)^2)</span><br><span class="line">&#125;</span><br><span class="line">mean(cvpe)</span><br></pre></td></tr></table></figure>
 <p>[1] 4.908085</p>
-<p>We can see that the CVPE is larger than the PE, this is because we use the same data set to train and predict when computing the PE. Cross validation is a very classic method to avoid overfitting, because one chunk is left out to act as the test data set.</p>
+<p>We can see that the CVPE is larger than the PE, this is because we use the same data set to train and predict when computing the PE. The result is too optimistic. Cross validation is a way to avoid overfitting, because one chunk is left out to act as the test data set.</p>
 
       
     </div>
@@ -393,6 +393,10 @@
           <span class="post-nav-divider"></span>
 
           <div class="post-nav-prev post-nav-item">
+            
+              <a href="/2017/10/08/biglm/" rel="prev" title="The biglm Package">
+                The biglm Package <i class="fa fa-chevron-right"></i>
+              </a>
             
           </div>
         </div>
@@ -473,7 +477,7 @@
               
                 <a href="/archives/">
               
-                  <span class="site-state-item-count">11</span>
+                  <span class="site-state-item-count">12</span>
                   <span class="site-state-item-name">posts</span>
                 </a>
               </div>
@@ -495,7 +499,7 @@
               
               <div class="site-state-item site-state-tags">
                 <a href="/tags/index.html">
-                  <span class="site-state-item-count">20</span>
+                  <span class="site-state-item-count">21</span>
                   <span class="site-state-item-name">tags</span>
                 </a>
               </div>
@@ -528,7 +532,7 @@
             
 
             
-              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-3"><a class="nav-link" href="#Read-the-data-and-save-it-to-a-local-CSV-file"><span class="nav-number">1.</span> <span class="nav-text">Read the data and save it to a local CSV file</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Fit-a-simple-linear-regression-model-and-compute-the-in-sample-error-PE"><span class="nav-number">2.</span> <span class="nav-text">Fit a simple linear regression model and compute the in-sample error (PE)</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#10-fold-cross-validation-prediction-Error"><span class="nav-number">3.</span> <span class="nav-text">10 fold cross-validation prediction Error</span></a></li></ol></div>
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-3"><a class="nav-link" href="#Read-the-data-and-save-it-to-a-local-CSV-file"><span class="nav-number">1.</span> <span class="nav-text">Read the data and save it to a local CSV file</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Fit-a-simple-linear-regression-model-and-compute-the-in-sample-prediction-error-PE"><span class="nav-number">2.</span> <span class="nav-text">Fit a simple linear regression model and compute the in-sample prediction error (PE)</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#10-fold-cross-validation-prediction-Error"><span class="nav-number">3.</span> <span class="nav-text">10 fold cross-validation prediction Error</span></a></li></ol></div>
             
 
           </div>
