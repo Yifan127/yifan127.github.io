@@ -79,18 +79,18 @@
 
 
 
-<meta name="description" content="Functions:Functions: dbConnect(), “dbGetQuery()”Package: RSQLite In the previous post, we use the data.table package to read, add and aggregate the data, and we found that it is faster and use less RA">
+<meta name="description" content="Functions:Functions: dbConnect(), dbGetQuery()Package: RSQLite In the previous post, we use the data.table package to read, add and aggregate the data, and we found that it is faster and use less RAM">
 <meta name="keywords" content="RSQLite">
 <meta property="og:type" content="article">
 <meta property="og:title" content="The RSQLite package">
 <meta property="og:url" content="http://yoursite.com/2017/08/16/rsqlite/index.html">
 <meta property="og:site_name" content="Machine Learning and Data Science">
-<meta property="og:description" content="Functions:Functions: dbConnect(), “dbGetQuery()”Package: RSQLite In the previous post, we use the data.table package to read, add and aggregate the data, and we found that it is faster and use less RA">
+<meta property="og:description" content="Functions:Functions: dbConnect(), dbGetQuery()Package: RSQLite In the previous post, we use the data.table package to read, add and aggregate the data, and we found that it is faster and use less RAM">
 <meta property="og:locale" content="default">
-<meta property="og:updated_time" content="2018-06-29T04:51:36.509Z">
+<meta property="og:updated_time" content="2018-06-29T05:15:20.998Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="The RSQLite package">
-<meta name="twitter:description" content="Functions:Functions: dbConnect(), “dbGetQuery()”Package: RSQLite In the previous post, we use the data.table package to read, add and aggregate the data, and we found that it is faster and use less RA">
+<meta name="twitter:description" content="Functions:Functions: dbConnect(), dbGetQuery()Package: RSQLite In the previous post, we use the data.table package to read, add and aggregate the data, and we found that it is faster and use less RAM">
 
 
 
@@ -342,7 +342,7 @@
       
 
       
-        <h2 id="Functions"><a href="#Functions" class="headerlink" title="Functions:"></a>Functions:</h2><p>Functions: <code>dbConnect()</code>, “dbGetQuery()”<br>Package: <code>RSQLite</code></p>
+        <h2 id="Functions"><a href="#Functions" class="headerlink" title="Functions:"></a>Functions:</h2><p>Functions: <code>dbConnect()</code>, <code>dbGetQuery()</code><br>Package: <code>RSQLite</code></p>
 <p>In the previous post, we use the <code>data.table</code> package to read, add and aggregate the data, and we found that it is faster and use less RAM than the stardard R functions. Today, we will repeat the steps using the ‘RSQLite’ package.</p>
 <p>We will find dramatically less memory usage by R, because all of the calculations are happen in SQLite, rather in R.</p>
 <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line">library(RSQLite)</span><br><span class="line"></span><br><span class="line">gc(reset=TRUE)</span><br><span class="line">db = dbConnect(SQLite(), db=&quot;alldata.sqlite&quot;)</span><br><span class="line">gc()</span><br><span class="line"></span><br><span class="line">gc(reset=TRUE)</span><br><span class="line">arrivals = dbGetQuery(db, &quot;SELECT AVG(arrival), strftime(&apos;%w&apos;, timestamp, &apos;unixepoch&apos;, &apos;localtime&apos;) as wday FROM buses WHERE arrival != &apos;NA&apos; GROUP BY wday&quot;)</span><br><span class="line">departures = dbGetQuery(db, &quot;SELECT AVG(departure), strftime(&apos;%w&apos;, timestamp, &apos;unixepoch&apos;, &apos;localtime&apos;) as wday FROM buses WHERE departure != &apos;NA&apos; GROUP BY wday&quot;)</span><br><span class="line">merge(arrivals, departures)</span><br><span class="line">gc()</span><br></pre></td></tr></table></figure>
@@ -386,7 +386,7 @@
 
           <div class="post-nav-prev post-nav-item">
             
-              <a href="/2017/08/16/parallel/" rel="prev" title="Serial vs. Parallel processing">
+              <a href="/2017/09/09/parallel/" rel="prev" title="Serial vs. Parallel processing">
                 Serial vs. Parallel processing <i class="fa fa-chevron-right"></i>
               </a>
             
