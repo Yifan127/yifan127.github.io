@@ -68,7 +68,7 @@
 
 
 
-  <meta name="keywords" content="Hexo, NexT" />
+  <meta name="keywords" content="xml,html,Xpath,web scraping," />
 
 
 
@@ -79,13 +79,21 @@
 
 
 
-<meta property="og:type" content="website">
-<meta property="og:title" content="Machine Learning and Data Science">
-<meta property="og:url" content="http://yoursite.com/index.html">
+<meta name="description" content="Data description:The “HOT 100” billboard web site contains the top 100 songs for each week. The URL for the week starting Sat 29 July (2017-07-29) is http://www.billboard.com/charts/hot-100/2017-07-29">
+<meta name="keywords" content="xml,html,Xpath,web scraping">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Access data from web pages">
+<meta property="og:url" content="http://yoursite.com/2017/08/06/accesswebpage/index.html">
 <meta property="og:site_name" content="Machine Learning and Data Science">
+<meta property="og:description" content="Data description:The “HOT 100” billboard web site contains the top 100 songs for each week. The URL for the week starting Sat 29 July (2017-07-29) is http://www.billboard.com/charts/hot-100/2017-07-29">
 <meta property="og:locale" content="default">
+<meta property="og:image" content="http://yoursite.com/2017/08/06/accesswebpage/billboard.jpg">
+<meta property="og:image" content="http://yoursite.com/2017/08/06/accesswebpage/rank.jpg">
+<meta property="og:updated_time" content="2018-06-29T00:18:53.965Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="Machine Learning and Data Science">
+<meta name="twitter:title" content="Access data from web pages">
+<meta name="twitter:description" content="Data description:The “HOT 100” billboard web site contains the top 100 songs for each week. The URL for the week starting Sat 29 July (2017-07-29) is http://www.billboard.com/charts/hot-100/2017-07-29">
+<meta name="twitter:image" content="http://yoursite.com/2017/08/06/accesswebpage/billboard.jpg">
 
 
 
@@ -115,13 +123,13 @@
 
 
 
-  <link rel="canonical" href="http://yoursite.com/"/>
+  <link rel="canonical" href="http://yoursite.com/2017/08/06/accesswebpage/"/>
 
 
 
 
 
-  <title>Machine Learning and Data Science</title>
+  <title>Access data from web pages | Machine Learning and Data Science</title>
   
 
 
@@ -140,8 +148,7 @@
     
   
 
-  <div class="container sidebar-position-left 
-  page-home">
+  <div class="container sidebar-position-left page-post-detail">
     <div class="headband"></div>
 
     <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
@@ -234,9 +241,9 @@
         <div class="content-wrap">
           <div id="content" class="content">
             
-  <section id="posts" class="posts-expand">
+
+  <div id="posts" class="posts-expand">
     
-      
 
   
 
@@ -266,9 +273,7 @@
 
         
         
-          <h1 class="post-title" itemprop="name headline">
-                
-                <a class="post-title-link" href="/2017/08/06/accesswebpage/" itemprop="url">Access data from web pages</a></h1>
+          <h1 class="post-title" itemprop="name headline">Access data from web pages</h1>
         
 
         <div class="post-meta">
@@ -340,9 +345,7 @@
       
 
       
-        
-          
-            <h2 id="Data-description"><a href="#Data-description" class="headerlink" title="Data description:"></a>Data description:</h2><p>The “HOT 100” billboard web site contains the top 100 songs for each week. The URL for the week starting Sat 29 July (2017-07-29) is <a href="http://www.billboard.com/charts/hot-100/2017-07-29" target="_blank" rel="noopener">http://www.billboard.com/charts/hot-100/2017-07-29</a>.</p>
+        <h2 id="Data-description"><a href="#Data-description" class="headerlink" title="Data description:"></a>Data description:</h2><p>The “HOT 100” billboard web site contains the top 100 songs for each week. The URL for the week starting Sat 29 July (2017-07-29) is <a href="http://www.billboard.com/charts/hot-100/2017-07-29" target="_blank" rel="noopener">http://www.billboard.com/charts/hot-100/2017-07-29</a>.</p>
 <h2 id="The-goal"><a href="#The-goal" class="headerlink" title="The goal:"></a>The goal:</h2><ol>
 <li>Download the HOT 100 for the weeks so far in 2017 (from Sat 7 Jan to Sat 29 July).</li>
 <li>Use XPath to extract the rank, song, and artist, for the top 100 songs for each week.</li>
@@ -365,8 +368,6 @@
 <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">options(digits = 2)</span><br><span class="line">bestArtist = setNames(aggregate(billboard$rank, by = list(billboard$artist), mean),</span><br><span class="line">                      c(&quot;artist&quot;, &quot;rank&quot;))</span><br><span class="line">head(bestArtist[order(bestArtist$rank), ])</span><br></pre></td></tr></table></figure>
 <p><img src="/2017/08/06/accesswebpage/rank.jpg" alt=""></p>
 
-          
-        
       
     </div>
     
@@ -381,208 +382,42 @@
 
     <footer class="post-footer">
       
-
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </div>
-  
-  
-  
-  </article>
-
-
-    
-      
-
-  
-
-  
-  
-  
-
-  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
-  
-  
-  
-  <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2017/08/01/mergeaggregate/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="name" content="Yifan Zhang">
-      <meta itemprop="description" content="">
-      <meta itemprop="image" content="/images/author.gif">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="Machine Learning and Data Science">
-    </span>
-
-    
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">
-                
-                <a class="post-title-link" href="/2017/08/01/mergeaggregate/" itemprop="url">Load and merge multiple csv files into R</a></h1>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">Posted on</span>
-              
-              <time title="Post created" itemprop="dateCreated datePublished" datetime="2017-08-01T17:55:35+12:00">
-                2017-08-01
-              </time>
-            
-
-            
-
-            
-          </span>
-
+        <div class="post-tags">
           
-            <span class="post-category" >
-            
-              <span class="post-meta-divider">|</span>
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-folder-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">In</span>
-              
-              
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/data-pre-processing/" itemprop="url" rel="index">
-                    <span itemprop="name">data pre-processing</span>
-                  </a>
-                </span>
-
-                
-                
-              
-            </span>
+            <a href="/tags/xml/" rel="tag"># xml</a>
           
-
+            <a href="/tags/html/" rel="tag"># html</a>
           
-            
+            <a href="/tags/Xpath/" rel="tag"># Xpath</a>
           
-
+            <a href="/tags/web-scraping/" rel="tag"># web scraping</a>
           
-          
-
-          
-
-          
-
-          
-
         </div>
-      </header>
-    
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          
-            <h2 id="Data-description"><a href="#Data-description" class="headerlink" title="Data description:"></a>Data description:</h2><p>The dataset consists of 60 CSV files, each containing information on Auckland Bus delays. The file name contains a date-time component that reflects the exact time of the request for each file. For example: trip_updates_20170401053101.csv.</p>
-<h2 id="The-goal"><a href="#The-goal" class="headerlink" title="The goal:"></a>The goal:</h2><ol>
-<li>Load the 60 CSV files into R and create a single data frame. Provide a summary of the arrival and delay values.</li>
-<li>Merge the route and agency datafiles and calculate average arrival and departure values for each Bus Agency.</li>
-</ol>
-<h2 id="Functions-packages-and-plots"><a href="#Functions-packages-and-plots" class="headerlink" title="Functions, packages and plots:"></a>Functions, packages and plots:</h2><ol>
-<li>Functions: <code>list.files()</code>, <code>lapply()</code>, <code>sapply()</code>, <code>rbind()</code>, <code>cbind()</code>, <code>do.call()</code>, <code>which.max()</code>, <code>strsplit()</code>, <code>merge()</code>, <code>aggregate()</code>, <code>melt()</code></li>
-<li>Packages: <code>reshape2</code>, <code>ggplot2</code>, <code>ggpubr</code></li>
-<li>Plot: histogram</li>
-</ol>
-<h3 id="Load-the-60-csv-files-to-a-data-frame"><a href="#Load-the-60-csv-files-to-a-data-frame" class="headerlink" title="Load the 60 csv files to a data frame"></a>Load the 60 csv files to a data frame</h3><ul>
-<li>Put all the csv files in the current working directory.</li>
-<li>Read them to a list by applying the  <code>read.csv</code> function to all of them.</li>
-<li>Call the <code>rbind</code> function to combine the list by rows, and obtain a single data frame.</li>
-</ul>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">myfiles = list.files(pattern = &quot;*.csv&quot;)</span><br><span class="line">trips = do.call(rbind, lapply(myfiles, read.csv, header = TRUE, stringsAsFactors = FALSE))</span><br><span class="line">head(trips)</span><br></pre></td></tr></table></figure>
-<p><img src="/2017/08/01/mergeaggregate/head.jpg" alt=""></p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">dim(trips)</span><br></pre></td></tr></table></figure>
-<p>[1] 754   9</p>
-<h3 id="Summary-of-departure-and-arrival-delay"><a href="#Summary-of-departure-and-arrival-delay" class="headerlink" title="Summary of departure and arrival delay"></a>Summary of departure and arrival delay</h3><p>We are interested in two variables: departure and arrival. The <code>summary</code> function can generate simple statistics.</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">summary(trips[c(&quot;arrival&quot;, &quot;departure&quot;)])</span><br></pre></td></tr></table></figure>
-<p><img src="/2017/08/01/mergeaggregate/summary.jpg" alt=""></p>
-<p>Notice that there are missing values in both departure and arrival. And more of the arrival delays are missing. The following code plots histogram of these two variables.</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">library(ggplot2)</span><br><span class="line">p1 = ggplot(trips, aes(departure)) + geom_histogram(binwidth = 20) + xlim(c(-1000, 2300))</span><br><span class="line">p2 = ggplot(trips, aes(arrival)) + geom_histogram(binwidth = 20) + xlim(c(-1000, 2300))</span><br><span class="line"></span><br><span class="line">library(ggpubr)</span><br><span class="line">ggarrange(p1, p2,</span><br><span class="line">          ncol = 2, nrow = 1, common.legend = TRUE)</span><br></pre></td></tr></table></figure>
-<p><img src="/2017/08/01/mergeaggregate/histogram.jpg" alt=""></p>
-<p>The distribution of arrival and departure are similar, with a slight skew to left. Also, we can see that there is one record with very large arrival delay of around 38 minutes.</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">trips$arrival[which.max(trips$arrival)]/60</span><br></pre></td></tr></table></figure>
-<p>[1] 38.06667</p>
-<h3 id="Truncate-trip-and-route"><a href="#Truncate-trip-and-route" class="headerlink" title="Truncate trip and route"></a>Truncate trip and route</h3><p>We define a function to truncate the trip and route. First, split the character by the separator “-“, then extract the first component from the list. In this way, we trim the timestamp and version information off the string.</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">truncId = function(x, sep = &quot;-&quot;, index = 1)&#123;</span><br><span class="line">  sapply(strsplit(x, sep), &quot;[&quot;, index)</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-<p>Call the above function, then add the trimmed trip and route to the data frame, and remove the original ones.</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">trip = truncId(trips$trip)</span><br><span class="line">route = truncId(trips$route)</span><br><span class="line">trips = cbind(trip, route, trips[-c(1, 2)])</span><br></pre></td></tr></table></figure>
-<h3 id="Load-two-supplementary-files"><a href="#Load-two-supplementary-files" class="headerlink" title="Load two supplementary files"></a>Load two supplementary files</h3><p>routes.txt and ageny.txt provide more information about routes and agencies. Before we merge these files, we need to truncate the route_id in the routes file.</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">agency = read.table(&quot;agency.txt&quot;, header = TRUE, sep = &quot;,&quot; stringsAsFactors = FALSE)</span><br><span class="line">routes = read.table(&quot;routes.txt&quot;, header = TRUE, sep = &quot;,&quot;, stringsAsFactors = FALSE)</span><br><span class="line">routes$route_id = truncId(routes$route_id)</span><br></pre></td></tr></table></figure>
-<h3 id="Merge-trips-route-and-agency"><a href="#Merge-trips-route-and-agency" class="headerlink" title="Merge trips, route and agency"></a>Merge trips, route and agency</h3><ul>
-<li>Merge trips and routes by column “route” in trips and column “route_id” in routes.</li>
-<li>Merge trips and agency by column “agency_id”<br>The following code merges the data sets.</li>
-</ul>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">tripsplus = merge(trips, routes, by.x = &quot;route&quot;, by.y = &quot;route_id&quot;, all.x = TRUE)</span><br><span class="line">tripsplus = merge(tripsplus, agency, by = &quot;agency_id&quot;, all.x = TRUE)</span><br></pre></td></tr></table></figure>
-<h3 id="Calculates-average-departure-and-arrival-by-agency"><a href="#Calculates-average-departure-and-arrival-by-agency" class="headerlink" title="Calculates average departure and arrival by agency"></a>Calculates average departure and arrival by agency</h3><ul>
-<li>Aggregate departure and arrival by agency_id</li>
-<li>Apply mean function to get the average values</li>
-</ul>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">mean.agency = aggregate(tripsplus[c(&quot;departure&quot;,&quot;arrival&quot;)], by = list(agency_id = tripsplus$agency_id), mean, na.rm = TRUE)</span><br><span class="line">mean.agency</span><br></pre></td></tr></table></figure>
-<p><img src="/2017/08/01/mergeaggregate/delaybyagency.jpg" alt=""></p>
-<h3 id="A-scatter-plot-to-display-the-average-departure-and-arrival-by-agency"><a href="#A-scatter-plot-to-display-the-average-departure-and-arrival-by-agency" class="headerlink" title="A scatter plot to display the average departure and arrival by agency"></a>A scatter plot to display the average departure and arrival by agency</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line">library(reshape2)</span><br><span class="line">meltmean = melt(mean.agency, id = &quot;agency_id&quot;)</span><br><span class="line"></span><br><span class="line">pp = function(df, title)&#123;</span><br><span class="line">  ggplot(df, aes(agency_id, value, colour = variable, group = variable)) +</span><br><span class="line">    geom_point(size = 4) +</span><br><span class="line">    geom_hline(yintercept = 0) +</span><br><span class="line">    geom_vline(xintercept = 0) +</span><br><span class="line">    ggtitle(title) +</span><br><span class="line">    labs(x = &quot;Agency ID&quot;, y = &quot;Time&quot;, colour = &quot;Delay&quot;)</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">pp(meltmean, title = &quot;Average Departure and Arrival Delays by Agency&quot;)</span><br></pre></td></tr></table></figure>
-<p><img src="/2017/08/01/mergeaggregate/plot.jpg" alt=""></p>
-<p>The result shows that<br>1) Birkenhead Transport (BTL) has the largest average departure and arrival delays<br>2) Eastern (HE) has a very small average  departure and arrival delay<br>3) Go Bus (GBT) and Ritchies Transport (RTH) are early on average for both arrivals and departures!</p>
-<p>However, this is a small data sets, and the data was collected in a small time range.</p>
-<h3 id="Removes-duplicated-observations"><a href="#Removes-duplicated-observations" class="headerlink" title="Removes duplicated observations"></a>Removes duplicated observations</h3><p>There are some duplicated observations, so a single delayed bus could have an even large impact on the results. Therefore, we need to removes all duplicated.</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">unique.tripsplus = tripsplus[!duplicated(tripsplus),]</span><br><span class="line">dim(tripsplus)</span><br><span class="line">dim(unique.tripsplus)</span><br></pre></td></tr></table></figure>
-<p>[1] 754  19<br>[1] 477  19</p>
-<p>After removing duplicated, we can calculate and plot the average departure and arrival delay by agency again to get a more accurate result.</p>
-
-          
-        
-      
-    </div>
-    
-    
-    
-
-    
-
-    
-
-    
-
-    <footer class="post-footer">
-      
-
-      
-
       
 
       
       
-        <div class="post-eof"></div>
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2017/08/01/mergeaggregate/" rel="next" title="Load and merge multiple csv files into R">
+                <i class="fa fa-chevron-left"></i> Load and merge multiple csv files into R
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+          </div>
+        </div>
+      
+
+      
       
     </footer>
   </div>
@@ -592,10 +427,11 @@
   </article>
 
 
-    
-  </section>
 
-  
+    <div class="post-spread">
+      
+    </div>
+  </div>
 
 
           </div>
@@ -603,6 +439,10 @@
 
 
           
+
+  
+
+
 
         </div>
         
@@ -623,8 +463,17 @@
       
 
       
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap">
+            Table of Contents
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview-wrap">
+            Overview
+          </li>
+        </ul>
+      
 
-      <section class="site-overview-wrap sidebar-panel sidebar-panel-active">
+      <section class="site-overview-wrap sidebar-panel">
         <div class="site-overview">
           <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
             
@@ -688,6 +537,22 @@
         </div>
       </section>
 
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#Data-description"><span class="nav-number">1.</span> <span class="nav-text">Data description:</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#The-goal"><span class="nav-number">2.</span> <span class="nav-text">The goal:</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Functions-and-packages"><span class="nav-number">3.</span> <span class="nav-text">Functions and packages:</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#Downloading-data-source"><span class="nav-number">3.1.</span> <span class="nav-text">Downloading data source</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Processing-the-data-to-a-data-frame"><span class="nav-number">3.2.</span> <span class="nav-text">Processing the data to a data frame</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#1-3000-4"><span class="nav-number">4.</span> <span class="nav-text">[1] 3000 4</span></a></li></ol></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
       
 
       
@@ -821,6 +686,10 @@
   
 
   
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.1.4"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.1.4"></script>
+
+
 
   
 
