@@ -249,6 +249,166 @@
   
   
   <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2017/09/11/crossvm/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="Yifan Zhang">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/author.gif">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Machine Learning and Data Science">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+                
+                <a class="post-title-link" href="/2017/09/11/crossvm/" itemprop="url">running a function on multiple virtual machines</a></h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">Posted on</span>
+              
+              <time title="Post created" itemprop="dateCreated datePublished" datetime="2017-09-11T12:34:39+12:00">
+                2017-09-11
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+            <span class="post-category" >
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">In</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/Parallel-computing/" itemprop="url" rel="index">
+                    <span itemprop="name">Parallel computing</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+            <p>In this post, we aim at running the function fileStats() on multiple virtual machines with more cores via <code>makeCluster()</code>.</p>
+<p>First, we take the virtual machine <code>vm01</code> as our master machine, and run <code>ssh-keygen</code> to generate key with empty passphrase. This step generates two files under the .ssh folder in user home directory.</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">ls .ssh</span><br></pre></td></tr></table></figure>
+<p>id_rsa  id_rsa.pub</p>
+<p>Second, we use <code>ssh-copy-id</code> to copy the key to the other virtual machines.</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">ssh-copy-id vm02</span><br></pre></td></tr></table></figure>
+<p>Now, we can use <code>ssh</code> to login other virtual machines without providing username and password.</p>
+<p>Also, we need to use <code>scp</code> to copy the R script which contains the function fileStats() to the other virtual machines, because they don’t share the same file system.</p>
+<p>To execute the code in parallel across multiple virtual machines, we use <code>makeCluster</code> to create 20 sessions on each of vm01 and vm02. Additionally, we use <code>clusterEvalQ</code> to load packages, variables and functions on each cluster node, because they are independent and communicate via sockets. At last, we use <code>stopCluster</code> to shutdown the cluster after completing the job. If it is not stopped, the processes continue to run in the background and consume resources, so new processes might be delayed.</p>
+<p>If we want to compare this approach to the other two approaches described in the previous two posts, we  need to include the time to create and stop the cluster, as well as load the setup R script when timing this approach, because it is unfair if we just time the makeCluster or the parLapply call. The result indicates that it runs slower than the mclapply approach.</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><span class="line"># run on 2 VMs with 40 cores in parallel</span><br><span class="line">ptm.old &lt;- proc.time()</span><br><span class="line"># create cluster</span><br><span class="line">invisible(cluster &lt;- makeCluster(rep(c(&quot;vm01&quot;,</span><br><span class="line">                                       &quot;vm02&quot;), each = 20),</span><br><span class="line">                                 master = &quot;vm01&quot;,</span><br><span class="line">                                 user = &quot;&lt;username&gt;&quot;,</span><br><span class="line">                                 homogeneous = FALSE,</span><br><span class="line">                                 Rscript = &quot;/usr/bin/Rscript&quot;))</span><br><span class="line"></span><br><span class="line"># load the R script on each cluster node</span><br><span class="line">clusterEvalQ(cluster, source(&quot;./setup.R&quot;))</span><br><span class="line">allfilesCL &lt;- clusterApply(cluster, fileSizes$V2, fileStats)</span><br><span class="line"># shutdown cluster</span><br><span class="line">stopCluster(cluster)</span><br><span class="line">ptm.cl &lt;- proc.time() - ptm.old</span><br><span class="line">print(ptm.cl)</span><br></pre></td></tr></table></figure>
+<p>user  system elapsed<br>17.228   4.786 268.946</p>
+<p>Then, we try the <code>parLapply</code> approach. The result shows that the speed is faster than the clusterApply, and very close to the mclapply approach.</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line">ptm.old &lt;- proc.time()</span><br><span class="line"># create cluster</span><br><span class="line">invisible(cluster &lt;- makeCluster(rep(c(&quot;vm01&quot;,</span><br><span class="line">                                       &quot;vm02&quot;), each = 20),</span><br><span class="line">                                 master = &quot;vm01&quot;,</span><br><span class="line">                                 user = &quot;&lt;username&gt;&quot;,</span><br><span class="line">                                 homogeneous = FALSE,</span><br><span class="line">                                 Rscript = &quot;/usr/bin/Rscript&quot;))</span><br><span class="line"># load the R script on each cluster node</span><br><span class="line">invisible(clusterEvalQ(cluster, source(&quot;./setup.R&quot;)))</span><br><span class="line">allfilesParL &lt;- parLapply(cluster, fileSizes$V2, fileStats)</span><br><span class="line"># shutdown cluster</span><br><span class="line">stopCluster(cluster)</span><br><span class="line">ptm.par &lt;- proc.time() - ptm.old</span><br><span class="line">print(ptm.par)</span><br></pre></td></tr></table></figure>
+<p>user  system elapsed<br>0.540   0.209  25.791</p>
+<p>The <code>clusterApply()</code> approach is slower than the standard <code>mclapply()</code> approach as there are additional communication overhead across the virtual machines. Also, the mclapply() approach creates new R sessions via forking, which is very fast. By contrast, <code>the clusterApply()</code> approach need to copy all the data via the sockets.</p>
+<p>Although in both of <code>clusterApply()</code> and <code>parLapply()</code>, the nodes need to communicate via the sockets, <code>parLapply()</code> is still faster than  <code>clusterApply()</code>, because <code>clusterApply()</code> calls the function fileStats on the first node with the first element in fileSizes$V2, on the second node with the second element in fileSizes$V2, and so on. In the contrary, if we look at the definition of the function parLapply(), we can see that it is actually a wrapper of function <code>clusterApply()</code>, and the splitList(X, length(cl)) will split the tasks into even portions and send them to the nodes, which reduces the overhead of communication.</p>
+<p>The speed of the <code>parLapply()</code> approach is very close to the <code>mclapply()</code>, but I think the individual running time of the single <code>parLapply()</code> call is faster, and the extra overhead via the sockets slows the overall speed down.</p>
+<p>In conclusion, it is not always true that the more cores, the better the performance. We need to choose the approach on a case-by-case basis to prevent decreasing the computation speed.</p>
+
+          
+        
+      
+    </div>
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+    
+      
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
     <link itemprop="mainEntityOfPage" href="http://yoursite.com/2017/09/10/loadbalancing/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
@@ -1720,7 +1880,7 @@
               
                 <a href="/archives/">
               
-                  <span class="site-state-item-count">9</span>
+                  <span class="site-state-item-count">10</span>
                   <span class="site-state-item-name">posts</span>
                 </a>
               </div>
