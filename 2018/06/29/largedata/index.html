@@ -68,7 +68,7 @@
 
 
 
-  <meta name="keywords" content="shell,awk,pipe,redirect,grep," />
+  <meta name="keywords" content="Hexo, NexT" />
 
 
 
@@ -79,18 +79,14 @@
 
 
 
-<meta name="description" content="Functions:Functions: system(), strptime(), gsub(), Determine the number of files in the a directory in Unix12numFiles &amp;lt;- system(&amp;quot;ls -1 &amp;lt;your path&amp;gt; | wc -l&amp;quot;, intern=TRUE)cat(numFile">
-<meta name="keywords" content="shell,awk,pipe,redirect,grep">
 <meta property="og:type" content="article">
-<meta property="og:title" content="Run Unix Shell Command in R">
-<meta property="og:url" content="http://yoursite.com/2017/08/12/unixshell/index.html">
+<meta property="og:title" content="largedata">
+<meta property="og:url" content="http://yoursite.com/2018/06/29/largedata/index.html">
 <meta property="og:site_name" content="Machine Learning and Data Science">
-<meta property="og:description" content="Functions:Functions: system(), strptime(), gsub(), Determine the number of files in the a directory in Unix12numFiles &amp;lt;- system(&amp;quot;ls -1 &amp;lt;your path&amp;gt; | wc -l&amp;quot;, intern=TRUE)cat(numFile">
 <meta property="og:locale" content="default">
-<meta property="og:updated_time" content="2018-06-29T01:35:07.219Z">
+<meta property="og:updated_time" content="2018-06-29T01:39:08.200Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="Run Unix Shell Command in R">
-<meta name="twitter:description" content="Functions:Functions: system(), strptime(), gsub(), Determine the number of files in the a directory in Unix12numFiles &amp;lt;- system(&amp;quot;ls -1 &amp;lt;your path&amp;gt; | wc -l&amp;quot;, intern=TRUE)cat(numFile">
+<meta name="twitter:title" content="largedata">
 
 
 
@@ -120,13 +116,13 @@
 
 
 
-  <link rel="canonical" href="http://yoursite.com/2017/08/12/unixshell/"/>
+  <link rel="canonical" href="http://yoursite.com/2018/06/29/largedata/"/>
 
 
 
 
 
-  <title>Run Unix Shell Command in R | Machine Learning and Data Science</title>
+  <title>largedata | Machine Learning and Data Science</title>
   
 
 
@@ -253,7 +249,7 @@
   
   
   <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2017/08/12/unixshell/">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2018/06/29/largedata/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="name" content="Yifan Zhang">
@@ -270,7 +266,7 @@
 
         
         
-          <h1 class="post-title" itemprop="name headline">Run Unix Shell Command in R</h1>
+          <h1 class="post-title" itemprop="name headline">largedata</h1>
         
 
         <div class="post-meta">
@@ -282,8 +278,8 @@
               
                 <span class="post-meta-item-text">Posted on</span>
               
-              <time title="Post created" itemprop="dateCreated datePublished" datetime="2017-08-12T12:50:07+12:00">
-                2017-08-12
+              <time title="Post created" itemprop="dateCreated datePublished" datetime="2018-06-29T13:39:08+12:00">
+                2018-06-29
               </time>
             
 
@@ -292,28 +288,6 @@
             
           </span>
 
-          
-            <span class="post-category" >
-            
-              <span class="post-meta-divider">|</span>
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-folder-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">In</span>
-              
-              
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/Unix/" itemprop="url" rel="index">
-                    <span itemprop="name">Unix</span>
-                  </a>
-                </span>
-
-                
-                
-              
-            </span>
           
 
           
@@ -342,14 +316,7 @@
       
 
       
-        <h2 id="Functions"><a href="#Functions" class="headerlink" title="Functions:"></a>Functions:</h2><p>Functions: <code>system()</code>, <code>strptime()</code>, <code>gsub()</code>,</p>
-<h3 id="Determine-the-number-of-files-in-the-a-directory-in-Unix"><a href="#Determine-the-number-of-files-in-the-a-directory-in-Unix" class="headerlink" title="Determine the number of files in the a directory in Unix"></a>Determine the number of files in the a directory in Unix</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">numFiles &lt;- system(&quot;ls -1 &lt;your path&gt; | wc -l&quot;, intern=TRUE)</span><br><span class="line">cat(numFiles)</span><br></pre></td></tr></table></figure>
-<p>98973</p>
-<h3 id="Extracting-the-file-sizes"><a href="#Extracting-the-file-sizes" class="headerlink" title="Extracting the file sizes"></a>Extracting the file sizes</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">system(&quot;ls -l &lt;your path&gt; | awk -e &apos;&#123;print($5)&#125;&apos; &gt; sizes.txt&quot;)</span><br><span class="line">system(&quot;head sizes.txt&quot;)</span><br><span class="line">size = read.table(&quot;sizes.txt&quot;)</span><br></pre></td></tr></table></figure>
-<p>There are 98973 csv files in this directory, containing information on Auckland Bus delays. The file name contains a date-time component that reflects the exact time of the request for each file. For example: trip_updates_20170401050001.csv.</p>
-<h3 id="Convert-character-to-date-and-time"><a href="#Convert-character-to-date-and-time" class="headerlink" title="Convert character to date and time"></a>Convert character to date and time</h3><p>The following code will convert string 20170401050001 to Date: 2017-04-01 and Time: 05:00:01<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">datetime =  strptime(gsub(&quot;[^[:digit:]]&quot;, &quot;&quot;, size.time$date),</span><br><span class="line">                     &quot;%Y%m%d%H%M%S&quot;)</span><br><span class="line">size.time$date = as.Date(datetime)</span><br><span class="line">size.time$time = strftime(datetime, format=&quot;%H:%M:%S&quot;)</span><br></pre></td></tr></table></figure></p>
-<h3 id="Extracting-trips-made-by-vehicle-6215-on-the-1st-April-2017"><a href="#Extracting-trips-made-by-vehicle-6215-on-the-1st-April-2017" class="headerlink" title="Extracting trips made by vehicle 6215 on the 1st April 2017"></a>Extracting trips made by vehicle 6215 on the 1st April 2017</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">system(&quot;grep -h ,6215, &lt;your path&gt;/trip_updates_20170401* &gt; bus-6215-2017-04-01.csv&quot;)</span><br><span class="line">busLines &lt;- system(&quot;head bus-6215-2017-04-01.csv&quot;, intern=TRUE)</span><br><span class="line">cat(busLines, sep=&quot;\n&quot;)</span><br></pre></td></tr></table></figure>
-
+        
       
     </div>
     
@@ -364,20 +331,6 @@
 
     <footer class="post-footer">
       
-        <div class="post-tags">
-          
-            <a href="/tags/shell/" rel="tag"># shell</a>
-          
-            <a href="/tags/awk/" rel="tag"># awk</a>
-          
-            <a href="/tags/pipe/" rel="tag"># pipe</a>
-          
-            <a href="/tags/redirect/" rel="tag"># redirect</a>
-          
-            <a href="/tags/grep/" rel="tag"># grep</a>
-          
-        </div>
-      
 
       
       
@@ -387,8 +340,8 @@
         <div class="post-nav">
           <div class="post-nav-next post-nav-item">
             
-              <a href="/2017/08/07/webapi/" rel="next" title="Access data from Restful API">
-                <i class="fa fa-chevron-left"></i> Access data from Restful API
+              <a href="/2017/08/14/estimateram/" rel="next" title="Estimate memory size of a large file">
+                <i class="fa fa-chevron-left"></i> Estimate memory size of a large file
               </a>
             
           </div>
@@ -396,10 +349,6 @@
           <span class="post-nav-divider"></span>
 
           <div class="post-nav-prev post-nav-item">
-            
-              <a href="/2017/08/14/estimateram/" rel="prev" title="Estimate memory size of a large file">
-                Estimate memory size of a large file <i class="fa fa-chevron-right"></i>
-              </a>
             
           </div>
         </div>
@@ -451,17 +400,8 @@
       
 
       
-        <ul class="sidebar-nav motion-element">
-          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap">
-            Table of Contents
-          </li>
-          <li class="sidebar-nav-overview" data-target="site-overview-wrap">
-            Overview
-          </li>
-        </ul>
-      
 
-      <section class="site-overview-wrap sidebar-panel">
+      <section class="site-overview-wrap sidebar-panel sidebar-panel-active">
         <div class="site-overview">
           <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
             
@@ -525,22 +465,6 @@
         </div>
       </section>
 
-      
-      <!--noindex-->
-        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
-          <div class="post-toc">
-
-            
-              
-            
-
-            
-              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#Functions"><span class="nav-number">1.</span> <span class="nav-text">Functions:</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#Determine-the-number-of-files-in-the-a-directory-in-Unix"><span class="nav-number">1.1.</span> <span class="nav-text">Determine the number of files in the a directory in Unix</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Extracting-the-file-sizes"><span class="nav-number">1.2.</span> <span class="nav-text">Extracting the file sizes</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Convert-character-to-date-and-time"><span class="nav-number">1.3.</span> <span class="nav-text">Convert character to date and time</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Extracting-trips-made-by-vehicle-6215-on-the-1st-April-2017"><span class="nav-number">1.4.</span> <span class="nav-text">Extracting trips made by vehicle 6215 on the 1st April 2017</span></a></li></ol></li></ol></div>
-            
-
-          </div>
-        </section>
-      <!--/noindex-->
       
 
       

@@ -68,7 +68,7 @@
 
 
 
-  <meta name="keywords" content="shell,awk,pipe,redirect,grep," />
+  <meta name="keywords" content="memory," />
 
 
 
@@ -79,18 +79,18 @@
 
 
 
-<meta name="description" content="Functions:Functions: system(), strptime(), gsub(), Determine the number of files in the a directory in Unix12numFiles &amp;lt;- system(&amp;quot;ls -1 &amp;lt;your path&amp;gt; | wc -l&amp;quot;, intern=TRUE)cat(numFile">
-<meta name="keywords" content="shell,awk,pipe,redirect,grep">
+<meta name="description" content="Functions:Functions: objext.size() We know that R stores all the data in RAM, it automatically allocates memory as required. Before we load a very large dataset into R, we need to estimate how much me">
+<meta name="keywords" content="memory">
 <meta property="og:type" content="article">
-<meta property="og:title" content="Run Unix Shell Command in R">
-<meta property="og:url" content="http://yoursite.com/2017/08/12/unixshell/index.html">
+<meta property="og:title" content="Estimate memory size of a large file">
+<meta property="og:url" content="http://yoursite.com/2017/08/14/estimateram/index.html">
 <meta property="og:site_name" content="Machine Learning and Data Science">
-<meta property="og:description" content="Functions:Functions: system(), strptime(), gsub(), Determine the number of files in the a directory in Unix12numFiles &amp;lt;- system(&amp;quot;ls -1 &amp;lt;your path&amp;gt; | wc -l&amp;quot;, intern=TRUE)cat(numFile">
+<meta property="og:description" content="Functions:Functions: objext.size() We know that R stores all the data in RAM, it automatically allocates memory as required. Before we load a very large dataset into R, we need to estimate how much me">
 <meta property="og:locale" content="default">
-<meta property="og:updated_time" content="2018-06-29T01:35:07.219Z">
+<meta property="og:updated_time" content="2018-06-29T04:17:48.004Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="Run Unix Shell Command in R">
-<meta name="twitter:description" content="Functions:Functions: system(), strptime(), gsub(), Determine the number of files in the a directory in Unix12numFiles &amp;lt;- system(&amp;quot;ls -1 &amp;lt;your path&amp;gt; | wc -l&amp;quot;, intern=TRUE)cat(numFile">
+<meta name="twitter:title" content="Estimate memory size of a large file">
+<meta name="twitter:description" content="Functions:Functions: objext.size() We know that R stores all the data in RAM, it automatically allocates memory as required. Before we load a very large dataset into R, we need to estimate how much me">
 
 
 
@@ -120,13 +120,13 @@
 
 
 
-  <link rel="canonical" href="http://yoursite.com/2017/08/12/unixshell/"/>
+  <link rel="canonical" href="http://yoursite.com/2017/08/14/estimateram/"/>
 
 
 
 
 
-  <title>Run Unix Shell Command in R | Machine Learning and Data Science</title>
+  <title>Estimate memory size of a large file | Machine Learning and Data Science</title>
   
 
 
@@ -253,7 +253,7 @@
   
   
   <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2017/08/12/unixshell/">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2017/08/14/estimateram/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="name" content="Yifan Zhang">
@@ -270,7 +270,7 @@
 
         
         
-          <h1 class="post-title" itemprop="name headline">Run Unix Shell Command in R</h1>
+          <h1 class="post-title" itemprop="name headline">Estimate memory size of a large file</h1>
         
 
         <div class="post-meta">
@@ -282,8 +282,8 @@
               
                 <span class="post-meta-item-text">Posted on</span>
               
-              <time title="Post created" itemprop="dateCreated datePublished" datetime="2017-08-12T12:50:07+12:00">
-                2017-08-12
+              <time title="Post created" itemprop="dateCreated datePublished" datetime="2017-08-14T12:50:07+12:00">
+                2017-08-14
               </time>
             
 
@@ -305,8 +305,8 @@
               
               
                 <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/Unix/" itemprop="url" rel="index">
-                    <span itemprop="name">Unix</span>
+                  <a href="/categories/Large-data/" itemprop="url" rel="index">
+                    <span itemprop="name">Large data</span>
                   </a>
                 </span>
 
@@ -342,13 +342,17 @@
       
 
       
-        <h2 id="Functions"><a href="#Functions" class="headerlink" title="Functions:"></a>Functions:</h2><p>Functions: <code>system()</code>, <code>strptime()</code>, <code>gsub()</code>,</p>
-<h3 id="Determine-the-number-of-files-in-the-a-directory-in-Unix"><a href="#Determine-the-number-of-files-in-the-a-directory-in-Unix" class="headerlink" title="Determine the number of files in the a directory in Unix"></a>Determine the number of files in the a directory in Unix</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">numFiles &lt;- system(&quot;ls -1 &lt;your path&gt; | wc -l&quot;, intern=TRUE)</span><br><span class="line">cat(numFiles)</span><br></pre></td></tr></table></figure>
-<p>98973</p>
-<h3 id="Extracting-the-file-sizes"><a href="#Extracting-the-file-sizes" class="headerlink" title="Extracting the file sizes"></a>Extracting the file sizes</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">system(&quot;ls -l &lt;your path&gt; | awk -e &apos;&#123;print($5)&#125;&apos; &gt; sizes.txt&quot;)</span><br><span class="line">system(&quot;head sizes.txt&quot;)</span><br><span class="line">size = read.table(&quot;sizes.txt&quot;)</span><br></pre></td></tr></table></figure>
-<p>There are 98973 csv files in this directory, containing information on Auckland Bus delays. The file name contains a date-time component that reflects the exact time of the request for each file. For example: trip_updates_20170401050001.csv.</p>
-<h3 id="Convert-character-to-date-and-time"><a href="#Convert-character-to-date-and-time" class="headerlink" title="Convert character to date and time"></a>Convert character to date and time</h3><p>The following code will convert string 20170401050001 to Date: 2017-04-01 and Time: 05:00:01<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">datetime =  strptime(gsub(&quot;[^[:digit:]]&quot;, &quot;&quot;, size.time$date),</span><br><span class="line">                     &quot;%Y%m%d%H%M%S&quot;)</span><br><span class="line">size.time$date = as.Date(datetime)</span><br><span class="line">size.time$time = strftime(datetime, format=&quot;%H:%M:%S&quot;)</span><br></pre></td></tr></table></figure></p>
-<h3 id="Extracting-trips-made-by-vehicle-6215-on-the-1st-April-2017"><a href="#Extracting-trips-made-by-vehicle-6215-on-the-1st-April-2017" class="headerlink" title="Extracting trips made by vehicle 6215 on the 1st April 2017"></a>Extracting trips made by vehicle 6215 on the 1st April 2017</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">system(&quot;grep -h ,6215, &lt;your path&gt;/trip_updates_20170401* &gt; bus-6215-2017-04-01.csv&quot;)</span><br><span class="line">busLines &lt;- system(&quot;head bus-6215-2017-04-01.csv&quot;, intern=TRUE)</span><br><span class="line">cat(busLines, sep=&quot;\n&quot;)</span><br></pre></td></tr></table></figure>
+        <h2 id="Functions"><a href="#Functions" class="headerlink" title="Functions:"></a>Functions:</h2><p>Functions: <code>objext.size()</code></p>
+<p>We know that R stores all the data in RAM, it automatically allocates memory as required. Before we load a very large dataset into R, we need to estimate how much memory the complete file will take up once it is loaded. Today, I will examine two methods to estimate , WITHOUT reading the entire file.</p>
+<h3 id="Method-One"><a href="#Method-One" class="headerlink" title="Method One"></a>Method One</h3><p>We find the size of a subset of the dataset and then scale up the result to make an estimate. The following code only read the first 1000 lines in the data set, rather than all of them. Then we get the total number of lines of the file to calculate our first estimate.</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line"># read the first 1000 lines</span><br><span class="line">atpart = read.csv(&quot;alldata.csv&quot;, nrow = 1000)</span><br><span class="line">partsize = object.size(atpart)</span><br><span class="line"></span><br><span class="line"># number of lines in the complete file</span><br><span class="line">nline = as.integer(system(&quot;wc -l alldata.csv | awk -e &apos;&#123;print($1)&#125;&apos;&quot;,</span><br><span class="line">                          intern = TRUE))</span><br><span class="line"></span><br><span class="line"># estimate in MB                          </span><br><span class="line">estimate1 = partsize*nline/1000</span><br><span class="line">print(partsize*nline/1000, units = &quot;Mb&quot;)</span><br></pre></td></tr></table></figure>
+<h3 id="Method-Two"><a href="#Method-Two" class="headerlink" title="Method Two"></a>Method Two</h3><p>The second approach examines the types of variables in the dataset to take into account the different memory demands of numeric and character vectors.</p>
+<p>The following code will summary the type of each column in the data frame</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"># Type of vectors</span><br><span class="line">sapply(atpart, class)</span><br><span class="line">table(sapply(atpart, class))</span><br></pre></td></tr></table></figure>
+<p>Assume that it consists of 3 factor variables and 5 integer variables, then our estimate will be the sum of four components:</p>
+<p>1) overhead: Each of the eight vectors, regardless of type, will has an overhead of around 40 bytes.<br>2) integer vectors: integer values require 4 bytes<br>3) character vectors: character values require 8 bytes<br>4) cache size. We use the sample of the first 1000 rows to estimate the number of levels in each of the factors. Assume that the strings of each factor are of fixed lengths. Hence obtaining the character length of the first level will be sufficient for determining the lengths of all unique levels.</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line">CacheSize = function(x) &#123;</span><br><span class="line">  lev = levels(x)</span><br><span class="line">  # assume all levels are the same length</span><br><span class="line">  cache.size = length(lev)*nchar(lev[1])</span><br><span class="line">&#125;</span><br><span class="line">Cache = do.call(rbind.data.frame, lapply(atpart[, 1:3], CacheSize))</span><br><span class="line"></span><br><span class="line">Our second estimate is:</span><br><span class="line"></span><br><span class="line">```&#123;r&#125;</span><br><span class="line">estimate2 = 8*40 + 5*4*nline + 3*8*nline + sum(Cache)</span><br><span class="line">paste(as.numeric(estimate2), &quot;Mb&quot;)</span><br></pre></td></tr></table></figure>
+<p>In summary, the first approach produces a fast estimate, while the second approach requires more calculation but will be closer to the actual file size. Both approaches assume the complexity and structure of the lines in the dataset remain consistent.</p>
 
       
     </div>
@@ -366,15 +370,7 @@
       
         <div class="post-tags">
           
-            <a href="/tags/shell/" rel="tag"># shell</a>
-          
-            <a href="/tags/awk/" rel="tag"># awk</a>
-          
-            <a href="/tags/pipe/" rel="tag"># pipe</a>
-          
-            <a href="/tags/redirect/" rel="tag"># redirect</a>
-          
-            <a href="/tags/grep/" rel="tag"># grep</a>
+            <a href="/tags/memory/" rel="tag"># memory</a>
           
         </div>
       
@@ -387,8 +383,8 @@
         <div class="post-nav">
           <div class="post-nav-next post-nav-item">
             
-              <a href="/2017/08/07/webapi/" rel="next" title="Access data from Restful API">
-                <i class="fa fa-chevron-left"></i> Access data from Restful API
+              <a href="/2017/08/12/unixshell/" rel="next" title="Run Unix Shell Command in R">
+                <i class="fa fa-chevron-left"></i> Run Unix Shell Command in R
               </a>
             
           </div>
@@ -397,8 +393,8 @@
 
           <div class="post-nav-prev post-nav-item">
             
-              <a href="/2017/08/14/estimateram/" rel="prev" title="Estimate memory size of a large file">
-                Estimate memory size of a large file <i class="fa fa-chevron-right"></i>
+              <a href="/2018/06/29/largedata/" rel="prev" title="largedata">
+                largedata <i class="fa fa-chevron-right"></i>
               </a>
             
           </div>
@@ -535,7 +531,7 @@
             
 
             
-              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#Functions"><span class="nav-number">1.</span> <span class="nav-text">Functions:</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#Determine-the-number-of-files-in-the-a-directory-in-Unix"><span class="nav-number">1.1.</span> <span class="nav-text">Determine the number of files in the a directory in Unix</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Extracting-the-file-sizes"><span class="nav-number">1.2.</span> <span class="nav-text">Extracting the file sizes</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Convert-character-to-date-and-time"><span class="nav-number">1.3.</span> <span class="nav-text">Convert character to date and time</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Extracting-trips-made-by-vehicle-6215-on-the-1st-April-2017"><span class="nav-number">1.4.</span> <span class="nav-text">Extracting trips made by vehicle 6215 on the 1st April 2017</span></a></li></ol></li></ol></div>
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#Functions"><span class="nav-number">1.</span> <span class="nav-text">Functions:</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#Method-One"><span class="nav-number">1.1.</span> <span class="nav-text">Method One</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Method-Two"><span class="nav-number">1.2.</span> <span class="nav-text">Method Two</span></a></li></ol></li></ol></div>
             
 
           </div>
