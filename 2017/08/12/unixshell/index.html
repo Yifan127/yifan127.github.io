@@ -68,7 +68,7 @@
 
 
 
-  <meta name="keywords" content="xml,html,Xpath,web scraping," />
+  <meta name="keywords" content="shell,awk,pipe,redirect,grep," />
 
 
 
@@ -79,21 +79,18 @@
 
 
 
-<meta name="description" content="Data description:The “HOT 100” billboard web site contains the top 100 songs for each week. The URL for the week starting Sat 29 July (2017-07-29) is http://www.billboard.com/charts/hot-100/2017-07-29">
-<meta name="keywords" content="xml,html,Xpath,web scraping">
+<meta name="description" content="Functions:Functions: system(), strptime(), gsub(), Determine the number of files in the a directory in Unix12numFiles &amp;lt;- system(&amp;quot;ls -1 &amp;lt;your path&amp;gt; | wc -l&amp;quot;, intern=TRUE)cat(numFile">
+<meta name="keywords" content="shell,awk,pipe,redirect,grep">
 <meta property="og:type" content="article">
-<meta property="og:title" content="Access data from web pages">
-<meta property="og:url" content="http://yoursite.com/2017/08/06/accesswebpage/index.html">
+<meta property="og:title" content="unixshell">
+<meta property="og:url" content="http://yoursite.com/2017/08/12/unixshell/index.html">
 <meta property="og:site_name" content="Machine Learning and Data Science">
-<meta property="og:description" content="Data description:The “HOT 100” billboard web site contains the top 100 songs for each week. The URL for the week starting Sat 29 July (2017-07-29) is http://www.billboard.com/charts/hot-100/2017-07-29">
+<meta property="og:description" content="Functions:Functions: system(), strptime(), gsub(), Determine the number of files in the a directory in Unix12numFiles &amp;lt;- system(&amp;quot;ls -1 &amp;lt;your path&amp;gt; | wc -l&amp;quot;, intern=TRUE)cat(numFile">
 <meta property="og:locale" content="default">
-<meta property="og:image" content="http://yoursite.com/2017/08/06/accesswebpage/billboard.jpg">
-<meta property="og:image" content="http://yoursite.com/2017/08/06/accesswebpage/rank.jpg">
-<meta property="og:updated_time" content="2018-06-29T00:35:19.680Z">
+<meta property="og:updated_time" content="2018-06-29T01:32:35.193Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="Access data from web pages">
-<meta name="twitter:description" content="Data description:The “HOT 100” billboard web site contains the top 100 songs for each week. The URL for the week starting Sat 29 July (2017-07-29) is http://www.billboard.com/charts/hot-100/2017-07-29">
-<meta name="twitter:image" content="http://yoursite.com/2017/08/06/accesswebpage/billboard.jpg">
+<meta name="twitter:title" content="unixshell">
+<meta name="twitter:description" content="Functions:Functions: system(), strptime(), gsub(), Determine the number of files in the a directory in Unix12numFiles &amp;lt;- system(&amp;quot;ls -1 &amp;lt;your path&amp;gt; | wc -l&amp;quot;, intern=TRUE)cat(numFile">
 
 
 
@@ -123,13 +120,13 @@
 
 
 
-  <link rel="canonical" href="http://yoursite.com/2017/08/06/accesswebpage/"/>
+  <link rel="canonical" href="http://yoursite.com/2017/08/12/unixshell/"/>
 
 
 
 
 
-  <title>Access data from web pages | Machine Learning and Data Science</title>
+  <title>unixshell | Machine Learning and Data Science</title>
   
 
 
@@ -256,7 +253,7 @@
   
   
   <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2017/08/06/accesswebpage/">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2017/08/12/unixshell/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="name" content="Yifan Zhang">
@@ -273,7 +270,7 @@
 
         
         
-          <h1 class="post-title" itemprop="name headline">Access data from web pages</h1>
+          <h1 class="post-title" itemprop="name headline">unixshell</h1>
         
 
         <div class="post-meta">
@@ -285,8 +282,8 @@
               
                 <span class="post-meta-item-text">Posted on</span>
               
-              <time title="Post created" itemprop="dateCreated datePublished" datetime="2017-08-06T11:50:51+12:00">
-                2017-08-06
+              <time title="Post created" itemprop="dateCreated datePublished" datetime="2017-08-12T12:50:07+12:00">
+                2017-08-12
               </time>
             
 
@@ -308,8 +305,8 @@
               
               
                 <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/web-scraping/" itemprop="url" rel="index">
-                    <span itemprop="name">web scraping</span>
+                  <a href="/categories/Unix/" itemprop="url" rel="index">
+                    <span itemprop="name">Unix</span>
                   </a>
                 </span>
 
@@ -345,29 +342,13 @@
       
 
       
-        <h2 id="Data-description"><a href="#Data-description" class="headerlink" title="Data description:"></a>Data description:</h2><p>The “HOT 100” billboard web site contains the top 100 songs for each week. The URL for the week starting Sat 29 July (2017-07-29) is <a href="http://www.billboard.com/charts/hot-100/2017-07-29" target="_blank" rel="noopener">http://www.billboard.com/charts/hot-100/2017-07-29</a>.</p>
-<h2 id="The-goal"><a href="#The-goal" class="headerlink" title="The goal:"></a>The goal:</h2><ol>
-<li>Download the HOT 100 for the weeks so far in 2017 (from Sat 7 Jan to Sat 29 July).</li>
-<li>Use XPath to extract the rank, song, and artist, for the top 100 songs for each week.</li>
-</ol>
-<h2 id="Functions-and-packages"><a href="#Functions-and-packages" class="headerlink" title="Functions and packages:"></a>Functions and packages:</h2><ol>
-<li>Functions: <code>seq()</code>, <code>trimws()</code>, <code>order()</code>, <code>htmlParse()</code>, <code>getNodeSet()</code>, <code>xpathSApply()</code></li>
-<li>Packages: <code>XML</code></li>
-</ol>
-<h3 id="Downloading-data-source"><a href="#Downloading-data-source" class="headerlink" title="Downloading data source"></a>Downloading data source</h3><p>First, we get the date of all the Saturdays from 2017-01-07 to 2017-07-29, then use <code>sprintf</code> to get the <code>urls</code>.</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">startdate = as.Date(&quot;2017-01-07&quot;)</span><br><span class="line">enddate = as.Date(&quot;2017-07-29&quot;)</span><br><span class="line">saturdays = seq(startdate, enddate, by=&quot;weeks&quot;)</span><br><span class="line"></span><br><span class="line">urls = sprintf(&quot;http://www.billboard.com/charts/hot-100/%s&quot;, saturdays)</span><br></pre></td></tr></table></figure>
-<p>To download the data, we use <code>htmlParse</code> in the XML package. It parses the html file to an object ‘XMLInternalDocument’. After that, we use <code>getNodeSet</code> to find all the article nodes by its Xpath. The Xpath ‘//article[contains(@class, ‘chart-row’)]’ matches all the <article> elements with a class attribute that contains chart-row.</article></p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">library(XML)</span><br><span class="line">docs = lapply(urls, htmlParse)</span><br><span class="line">articleNodes = lapply(docs, getNodeSet, path = &quot;//article[contains(@class, &apos;chart-row&apos;)]&quot;)</span><br></pre></td></tr></table></figure>
-<h3 id="Processing-the-data-to-a-data-frame"><a href="#Processing-the-data-to-a-data-frame" class="headerlink" title="Processing the data to a data frame"></a>Processing the data to a data frame</h3><p>The following function is used to convert xml to data frame. There is only one argument in this function called <code>articleNode</code>. In this function, we extract rank, song and artists within an article node by their Xpath. Notice that the artist element is contained within either an <code>&lt;a&gt;</code> or a <code>&lt;h3&gt;</code> element. Also, we use <code>trimws</code> to remove all the whitespace in artist, including <code>[ \t\r\n]</code>. The output of this function is a data frame which contains the rank, song and artist.</p>
-<figure class="highlight plain"><figcaption><span>fromXMLTODF&#125;</span></figcaption><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line">fromXMLToDF = function(articleNode)&#123;</span><br><span class="line">  ranks = sapply(articleNode, xpathSApply,</span><br><span class="line">                 &quot;.//span[@class = &apos;chart-row__current-week&apos;]&quot;, xmlValue)</span><br><span class="line">  songs = sapply(articleNode, xpathSApply,</span><br><span class="line">                 &quot;.//h2&quot;, xmlValue)</span><br><span class="line">  artists = sapply(articleNode, xpathApply,</span><br><span class="line">                   &quot;.//a[@class = &apos;chart-row__artist&apos;] | .//h3[@class = &apos;chart-row__artist&apos;]&quot;,</span><br><span class="line">                   xmlValue)</span><br><span class="line">  artists = trimws(artists)</span><br><span class="line"></span><br><span class="line">  df = data.frame(rank = as.integer(ranks), song = songs, artist= artists,</span><br><span class="line">                  stringsAsFactors = FALSE)</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-<p>We apply the above function to all the article nodes, and get a list which contains 30 elements, and each element is a data frame. Finally, we convert the list to a data frame, and add the date column to the data frame.</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"># convert list to data frame</span><br><span class="line">articles = lapply(articleNodes, fromXMLToDF)</span><br><span class="line">billboard = do.call(rbind, articles)</span><br><span class="line"></span><br><span class="line"># add date column to data frame</span><br><span class="line">billboard = cbind(date = rep(saturdays, each = 100), billboard)</span><br><span class="line"></span><br><span class="line">dim(billboard)</span><br></pre></td></tr></table></figure>
-<p>[1] 3000 4</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">head(billboard)</span><br></pre></td></tr></table></figure>
-<p><img src="/2017/08/06/accesswebpage/billboard.jpg" alt=""></p>
-<p>We can now calculate the average rank for each artist, and order them by the average rank.</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">options(digits = 2)</span><br><span class="line">bestArtist = setNames(aggregate(billboard$rank, by = list(billboard$artist), mean),</span><br><span class="line">                      c(&quot;artist&quot;, &quot;rank&quot;))</span><br><span class="line">head(bestArtist[order(bestArtist$rank), ])</span><br></pre></td></tr></table></figure>
-<p><img src="/2017/08/06/accesswebpage/rank.jpg" alt=""></p>
+        <h2 id="Functions"><a href="#Functions" class="headerlink" title="Functions:"></a>Functions:</h2><p>Functions: <code>system()</code>, <code>strptime()</code>, <code>gsub()</code>,</p>
+<h3 id="Determine-the-number-of-files-in-the-a-directory-in-Unix"><a href="#Determine-the-number-of-files-in-the-a-directory-in-Unix" class="headerlink" title="Determine the number of files in the a directory in Unix"></a>Determine the number of files in the a directory in Unix</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">numFiles &lt;- system(&quot;ls -1 &lt;your path&gt; | wc -l&quot;, intern=TRUE)</span><br><span class="line">cat(numFiles)</span><br></pre></td></tr></table></figure>
+<p>98973</p>
+<h3 id="Extracting-the-file-sizes"><a href="#Extracting-the-file-sizes" class="headerlink" title="Extracting the file sizes"></a>Extracting the file sizes</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">system(&quot;ls -l &lt;your path&gt; | awk -e &apos;&#123;print($5)&#125;&apos; &gt; sizes.txt&quot;)</span><br><span class="line">system(&quot;head sizes.txt&quot;)</span><br><span class="line">size = read.table(&quot;sizes.txt&quot;)</span><br></pre></td></tr></table></figure>
+<p>There are 98973 csv files in this directory, containing information on Auckland Bus delays. The file name contains a date-time component that reflects the exact time of the request for each file. For example: trip_updates_20170401050001.csv.</p>
+<h3 id="Convert-character-to-date-and-time"><a href="#Convert-character-to-date-and-time" class="headerlink" title="Convert character to date and time"></a>Convert character to date and time</h3><p>The following code will convert string 20170401050001 to Date: 2017-04-01 and Time: 05:00:01<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">datetime =  strptime(gsub(&quot;[^[:digit:]]&quot;, &quot;&quot;, size.time$date),</span><br><span class="line">                     &quot;%Y%m%d%H%M%S&quot;)</span><br><span class="line">size.time$date = as.Date(datetime)</span><br><span class="line">size.time$time = strftime(datetime, format=&quot;%H:%M:%S&quot;)</span><br></pre></td></tr></table></figure></p>
+<h3 id="Extracting-trips-made-by-vehicle-6215-on-the-1st-April-2017"><a href="#Extracting-trips-made-by-vehicle-6215-on-the-1st-April-2017" class="headerlink" title="Extracting trips made by vehicle 6215 on the 1st April 2017"></a>Extracting trips made by vehicle 6215 on the 1st April 2017</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">system(&quot;grep -h ,6215, &lt;your path&gt;/trip_updates_20170401* &gt; bus-6215-2017-04-01.csv&quot;)</span><br><span class="line">busLines &lt;- system(&quot;head bus-6215-2017-04-01.csv&quot;, intern=TRUE)</span><br><span class="line">cat(busLines, sep=&quot;\n&quot;)</span><br></pre></td></tr></table></figure>
 
       
     </div>
@@ -385,13 +366,15 @@
       
         <div class="post-tags">
           
-            <a href="/tags/xml/" rel="tag"># xml</a>
+            <a href="/tags/shell/" rel="tag"># shell</a>
           
-            <a href="/tags/html/" rel="tag"># html</a>
+            <a href="/tags/awk/" rel="tag"># awk</a>
           
-            <a href="/tags/Xpath/" rel="tag"># Xpath</a>
+            <a href="/tags/pipe/" rel="tag"># pipe</a>
           
-            <a href="/tags/web-scraping/" rel="tag"># web scraping</a>
+            <a href="/tags/redirect/" rel="tag"># redirect</a>
+          
+            <a href="/tags/grep/" rel="tag"># grep</a>
           
         </div>
       
@@ -404,8 +387,8 @@
         <div class="post-nav">
           <div class="post-nav-next post-nav-item">
             
-              <a href="/2017/08/01/mergeaggregate/" rel="next" title="Load and merge multiple csv files into R">
-                <i class="fa fa-chevron-left"></i> Load and merge multiple csv files into R
+              <a href="/2017/08/07/webapi/" rel="next" title="Access data from Restful API">
+                <i class="fa fa-chevron-left"></i> Access data from Restful API
               </a>
             
           </div>
@@ -413,10 +396,6 @@
           <span class="post-nav-divider"></span>
 
           <div class="post-nav-prev post-nav-item">
-            
-              <a href="/2017/08/07/webapi/" rel="prev" title="Access data from Restful API">
-                Access data from Restful API <i class="fa fa-chevron-right"></i>
-              </a>
             
           </div>
         </div>
@@ -552,7 +531,7 @@
             
 
             
-              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#Data-description"><span class="nav-number">1.</span> <span class="nav-text">Data description:</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#The-goal"><span class="nav-number">2.</span> <span class="nav-text">The goal:</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Functions-and-packages"><span class="nav-number">3.</span> <span class="nav-text">Functions and packages:</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#Downloading-data-source"><span class="nav-number">3.1.</span> <span class="nav-text">Downloading data source</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Processing-the-data-to-a-data-frame"><span class="nav-number">3.2.</span> <span class="nav-text">Processing the data to a data frame</span></a></li></ol></li></ol></div>
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#Functions"><span class="nav-number">1.</span> <span class="nav-text">Functions:</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#Determine-the-number-of-files-in-the-a-directory-in-Unix"><span class="nav-number">1.1.</span> <span class="nav-text">Determine the number of files in the a directory in Unix</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Extracting-the-file-sizes"><span class="nav-number">1.2.</span> <span class="nav-text">Extracting the file sizes</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Convert-character-to-date-and-time"><span class="nav-number">1.3.</span> <span class="nav-text">Convert character to date and time</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Extracting-trips-made-by-vehicle-6215-on-the-1st-April-2017"><span class="nav-number">1.4.</span> <span class="nav-text">Extracting trips made by vehicle 6215 on the 1st April 2017</span></a></li></ol></li></ol></div>
             
 
           </div>

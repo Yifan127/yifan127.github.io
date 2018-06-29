@@ -68,7 +68,7 @@
 
 
 
-  <meta name="keywords" content="xml,html,Xpath,web scraping," />
+  <meta name="keywords" content="web scraping,Restful API,JSON," />
 
 
 
@@ -79,21 +79,20 @@
 
 
 
-<meta name="description" content="Data description:The “HOT 100” billboard web site contains the top 100 songs for each week. The URL for the week starting Sat 29 July (2017-07-29) is http://www.billboard.com/charts/hot-100/2017-07-29">
-<meta name="keywords" content="xml,html,Xpath,web scraping">
+<meta name="description" content="Data description:Auckland Transport has a Web API for accessing real-time traffic information (real-time trip updates)https://api.at.govt.nz/docs/v1#RealtimeYou need to register to get access here …ht">
+<meta name="keywords" content="web scraping,Restful API,JSON">
 <meta property="og:type" content="article">
-<meta property="og:title" content="Access data from web pages">
-<meta property="og:url" content="http://yoursite.com/2017/08/06/accesswebpage/index.html">
+<meta property="og:title" content="Access data from Restful API">
+<meta property="og:url" content="http://yoursite.com/2017/08/07/webapi/index.html">
 <meta property="og:site_name" content="Machine Learning and Data Science">
-<meta property="og:description" content="Data description:The “HOT 100” billboard web site contains the top 100 songs for each week. The URL for the week starting Sat 29 July (2017-07-29) is http://www.billboard.com/charts/hot-100/2017-07-29">
+<meta property="og:description" content="Data description:Auckland Transport has a Web API for accessing real-time traffic information (real-time trip updates)https://api.at.govt.nz/docs/v1#RealtimeYou need to register to get access here …ht">
 <meta property="og:locale" content="default">
-<meta property="og:image" content="http://yoursite.com/2017/08/06/accesswebpage/billboard.jpg">
-<meta property="og:image" content="http://yoursite.com/2017/08/06/accesswebpage/rank.jpg">
-<meta property="og:updated_time" content="2018-06-29T00:35:19.680Z">
+<meta property="og:image" content="http://yoursite.com/2017/08/07/webapi/trips.jpg">
+<meta property="og:updated_time" content="2018-06-29T00:45:01.210Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="Access data from web pages">
-<meta name="twitter:description" content="Data description:The “HOT 100” billboard web site contains the top 100 songs for each week. The URL for the week starting Sat 29 July (2017-07-29) is http://www.billboard.com/charts/hot-100/2017-07-29">
-<meta name="twitter:image" content="http://yoursite.com/2017/08/06/accesswebpage/billboard.jpg">
+<meta name="twitter:title" content="Access data from Restful API">
+<meta name="twitter:description" content="Data description:Auckland Transport has a Web API for accessing real-time traffic information (real-time trip updates)https://api.at.govt.nz/docs/v1#RealtimeYou need to register to get access here …ht">
+<meta name="twitter:image" content="http://yoursite.com/2017/08/07/webapi/trips.jpg">
 
 
 
@@ -123,13 +122,13 @@
 
 
 
-  <link rel="canonical" href="http://yoursite.com/2017/08/06/accesswebpage/"/>
+  <link rel="canonical" href="http://yoursite.com/2017/08/07/webapi/"/>
 
 
 
 
 
-  <title>Access data from web pages | Machine Learning and Data Science</title>
+  <title>Access data from Restful API | Machine Learning and Data Science</title>
   
 
 
@@ -256,7 +255,7 @@
   
   
   <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2017/08/06/accesswebpage/">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2017/08/07/webapi/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="name" content="Yifan Zhang">
@@ -273,7 +272,7 @@
 
         
         
-          <h1 class="post-title" itemprop="name headline">Access data from web pages</h1>
+          <h1 class="post-title" itemprop="name headline">Access data from Restful API</h1>
         
 
         <div class="post-meta">
@@ -285,8 +284,8 @@
               
                 <span class="post-meta-item-text">Posted on</span>
               
-              <time title="Post created" itemprop="dateCreated datePublished" datetime="2017-08-06T11:50:51+12:00">
-                2017-08-06
+              <time title="Post created" itemprop="dateCreated datePublished" datetime="2017-08-07T11:50:51+12:00">
+                2017-08-07
               </time>
             
 
@@ -345,29 +344,24 @@
       
 
       
-        <h2 id="Data-description"><a href="#Data-description" class="headerlink" title="Data description:"></a>Data description:</h2><p>The “HOT 100” billboard web site contains the top 100 songs for each week. The URL for the week starting Sat 29 July (2017-07-29) is <a href="http://www.billboard.com/charts/hot-100/2017-07-29" target="_blank" rel="noopener">http://www.billboard.com/charts/hot-100/2017-07-29</a>.</p>
+        <h2 id="Data-description"><a href="#Data-description" class="headerlink" title="Data description:"></a>Data description:</h2><p>Auckland Transport has a Web API for accessing real-time traffic information (real-time trip updates)<br><a href="https://api.at.govt.nz/docs/v1#Realtime" target="_blank" rel="noopener">https://api.at.govt.nz/docs/v1#Realtime</a><br>You need to register to get access here …<br><a href="https://api.at.govt.nz/" target="_blank" rel="noopener">https://api.at.govt.nz/</a></p>
 <h2 id="The-goal"><a href="#The-goal" class="headerlink" title="The goal:"></a>The goal:</h2><ol>
-<li>Download the HOT 100 for the weeks so far in 2017 (from Sat 7 Jan to Sat 29 July).</li>
-<li>Use XPath to extract the rank, song, and artist, for the top 100 songs for each week.</li>
+<li>Call the GTFS real-time trip updates API once every minute for 60 minutes and save the JSON results.</li>
+<li>Process the JSON results to extract the trip id, route id, vehicle, departure and arrival delay, stop sequence, stop id, and timestamp for each trip update.</li>
 </ol>
 <h2 id="Functions-and-packages"><a href="#Functions-and-packages" class="headerlink" title="Functions and packages:"></a>Functions and packages:</h2><ol>
-<li>Functions: <code>seq()</code>, <code>trimws()</code>, <code>order()</code>, <code>htmlParse()</code>, <code>getNodeSet()</code>, <code>xpathSApply()</code></li>
-<li>Packages: <code>XML</code></li>
+<li>Functions: <code>GET()</code>, <code>writeLines()</code>, <code>content()</code>, <code>htmlParse()</code>, <code>getNodeSet()</code>, <code>xpathSApply()</code>, <code>flatten</code></li>
+<li>Packages: <code>httr</code>, <code>jsonlite</code></li>
 </ol>
-<h3 id="Downloading-data-source"><a href="#Downloading-data-source" class="headerlink" title="Downloading data source"></a>Downloading data source</h3><p>First, we get the date of all the Saturdays from 2017-01-07 to 2017-07-29, then use <code>sprintf</code> to get the <code>urls</code>.</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">startdate = as.Date(&quot;2017-01-07&quot;)</span><br><span class="line">enddate = as.Date(&quot;2017-07-29&quot;)</span><br><span class="line">saturdays = seq(startdate, enddate, by=&quot;weeks&quot;)</span><br><span class="line"></span><br><span class="line">urls = sprintf(&quot;http://www.billboard.com/charts/hot-100/%s&quot;, saturdays)</span><br></pre></td></tr></table></figure>
-<p>To download the data, we use <code>htmlParse</code> in the XML package. It parses the html file to an object ‘XMLInternalDocument’. After that, we use <code>getNodeSet</code> to find all the article nodes by its Xpath. The Xpath ‘//article[contains(@class, ‘chart-row’)]’ matches all the <article> elements with a class attribute that contains chart-row.</article></p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">library(XML)</span><br><span class="line">docs = lapply(urls, htmlParse)</span><br><span class="line">articleNodes = lapply(docs, getNodeSet, path = &quot;//article[contains(@class, &apos;chart-row&apos;)]&quot;)</span><br></pre></td></tr></table></figure>
-<h3 id="Processing-the-data-to-a-data-frame"><a href="#Processing-the-data-to-a-data-frame" class="headerlink" title="Processing the data to a data frame"></a>Processing the data to a data frame</h3><p>The following function is used to convert xml to data frame. There is only one argument in this function called <code>articleNode</code>. In this function, we extract rank, song and artists within an article node by their Xpath. Notice that the artist element is contained within either an <code>&lt;a&gt;</code> or a <code>&lt;h3&gt;</code> element. Also, we use <code>trimws</code> to remove all the whitespace in artist, including <code>[ \t\r\n]</code>. The output of this function is a data frame which contains the rank, song and artist.</p>
-<figure class="highlight plain"><figcaption><span>fromXMLTODF&#125;</span></figcaption><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line">fromXMLToDF = function(articleNode)&#123;</span><br><span class="line">  ranks = sapply(articleNode, xpathSApply,</span><br><span class="line">                 &quot;.//span[@class = &apos;chart-row__current-week&apos;]&quot;, xmlValue)</span><br><span class="line">  songs = sapply(articleNode, xpathSApply,</span><br><span class="line">                 &quot;.//h2&quot;, xmlValue)</span><br><span class="line">  artists = sapply(articleNode, xpathApply,</span><br><span class="line">                   &quot;.//a[@class = &apos;chart-row__artist&apos;] | .//h3[@class = &apos;chart-row__artist&apos;]&quot;,</span><br><span class="line">                   xmlValue)</span><br><span class="line">  artists = trimws(artists)</span><br><span class="line"></span><br><span class="line">  df = data.frame(rank = as.integer(ranks), song = songs, artist= artists,</span><br><span class="line">                  stringsAsFactors = FALSE)</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-<p>We apply the above function to all the article nodes, and get a list which contains 30 elements, and each element is a data frame. Finally, we convert the list to a data frame, and add the date column to the data frame.</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"># convert list to data frame</span><br><span class="line">articles = lapply(articleNodes, fromXMLToDF)</span><br><span class="line">billboard = do.call(rbind, articles)</span><br><span class="line"></span><br><span class="line"># add date column to data frame</span><br><span class="line">billboard = cbind(date = rep(saturdays, each = 100), billboard)</span><br><span class="line"></span><br><span class="line">dim(billboard)</span><br></pre></td></tr></table></figure>
-<p>[1] 3000 4</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">head(billboard)</span><br></pre></td></tr></table></figure>
-<p><img src="/2017/08/06/accesswebpage/billboard.jpg" alt=""></p>
-<p>We can now calculate the average rank for each artist, and order them by the average rank.</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">options(digits = 2)</span><br><span class="line">bestArtist = setNames(aggregate(billboard$rank, by = list(billboard$artist), mean),</span><br><span class="line">                      c(&quot;artist&quot;, &quot;rank&quot;))</span><br><span class="line">head(bestArtist[order(bestArtist$rank), ])</span><br></pre></td></tr></table></figure>
-<p><img src="/2017/08/06/accesswebpage/rank.jpg" alt=""></p>
+<h3 id="Downloading-data-source"><a href="#Downloading-data-source" class="headerlink" title="Downloading data source"></a>Downloading data source</h3><p>First, we use the variable i as a counter, and call the GTFS real-time trip updates API with header <code>&quot;Ocp-Apim-Subscription-Key&quot;</code>. If the response code is 200, then we save the content of the response to local as a JSON file and add 1 to the counter. After that, we wait 1 minute and repeat the above steps until we get 60 JSON files.</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line">library(httr)</span><br><span class="line">library(jsonlite)</span><br><span class="line">i = 1</span><br><span class="line">while(i &lt;= 60)</span><br><span class="line">&#123;</span><br><span class="line">  json.result = GET(&quot;https://api.at.govt.nz/v2/public/realtime/tripupdates&quot;,</span><br><span class="line">                add_headers(&quot;Ocp-Apim-Subscription-Key&quot;=&quot;your key&quot;))</span><br><span class="line">  if(json.result$status_code == 200)&#123;</span><br><span class="line">    filenames = paste(&quot;realtimetrips_&quot;, format(Sys.time(), format=&quot;%Y%m%d-%H%M%S&quot;), &quot;.json&quot;, sep = &quot;&quot;)</span><br><span class="line">    writeLines(content(json.result, as = &quot;text&quot;, encoding = &quot;UTF-8&quot;), filenames)</span><br><span class="line">    print(i)</span><br><span class="line">    i = i + 1</span><br><span class="line">  &#125;</span><br><span class="line">  Sys.sleep(60)</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h3 id="Processing-data-source-to-a-data-frame"><a href="#Processing-data-source-to-a-data-frame" class="headerlink" title="Processing data source to a data frame"></a>Processing data source to a data frame</h3><p>Reading all the downloaded JSON files into R.  </p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"># converts json data to a list</span><br><span class="line">jsonfiles = list.files(pattern = &quot;*.json&quot;)</span><br><span class="line">docs = lapply(jsonfiles, fromJSON)</span><br></pre></td></tr></table></figure>
+<p>To extract the real time trips information to a data frame, we initialize an empty list to store the data frames. In the for loop, we use the <code>flatten</code> function to turn the nested data frame to a normal one, and then extract and save all the information to a data frame. At the last, we convert the list to data frame.</p>
+<figure class="highlight plain"><figcaption><span>extract json&#125;</span></figcaption><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br></pre></td><td class="code"><pre><span class="line"># initalizes an empty list to store the data</span><br><span class="line">trips = vector(&quot;list&quot;, length(docs))</span><br><span class="line"></span><br><span class="line"># extracts trip, route, vehicle, arrival departure, stop_sequence, stop_id and timestamp under entity</span><br><span class="line">for(i in 1:length(docs))&#123;</span><br><span class="line">  entity = flatten(docs[[i]]$response$entity)</span><br><span class="line">  trips[[i]] = data.frame(trip = entity$trip_update.trip.trip_id,</span><br><span class="line">                          route = entity$trip_update.trip.route_id,</span><br><span class="line">                          vehicle = entity$trip_update.vehicle.id,</span><br><span class="line">                          arrival = entity$trip_update.stop_time_update.arrival.delay,</span><br><span class="line">                          departure = entity$trip_update.stop_time_update.departure.delay,</span><br><span class="line">                          stop_sequence = entity$trip_update.stop_time_update.stop_sequence,</span><br><span class="line">                          stop_id = entity$trip_update.stop_time_update.stop_id,</span><br><span class="line">                          timestamp = entity$trip_update.timestamp,</span><br><span class="line">                          stringsAsFactors = FALSE)</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"># converts list to data frame</span><br><span class="line">trips = do.call(rbind, trips)</span><br><span class="line"></span><br><span class="line">dim(trips)</span><br></pre></td></tr></table></figure>
+<p>[1] 48281     8</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">head(trips)</span><br></pre></td></tr></table></figure>
+<p><img src="/2017/08/07/webapi/trips.jpg" alt=""></p>
 
       
     </div>
@@ -385,13 +379,11 @@
       
         <div class="post-tags">
           
-            <a href="/tags/xml/" rel="tag"># xml</a>
-          
-            <a href="/tags/html/" rel="tag"># html</a>
-          
-            <a href="/tags/Xpath/" rel="tag"># Xpath</a>
-          
             <a href="/tags/web-scraping/" rel="tag"># web scraping</a>
+          
+            <a href="/tags/Restful-API/" rel="tag"># Restful API</a>
+          
+            <a href="/tags/JSON/" rel="tag"># JSON</a>
           
         </div>
       
@@ -404,8 +396,8 @@
         <div class="post-nav">
           <div class="post-nav-next post-nav-item">
             
-              <a href="/2017/08/01/mergeaggregate/" rel="next" title="Load and merge multiple csv files into R">
-                <i class="fa fa-chevron-left"></i> Load and merge multiple csv files into R
+              <a href="/2017/08/06/accesswebpage/" rel="next" title="Access data from web pages">
+                <i class="fa fa-chevron-left"></i> Access data from web pages
               </a>
             
           </div>
@@ -414,8 +406,8 @@
 
           <div class="post-nav-prev post-nav-item">
             
-              <a href="/2017/08/07/webapi/" rel="prev" title="Access data from Restful API">
-                Access data from Restful API <i class="fa fa-chevron-right"></i>
+              <a href="/2017/08/12/unixshell/" rel="prev" title="unixshell">
+                unixshell <i class="fa fa-chevron-right"></i>
               </a>
             
           </div>
@@ -552,7 +544,7 @@
             
 
             
-              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#Data-description"><span class="nav-number">1.</span> <span class="nav-text">Data description:</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#The-goal"><span class="nav-number">2.</span> <span class="nav-text">The goal:</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Functions-and-packages"><span class="nav-number">3.</span> <span class="nav-text">Functions and packages:</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#Downloading-data-source"><span class="nav-number">3.1.</span> <span class="nav-text">Downloading data source</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Processing-the-data-to-a-data-frame"><span class="nav-number">3.2.</span> <span class="nav-text">Processing the data to a data frame</span></a></li></ol></li></ol></div>
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#Data-description"><span class="nav-number">1.</span> <span class="nav-text">Data description:</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#The-goal"><span class="nav-number">2.</span> <span class="nav-text">The goal:</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Functions-and-packages"><span class="nav-number">3.</span> <span class="nav-text">Functions and packages:</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#Downloading-data-source"><span class="nav-number">3.1.</span> <span class="nav-text">Downloading data source</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Processing-data-source-to-a-data-frame"><span class="nav-number">3.2.</span> <span class="nav-text">Processing data source to a data frame</span></a></li></ol></li></ol></div>
             
 
           </div>
