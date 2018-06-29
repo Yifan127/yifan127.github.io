@@ -68,7 +68,7 @@
 
 
 
-  <meta name="keywords" content="memory," />
+  <meta name="keywords" content="load balancing," />
 
 
 
@@ -79,18 +79,18 @@
 
 
 
-<meta name="description" content="Functions:Functions: objext.size() We know that R stores all the data in RAM, it automatically allocates memory as required. Before we load a very large dataset into R, we need to estimate how much me">
-<meta name="keywords" content="memory">
+<meta name="description" content="Functions:Functions: lapply(), system.time(), mclapply(), detectCores(), identical() Package: parallel Usually, when we process an amount of files, we will find that the size of some of the CSV files">
+<meta name="keywords" content="load balancing">
 <meta property="og:type" content="article">
-<meta property="og:title" content="Estimate memory size of a large file">
-<meta property="og:url" content="http://yoursite.com/2017/08/14/estimateram/index.html">
+<meta property="og:title" content="Load balancing in R">
+<meta property="og:url" content="http://yoursite.com/2017/09/10/loadbalancing/index.html">
 <meta property="og:site_name" content="Machine Learning and Data Science">
-<meta property="og:description" content="Functions:Functions: objext.size() We know that R stores all the data in RAM, it automatically allocates memory as required. Before we load a very large dataset into R, we need to estimate how much me">
+<meta property="og:description" content="Functions:Functions: lapply(), system.time(), mclapply(), detectCores(), identical() Package: parallel Usually, when we process an amount of files, we will find that the size of some of the CSV files">
 <meta property="og:locale" content="default">
-<meta property="og:updated_time" content="2018-06-29T04:17:48.004Z">
+<meta property="og:updated_time" content="2018-06-29T05:31:34.264Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="Estimate memory size of a large file">
-<meta name="twitter:description" content="Functions:Functions: objext.size() We know that R stores all the data in RAM, it automatically allocates memory as required. Before we load a very large dataset into R, we need to estimate how much me">
+<meta name="twitter:title" content="Load balancing in R">
+<meta name="twitter:description" content="Functions:Functions: lapply(), system.time(), mclapply(), detectCores(), identical() Package: parallel Usually, when we process an amount of files, we will find that the size of some of the CSV files">
 
 
 
@@ -120,13 +120,13 @@
 
 
 
-  <link rel="canonical" href="http://yoursite.com/2017/08/14/estimateram/"/>
+  <link rel="canonical" href="http://yoursite.com/2017/09/10/loadbalancing/"/>
 
 
 
 
 
-  <title>Estimate memory size of a large file | Machine Learning and Data Science</title>
+  <title>Load balancing in R | Machine Learning and Data Science</title>
   
 
 
@@ -253,7 +253,7 @@
   
   
   <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2017/08/14/estimateram/">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2017/09/10/loadbalancing/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="name" content="Yifan Zhang">
@@ -270,7 +270,7 @@
 
         
         
-          <h1 class="post-title" itemprop="name headline">Estimate memory size of a large file</h1>
+          <h1 class="post-title" itemprop="name headline">Load balancing in R</h1>
         
 
         <div class="post-meta">
@@ -282,8 +282,8 @@
               
                 <span class="post-meta-item-text">Posted on</span>
               
-              <time title="Post created" itemprop="dateCreated datePublished" datetime="2017-08-14T12:50:07+12:00">
-                2017-08-14
+              <time title="Post created" itemprop="dateCreated datePublished" datetime="2017-09-10T17:20:56+12:00">
+                2017-09-10
               </time>
             
 
@@ -305,8 +305,8 @@
               
               
                 <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/Large-data/" itemprop="url" rel="index">
-                    <span itemprop="name">Large data</span>
+                  <a href="/categories/Parallel-computing/" itemprop="url" rel="index">
+                    <span itemprop="name">Parallel computing</span>
                   </a>
                 </span>
 
@@ -342,17 +342,18 @@
       
 
       
-        <h2 id="Functions"><a href="#Functions" class="headerlink" title="Functions:"></a>Functions:</h2><p>Functions: <code>objext.size()</code></p>
-<p>We know that R stores all the data in RAM, it automatically allocates memory as required. Before we load a very large dataset into R, we need to estimate how much memory the complete file will take up once it is loaded. Today, I will examine two methods to estimate , WITHOUT reading the entire file.</p>
-<h3 id="Method-One"><a href="#Method-One" class="headerlink" title="Method One"></a>Method One</h3><p>We find the size of a subset of the dataset and then scale up the result to make an estimate. The following code only read the first 1000 lines in the data set, rather than all of them. Then we get the total number of lines of the file to calculate our first estimate.</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line"># read the first 1000 lines</span><br><span class="line">atpart = read.csv(&quot;alldata.csv&quot;, nrow = 1000)</span><br><span class="line">partsize = object.size(atpart)</span><br><span class="line"></span><br><span class="line"># number of lines in the complete file</span><br><span class="line">nline = as.integer(system(&quot;wc -l alldata.csv | awk -e &apos;&#123;print($1)&#125;&apos;&quot;,</span><br><span class="line">                          intern = TRUE))</span><br><span class="line"></span><br><span class="line"># estimate in MB                          </span><br><span class="line">estimate1 = partsize*nline/1000</span><br><span class="line">print(partsize*nline/1000, units = &quot;Mb&quot;)</span><br></pre></td></tr></table></figure>
-<h3 id="Method-Two"><a href="#Method-Two" class="headerlink" title="Method Two"></a>Method Two</h3><p>The second approach examines the types of variables in the dataset to take into account the different memory demands of numeric and character vectors.</p>
-<p>The following code will summary the type of each column in the data frame</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"># Type of vectors</span><br><span class="line">sapply(atpart, class)</span><br><span class="line">table(sapply(atpart, class))</span><br></pre></td></tr></table></figure>
-<p>Assume that it consists of 3 factor variables and 5 integer variables, then our estimate will be the sum of four components:</p>
-<p>1) overhead: Each of the eight vectors, regardless of type, will has an overhead of around 40 bytes.<br>2) integer vectors: integer values require 4 bytes<br>3) character vectors: character values require 8 bytes<br>4) cache size. We use the sample of the first 1000 rows to estimate the number of levels in each of the factors. Assume that the strings of each factor are of fixed lengths. Hence obtaining the character length of the first level will be sufficient for determining the lengths of all unique levels.</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line">CacheSize = function(x) &#123;</span><br><span class="line">  lev = levels(x)</span><br><span class="line">  # assume all levels are the same length</span><br><span class="line">  cache.size = length(lev)*nchar(lev[1])</span><br><span class="line">&#125;</span><br><span class="line">Cache = do.call(rbind.data.frame, lapply(atpart[, 1:3], CacheSize))</span><br><span class="line"></span><br><span class="line">Our second estimate is:</span><br><span class="line"></span><br><span class="line">```&#123;r&#125;</span><br><span class="line">estimate2 = 8*40 + 5*4*nline + 3*8*nline + sum(Cache)</span><br><span class="line">paste(as.numeric(estimate2), &quot;Mb&quot;)</span><br></pre></td></tr></table></figure>
-<p>In summary, the first approach produces a fast estimate, while the second approach requires more calculation but will be closer to the actual file size. Both approaches assume the complexity and structure of the lines in the dataset remain consistent.</p>
+        <h2 id="Functions"><a href="#Functions" class="headerlink" title="Functions:"></a>Functions:</h2><p>Functions: <code>lapply()</code>, <code>system.time()</code>, <code>mclapply()</code>, <code>detectCores()</code>, <code>identical()</code></p>
+<p>Package: <code>parallel</code></p>
+<p>Usually, when we process an amount of files, we will find that the size of some of the CSV files are larger than others, therefore, it take quite dissimilar amount of computation time. In order to balance the workload among all the sessions, we can rearrange the files by their sizes in decreasing order, in this way, R will run the larger files first. In addition, we set the parameter <code>mc.preschedule = FALSE</code>, so R will allocate the tasks to the slave sessions dynamically.</p>
+<h3 id="The-parallel-approach-mclapply"><a href="#The-parallel-approach-mclapply" class="headerlink" title="The parallel approach mclapply()"></a>The parallel approach <code>mclapply()</code></h3><p>To compare the result, we first use the parallel approach <code>mclapply()</code> to apply the function fileStats() on the full set of CSV files, and then measure and save the time used by this approach for further comparison.</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"># calculate time for the full set of CSV files using parallel processing</span><br><span class="line">ptm.old &lt;- proc.time()</span><br><span class="line">allfiles &lt;- mclapply(fileSizes$V2, fileStats, mc.cores = numCores)</span><br><span class="line">ptm.mc &lt;- proc.time() - ptm.old</span><br><span class="line">print(ptm.mc)</span><br></pre></td></tr></table></figure>
+<p>user  system elapsed<br>420.805   5.757  25.068</p>
+<h3 id="The-load-balance-approach"><a href="#The-load-balance-approach" class="headerlink" title="The load balance approach"></a>The load balance approach</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"># reaggrange the files by size in decreasing order</span><br><span class="line">orderedFiles &lt;- fileSizes[order(fileSizes$V1, decreasing = TRUE), ]</span><br><span class="line">ptm.old &lt;- proc.time()</span><br><span class="line"># disable preschedule</span><br><span class="line">allfilesLB &lt;- mclapply(orderedFiles$V2, fileStats,</span><br><span class="line">                      mc.cores = numCores, mc.preschedule = FALSE)</span><br><span class="line">ptm.lb &lt;- proc.time() - ptm.old</span><br><span class="line">print(ptm.lb)</span><br></pre></td></tr></table></figure>
+<p>user   system  elapsed<br>827.347 4959.750 1701.329</p>
+<p>The result clearly indicates that load balancing does not reduce the time taken to perform the parallel computations on this data set. To investigate the reason, we enable the preschedule again, so the data is divided into 20 sections and passed to 20 processes.</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">ptm.old &lt;- proc.time()</span><br><span class="line">allfilesOrder &lt;- mclapply(orderedFiles$V2, fileStats, mc.cores = numCores)</span><br><span class="line">proc.time() - ptm.old</span><br></pre></td></tr></table></figure>
+<p>user   system  elapsed<br>445.861   5.708  62.172</p>
+<p>From the result we can observe that the standard approach with mc.preschedule = TRUE runs faster than the load balancing approach. This is because there are too many elements (98973) in the vector fileSizes$V1, and 98973 tasks need to be allocated to 20 nodes, so the number of tasks is almost 5000 times the number of nodes. This approach sends tasks one at a time to a node, and the communication overhead is very high. Therefore, I believe that the standard approach mc.preschedule = TRUE is better for short computations or vector with large length, and the load balancing approach mc.preschedule = FALSE is better for jobs that have high variance of computation time and not too many elements in the vector.</p>
 
       
     </div>
@@ -370,7 +371,7 @@
       
         <div class="post-tags">
           
-            <a href="/tags/memory/" rel="tag"># memory</a>
+            <a href="/tags/load-balancing/" rel="tag"># load balancing</a>
           
         </div>
       
@@ -383,8 +384,8 @@
         <div class="post-nav">
           <div class="post-nav-next post-nav-item">
             
-              <a href="/2017/08/12/unixshell/" rel="next" title="Run Unix Shell Command in R">
-                <i class="fa fa-chevron-left"></i> Run Unix Shell Command in R
+              <a href="/2017/09/09/parallel/" rel="next" title="Serial vs. Parallel processing">
+                <i class="fa fa-chevron-left"></i> Serial vs. Parallel processing
               </a>
             
           </div>
@@ -392,10 +393,6 @@
           <span class="post-nav-divider"></span>
 
           <div class="post-nav-prev post-nav-item">
-            
-              <a href="/2017/08/15/largedata/" rel="prev" title="The data.table package">
-                The data.table package <i class="fa fa-chevron-right"></i>
-              </a>
             
           </div>
         </div>
@@ -531,7 +528,7 @@
             
 
             
-              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#Functions"><span class="nav-number">1.</span> <span class="nav-text">Functions:</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#Method-One"><span class="nav-number">1.1.</span> <span class="nav-text">Method One</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Method-Two"><span class="nav-number">1.2.</span> <span class="nav-text">Method Two</span></a></li></ol></li></ol></div>
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#Functions"><span class="nav-number">1.</span> <span class="nav-text">Functions:</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#The-parallel-approach-mclapply"><span class="nav-number">1.1.</span> <span class="nav-text">The parallel approach mclapply()</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#The-load-balance-approach"><span class="nav-number">1.2.</span> <span class="nav-text">The load balance approach</span></a></li></ol></li></ol></div>
             
 
           </div>
