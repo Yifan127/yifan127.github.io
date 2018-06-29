@@ -68,7 +68,7 @@
 
 
 
-  <meta name="keywords" content="multiple files,merge,aggregate," />
+  <meta name="keywords" content="Hexo, NexT" />
 
 
 
@@ -79,24 +79,13 @@
 
 
 
-<meta name="description" content="Data description:The dataset consists of 60 CSV files, each contains information on Auckland Bus delays. The file name contains a date-time component that reflects the exact time of the request for ea">
-<meta name="keywords" content="multiple files,merge,aggregate">
-<meta property="og:type" content="article">
-<meta property="og:title" content="Load and Merge Multiple CSV Files into R">
-<meta property="og:url" content="http://yoursite.com/2017/08/01/mergeaggregate/index.html">
+<meta property="og:type" content="website">
+<meta property="og:title" content="Machine Learning and Data Science">
+<meta property="og:url" content="http://yoursite.com/page/2/index.html">
 <meta property="og:site_name" content="Machine Learning and Data Science">
-<meta property="og:description" content="Data description:The dataset consists of 60 CSV files, each contains information on Auckland Bus delays. The file name contains a date-time component that reflects the exact time of the request for ea">
 <meta property="og:locale" content="default">
-<meta property="og:image" content="http://yoursite.com/2017/08/01/mergeaggregate/head.jpg">
-<meta property="og:image" content="http://yoursite.com/2017/08/01/mergeaggregate/summary.jpg">
-<meta property="og:image" content="http://yoursite.com/2017/08/01/mergeaggregate/histogram.jpg">
-<meta property="og:image" content="http://yoursite.com/2017/08/01/mergeaggregate/delaybyagency.jpg">
-<meta property="og:image" content="http://yoursite.com/2017/08/01/mergeaggregate/plot.jpg">
-<meta property="og:updated_time" content="2018-06-29T06:21:20.332Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="Load and Merge Multiple CSV Files into R">
-<meta name="twitter:description" content="Data description:The dataset consists of 60 CSV files, each contains information on Auckland Bus delays. The file name contains a date-time component that reflects the exact time of the request for ea">
-<meta name="twitter:image" content="http://yoursite.com/2017/08/01/mergeaggregate/head.jpg">
+<meta name="twitter:title" content="Machine Learning and Data Science">
 
 
 
@@ -126,13 +115,13 @@
 
 
 
-  <link rel="canonical" href="http://yoursite.com/2017/08/01/mergeaggregate/"/>
+  <link rel="canonical" href="http://yoursite.com/page/2/"/>
 
 
 
 
 
-  <title>Load and Merge Multiple CSV Files into R | Machine Learning and Data Science</title>
+  <title>Machine Learning and Data Science</title>
   
 
 
@@ -151,7 +140,8 @@
     
   
 
-  <div class="container sidebar-position-left page-post-detail">
+  <div class="container sidebar-position-left 
+  page-home">
     <div class="headband"></div>
 
     <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
@@ -244,9 +234,9 @@
         <div class="content-wrap">
           <div id="content" class="content">
             
-
-  <div id="posts" class="posts-expand">
+  <section id="posts" class="posts-expand">
     
+      
 
   
 
@@ -276,7 +266,9 @@
 
         
         
-          <h1 class="post-title" itemprop="name headline">Load and Merge Multiple CSV Files into R</h1>
+          <h1 class="post-title" itemprop="name headline">
+                
+                <a class="post-title-link" href="/2017/08/01/mergeaggregate/" itemprop="url">Load and Merge Multiple CSV Files into R</a></h1>
         
 
         <div class="post-meta">
@@ -348,7 +340,9 @@
       
 
       
-        <h2 id="Data-description"><a href="#Data-description" class="headerlink" title="Data description:"></a>Data description:</h2><p>The dataset consists of 60 CSV files, each contains information on Auckland Bus delays. The file name contains a date-time component that reflects the exact time of the request for each file. For example: trip_updates_20170401053101.csv.</p>
+        
+          
+            <h2 id="Data-description"><a href="#Data-description" class="headerlink" title="Data description:"></a>Data description:</h2><p>The dataset consists of 60 CSV files, each contains information on Auckland Bus delays. The file name contains a date-time component that reflects the exact time of the request for each file. For example: trip_updates_20170401053101.csv.</p>
 <h2 id="The-goal"><a href="#The-goal" class="headerlink" title="The goal:"></a>The goal:</h2><ol>
 <li>Load the 60 CSV files into R and create a single data frame. Provide a summary of the arrival and delay values.</li>
 <li>Merge the route and agency datafiles and calculate average arrival and departure values for each Bus Agency.</li>
@@ -402,6 +396,8 @@
 <p>[1] 754  19<br>[1] 477  19</p>
 <p>After removing duplicated, we can calculate and plot the average departure and arrival delay by agency again to get a more accurate result.</p>
 
+          
+        
       
     </div>
     
@@ -416,40 +412,14 @@
 
     <footer class="post-footer">
       
-        <div class="post-tags">
-          
-            <a href="/tags/multiple-files/" rel="tag"># multiple files</a>
-          
-            <a href="/tags/merge/" rel="tag"># merge</a>
-          
-            <a href="/tags/aggregate/" rel="tag"># aggregate</a>
-          
-        </div>
+
+      
+
       
 
       
       
-      
-
-      
-        <div class="post-nav">
-          <div class="post-nav-next post-nav-item">
-            
-          </div>
-
-          <span class="post-nav-divider"></span>
-
-          <div class="post-nav-prev post-nav-item">
-            
-              <a href="/2017/08/06/accesswebpage/" rel="prev" title="Access Data From Web Pages">
-                Access Data From Web Pages <i class="fa fa-chevron-right"></i>
-              </a>
-            
-          </div>
-        </div>
-      
-
-      
+        <div class="post-eof"></div>
       
     </footer>
   </div>
@@ -459,11 +429,14 @@
   </article>
 
 
+    
+  </section>
 
-    <div class="post-spread">
-      
-    </div>
-  </div>
+  
+  <nav class="pagination">
+    <a class="extend prev" rel="prev" href="/"><i class="fa fa-angle-left"></i></a><a class="page-number" href="/">1</a><span class="page-number current">2</span>
+  </nav>
+
 
 
           </div>
@@ -471,10 +444,6 @@
 
 
           
-
-  
-
-
 
         </div>
         
@@ -495,17 +464,8 @@
       
 
       
-        <ul class="sidebar-nav motion-element">
-          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap">
-            Table of Contents
-          </li>
-          <li class="sidebar-nav-overview" data-target="site-overview-wrap">
-            Overview
-          </li>
-        </ul>
-      
 
-      <section class="site-overview-wrap sidebar-panel">
+      <section class="site-overview-wrap sidebar-panel sidebar-panel-active">
         <div class="site-overview">
           <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
             
@@ -569,22 +529,6 @@
         </div>
       </section>
 
-      
-      <!--noindex-->
-        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
-          <div class="post-toc">
-
-            
-              
-            
-
-            
-              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#Data-description"><span class="nav-number">1.</span> <span class="nav-text">Data description:</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#The-goal"><span class="nav-number">2.</span> <span class="nav-text">The goal:</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Functions-packages-and-plots"><span class="nav-number">3.</span> <span class="nav-text">Functions, packages and plots:</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#Load-the-60-csv-files-to-a-data-frame"><span class="nav-number">3.1.</span> <span class="nav-text">Load the 60 csv files to a data frame</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Summary-of-departure-and-arrival-delay"><span class="nav-number">3.2.</span> <span class="nav-text">Summary of departure and arrival delay</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Truncate-trip-and-route"><span class="nav-number">3.3.</span> <span class="nav-text">Truncate trip and route</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Load-two-supplementary-files"><span class="nav-number">3.4.</span> <span class="nav-text">Load two supplementary files</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Merge-trips-route-and-agency"><span class="nav-number">3.5.</span> <span class="nav-text">Merge trips, route and agency</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Calculates-average-departure-and-arrival-by-agency"><span class="nav-number">3.6.</span> <span class="nav-text">Calculates average departure and arrival by agency</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#A-scatter-plot-to-display-the-average-departure-and-arrival-by-agency"><span class="nav-number">3.7.</span> <span class="nav-text">A scatter plot to display the average departure and arrival by agency</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Removes-duplicated-observations"><span class="nav-number">3.8.</span> <span class="nav-text">Removes duplicated observations</span></a></li></ol></li></ol></div>
-            
-
-          </div>
-        </section>
-      <!--/noindex-->
       
 
       
@@ -718,10 +662,6 @@
   
 
   
-  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.1.4"></script>
-<script type="text/javascript" src="/js/src/post-details.js?v=5.1.4"></script>
-
-
 
   
 
