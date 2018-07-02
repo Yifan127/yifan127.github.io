@@ -87,7 +87,7 @@
 <meta property="og:site_name" content="Machine Learning and Data Science">
 <meta property="og:description" content="In cross validation, we split the data randomly into k parts, use one part for the test set and the remaining k-1 parts for the training set, and estimate the prediction error with the test set estima">
 <meta property="og:locale" content="default">
-<meta property="og:updated_time" content="2018-06-29T11:22:15.147Z">
+<meta property="og:updated_time" content="2018-06-29T11:52:55.776Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="Cross-Validation Prediction Error">
 <meta name="twitter:description" content="In cross validation, we split the data randomly into k parts, use one part for the test set and the remaining k-1 parts for the training set, and estimate the prediction error with the test set estima">
@@ -351,7 +351,7 @@
 <h3 id="10-fold-cross-validation-prediction-Error"><a href="#10-fold-cross-validation-prediction-Error" class="headerlink" title="10 fold cross-validation prediction Error"></a>10 fold cross-validation prediction Error</h3><p>The following code is used to compute the cross-validation mean squared prediction error (CVPE)</p>
 <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line"># 10-fold cv</span><br><span class="line">k = 10</span><br><span class="line">shuffer = sample(nrow(abalone))</span><br><span class="line">chunk = nrow(abalone)/k</span><br><span class="line">cvpe = rep(0, k)</span><br><span class="line">for(i in 1:k)&#123;</span><br><span class="line">  testindex = shuffer[((i-1)*chunk+1):(i*chunk)]</span><br><span class="line">  test = abalone[testindex, ]</span><br><span class="line">  train = abalone[-testindex, ]</span><br><span class="line">  cvlm = lm(Rings ~ ., data = train)</span><br><span class="line">  testpred = predict(cvlm, newdata = test)</span><br><span class="line">  actual = test$Rings</span><br><span class="line">  cvpe[i] = mean((testpred - actual)^2)</span><br><span class="line">&#125;</span><br><span class="line">mean(cvpe)</span><br></pre></td></tr></table></figure>
 <p>[1] 4.908085</p>
-<p>We can see that the CVPE is larger than the PE, this is because we use the same data set to train and predict when computing the PE. The result is too optimistic. Cross validation is a way to avoid overfitting, because one chunk is left out to act as the test data set.</p>
+<p>We can see that the CVPE is larger than the PE, this is because we use the same data set to train and predict when computing the PE. The result is too optimistic. CVPE can correct the error by leaving out one chunk to act as the test data set.</p>
 
       
     </div>
@@ -477,7 +477,7 @@
               
                 <a href="/archives/">
               
-                  <span class="site-state-item-count">12</span>
+                  <span class="site-state-item-count">13</span>
                   <span class="site-state-item-name">posts</span>
                 </a>
               </div>
@@ -488,7 +488,7 @@
               
               <div class="site-state-item site-state-categories">
                 <a href="/categories/index.html">
-                  <span class="site-state-item-count">6</span>
+                  <span class="site-state-item-count">7</span>
                   <span class="site-state-item-name">categories</span>
                 </a>
               </div>
@@ -499,7 +499,7 @@
               
               <div class="site-state-item site-state-tags">
                 <a href="/tags/index.html">
-                  <span class="site-state-item-count">21</span>
+                  <span class="site-state-item-count">22</span>
                   <span class="site-state-item-name">tags</span>
                 </a>
               </div>

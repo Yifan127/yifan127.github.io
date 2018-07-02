@@ -87,7 +87,7 @@
 <meta property="og:site_name" content="Machine Learning and Data Science">
 <meta property="og:description" content="The biglm package provides a way to fit linear regression models on data sets larger than memory. It fits the model sequentially on a subset of the data set (chunks) and updates the model at each step">
 <meta property="og:locale" content="default">
-<meta property="og:updated_time" content="2018-06-29T11:42:37.757Z">
+<meta property="og:updated_time" content="2018-06-29T11:44:54.917Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="The biglm Package">
 <meta name="twitter:description" content="The biglm package provides a way to fit linear regression models on data sets larger than memory. It fits the model sequentially on a subset of the data set (chunks) and updates the model at each step">
@@ -350,7 +350,7 @@
 <h3 id="Split-to-the-training-set-and-the-test-set"><a href="#Split-to-the-training-set-and-the-test-set" class="headerlink" title="Split to the training set and the test set"></a>Split to the training set and the test set</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"># split training dataset and testing dataset</span><br><span class="line">training = head(msd, 463715)</span><br><span class="line">testing = tail(msd, 51630)</span><br></pre></td></tr></table></figure>
 <h3 id="Split-the-training-set-to-10-chunks"><a href="#Split-the-training-set-to-10-chunks" class="headerlink" title="Split the training set to 10 chunks"></a>Split the training set to 10 chunks</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"># split training dataset into 10 chucks</span><br><span class="line">k = 10</span><br><span class="line">n = nrow(training)</span><br><span class="line">r = rep(1:k, each = ceiling(n/k))[1:n]</span><br><span class="line">chuck = split(training, r)</span><br></pre></td></tr></table></figure>
 <h3 id="Fit-a-linear-model-using-biglm-chunk-by-chunk"><a href="#Fit-a-linear-model-using-biglm-chunk-by-chunk" class="headerlink" title="Fit a linear model using biglm chunk by chunk"></a>Fit a linear model using biglm chunk by chunk</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"># fit the linear model</span><br><span class="line">colname = names(msd)</span><br><span class="line">fml = formula(paste(&quot;V1 ~&quot;, paste(colname[!colname %in% &quot;V1&quot;], collapse = &quot; + &quot;)))</span><br><span class="line">lmfit = biglm(fml, data = chuck[[1]])</span><br><span class="line"></span><br><span class="line">for(i in 2:k)&#123;</span><br><span class="line">  lmfit = update(lmfit, chuck[[i]])</span><br><span class="line">&#125;</span><br><span class="line">summary(lmfit)</span><br></pre></td></tr></table></figure>
-<h3 id="10-Compute-the-mean-squared-prediction-error"><a href="#10-Compute-the-mean-squared-prediction-error" class="headerlink" title="10 Compute the mean squared prediction error"></a>10 Compute the mean squared prediction error</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"># predict</span><br><span class="line">prediction = predict(lmfit, newdata = testing)</span><br><span class="line">actual = testing$V1</span><br><span class="line"># prediction error of testing set</span><br><span class="line">mean((prediction - actual)^2)</span><br></pre></td></tr></table></figure>
+<h3 id="Compute-the-mean-squared-prediction-error"><a href="#Compute-the-mean-squared-prediction-error" class="headerlink" title="Compute the mean squared prediction error"></a>Compute the mean squared prediction error</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"># predict</span><br><span class="line">prediction = predict(lmfit, newdata = testing)</span><br><span class="line">actual = testing$V1</span><br><span class="line"># prediction error of testing set</span><br><span class="line">mean((prediction - actual)^2)</span><br></pre></td></tr></table></figure>
 <p>[1] 90.44316</p>
 
       
@@ -391,6 +391,10 @@
           <span class="post-nav-divider"></span>
 
           <div class="post-nav-prev post-nav-item">
+            
+              <a href="/2018/07/02/AWS-Elastic-Block-Storage-EBS/" rel="prev" title="AWS-Elastic Block Storage(EBS)">
+                AWS-Elastic Block Storage(EBS) <i class="fa fa-chevron-right"></i>
+              </a>
             
           </div>
         </div>
@@ -471,7 +475,7 @@
               
                 <a href="/archives/">
               
-                  <span class="site-state-item-count">12</span>
+                  <span class="site-state-item-count">13</span>
                   <span class="site-state-item-name">posts</span>
                 </a>
               </div>
@@ -482,7 +486,7 @@
               
               <div class="site-state-item site-state-categories">
                 <a href="/categories/index.html">
-                  <span class="site-state-item-count">6</span>
+                  <span class="site-state-item-count">7</span>
                   <span class="site-state-item-name">categories</span>
                 </a>
               </div>
@@ -493,7 +497,7 @@
               
               <div class="site-state-item site-state-tags">
                 <a href="/tags/index.html">
-                  <span class="site-state-item-count">21</span>
+                  <span class="site-state-item-count">22</span>
                   <span class="site-state-item-name">tags</span>
                 </a>
               </div>
@@ -526,7 +530,7 @@
             
 
             
-              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-3"><a class="nav-link" href="#Data-description"><span class="nav-number">1.</span> <span class="nav-text">Data description</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Read-the-data-and-save-it-to-a-local-CSV-file"><span class="nav-number">2.</span> <span class="nav-text">Read the data and save it to a local CSV file</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Split-to-the-training-set-and-the-test-set"><span class="nav-number">3.</span> <span class="nav-text">Split to the training set and the test set</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Split-the-training-set-to-10-chunks"><span class="nav-number">4.</span> <span class="nav-text">Split the training set to 10 chunks</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Fit-a-linear-model-using-biglm-chunk-by-chunk"><span class="nav-number">5.</span> <span class="nav-text">Fit a linear model using biglm chunk by chunk</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#10-Compute-the-mean-squared-prediction-error"><span class="nav-number">6.</span> <span class="nav-text">10 Compute the mean squared prediction error</span></a></li></ol></div>
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-3"><a class="nav-link" href="#Data-description"><span class="nav-number">1.</span> <span class="nav-text">Data description</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Read-the-data-and-save-it-to-a-local-CSV-file"><span class="nav-number">2.</span> <span class="nav-text">Read the data and save it to a local CSV file</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Split-to-the-training-set-and-the-test-set"><span class="nav-number">3.</span> <span class="nav-text">Split to the training set and the test set</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Split-the-training-set-to-10-chunks"><span class="nav-number">4.</span> <span class="nav-text">Split the training set to 10 chunks</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Fit-a-linear-model-using-biglm-chunk-by-chunk"><span class="nav-number">5.</span> <span class="nav-text">Fit a linear model using biglm chunk by chunk</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Compute-the-mean-squared-prediction-error"><span class="nav-number">6.</span> <span class="nav-text">Compute the mean squared prediction error</span></a></li></ol></div>
             
 
           </div>
