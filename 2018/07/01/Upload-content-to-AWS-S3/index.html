@@ -68,7 +68,7 @@
 
 
 
-  <meta name="keywords" content="Hexo, NexT" />
+  <meta name="keywords" content="S3,awscli," />
 
 
 
@@ -79,13 +79,18 @@
 
 
 
-<meta property="og:type" content="website">
-<meta property="og:title" content="Machine Learning and Data Science">
-<meta property="og:url" content="http://yoursite.com/categories/Unix/index.html">
+<meta name="description" content="Create access keys Go to AWS Console -&amp;gt; Security -&amp;gt; IAM -&amp;gt; Users Select Security credentials tab and then choose Create access key  Configure awscli Go to awscli Run aws configure  D:\AWS&amp;gt;">
+<meta name="keywords" content="S3,awscli">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Upload content to S3 by awscli">
+<meta property="og:url" content="http://yoursite.com/2018/07/01/Upload-content-to-AWS-S3/index.html">
 <meta property="og:site_name" content="Machine Learning and Data Science">
+<meta property="og:description" content="Create access keys Go to AWS Console -&amp;gt; Security -&amp;gt; IAM -&amp;gt; Users Select Security credentials tab and then choose Create access key  Configure awscli Go to awscli Run aws configure  D:\AWS&amp;gt;">
 <meta property="og:locale" content="default">
+<meta property="og:updated_time" content="2018-07-02T03:13:55.397Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="Machine Learning and Data Science">
+<meta name="twitter:title" content="Upload content to S3 by awscli">
+<meta name="twitter:description" content="Create access keys Go to AWS Console -&amp;gt; Security -&amp;gt; IAM -&amp;gt; Users Select Security credentials tab and then choose Create access key  Configure awscli Go to awscli Run aws configure  D:\AWS&amp;gt;">
 
 
 
@@ -115,13 +120,13 @@
 
 
 
-  <link rel="canonical" href="http://yoursite.com/categories/Unix/"/>
+  <link rel="canonical" href="http://yoursite.com/2018/07/01/Upload-content-to-AWS-S3/"/>
 
 
 
 
 
-  <title>Category: Unix | Machine Learning and Data Science</title>
+  <title>Upload content to S3 by awscli | Machine Learning and Data Science</title>
   
 
 
@@ -140,7 +145,7 @@
     
   
 
-  <div class="container sidebar-position-left ">
+  <div class="container sidebar-position-left page-post-detail">
     <div class="headband"></div>
 
     <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
@@ -234,55 +239,184 @@
           <div id="content" class="content">
             
 
-  
-  
-  
-  <div class="post-block category">
+  <div id="posts" class="posts-expand">
+    
 
-    <div id="posts" class="posts-collapse">
-      <div class="collection-title">
-        <h1>Unix<small>Category</small>
-        </h1>
-      </div>
+  
 
-      
-        
+  
+  
+  
 
   <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
-    <header class="post-header">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2018/07/01/Upload-content-to-AWS-S3/">
 
-      <h2 class="post-title">
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="Yifan Zhang">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/author.gif">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Machine Learning and Data Science">
+    </span>
+
+    
+      <header class="post-header">
+
         
-            <a class="post-title-link" href="/2017/08/12/unixshell/" itemprop="url">
-              
-                <span itemprop="name">Run Unix Shell Command in R</span>
-              
-            </a>
         
-      </h2>
+          <h1 class="post-title" itemprop="name headline">Upload content to S3 by awscli</h1>
+        
 
-      <div class="post-meta">
-        <time class="post-time" itemprop="dateCreated"
-              datetime="2017-08-12T12:50:07+12:00"
-              content="2017-08-12" >
-          08-12
-        </time>
-      </div>
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">Posted on</span>
+              
+              <time title="Post created" itemprop="dateCreated datePublished" datetime="2018-07-01T14:55:56+12:00">
+                2018-07-01
+              </time>
+            
 
-    </header>
-  </article>
+            
 
+            
+          </span>
+
+          
+            <span class="post-category" >
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">In</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/AWS/" itemprop="url" rel="index">
+                    <span itemprop="name">AWS</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <h3 id="Create-access-keys"><a href="#Create-access-keys" class="headerlink" title="Create access keys"></a>Create access keys</h3><ol>
+<li>Go to AWS Console -&gt; Security -&gt; IAM -&gt; Users</li>
+<li>Select Security credentials tab and then choose Create access key</li>
+</ol>
+<h3 id="Configure-awscli"><a href="#Configure-awscli" class="headerlink" title="Configure awscli"></a>Configure awscli</h3><ol>
+<li>Go to awscli</li>
+<li>Run aws configure</li>
+</ol>
+<p>D:\AWS&gt;aws configure<br>AWS Access Key ID [None]: <your key=""><br>AWS Secret Access Key [None]: <your secret="" key=""><br>Default region name [None]: us-east-1<br>Default output format [None]: json</your></your></p>
+<h3 id="Upload"><a href="#Upload" class="headerlink" title="Upload"></a>Upload</h3><p>D:\AWS&gt;aws s3 cp <file name=""> s3://sesame-bucket-01/<file name=""></file></file></p>
 
       
     </div>
+    
+    
+    
 
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/S3/" rel="tag"># S3</a>
+          
+            <a href="/tags/awscli/" rel="tag"># awscli</a>
+          
+        </div>
+      
+
+      
+      
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2017/10/08/biglm/" rel="next" title="The biglm Package">
+                <i class="fa fa-chevron-left"></i> The biglm Package
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+              <a href="/2018/07/02/AWS-Elastic-Block-Storage-EBS/" rel="prev" title="AWS-Elastic Block Storage(EBS)">
+                AWS-Elastic Block Storage(EBS) <i class="fa fa-chevron-right"></i>
+              </a>
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
   </div>
   
   
   
+  </article>
 
-  
 
+
+    <div class="post-spread">
+      
+    </div>
+  </div>
 
 
           </div>
@@ -290,6 +424,10 @@
 
 
           
+
+  
+
+
 
         </div>
         
@@ -310,8 +448,17 @@
       
 
       
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap">
+            Table of Contents
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview-wrap">
+            Overview
+          </li>
+        </ul>
+      
 
-      <section class="site-overview-wrap sidebar-panel sidebar-panel-active">
+      <section class="site-overview-wrap sidebar-panel">
         <div class="site-overview">
           <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
             
@@ -375,6 +522,22 @@
         </div>
       </section>
 
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-3"><a class="nav-link" href="#Create-access-keys"><span class="nav-number">1.</span> <span class="nav-text">Create access keys</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Configure-awscli"><span class="nav-number">2.</span> <span class="nav-text">Configure awscli</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Upload"><span class="nav-number">3.</span> <span class="nav-text">Upload</span></a></li></ol></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
       
 
       
@@ -508,6 +671,10 @@
   
 
   
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.1.4"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.1.4"></script>
+
+
 
   
 

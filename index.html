@@ -342,13 +342,164 @@
       
         
           
-            <p>The EBS storage service is delivered in volumes, which can be attached to an EC2 instance and used just like a disk drive. The EC2 instance must be located within the same availability zones as the EBS volume.<br>To access the volume, we must format the it and then mount it to the instance filesystem.</p>
-<h3 id="list-block-devices"><a href="#list-block-devices" class="headerlink" title="list block devices"></a>list block devices</h3><p>[ec2-user@ip-172-31-90-214 ~]$ lsblk<br>NAME    MAJ:MIN RM SIZE RO TYPE MOUNTPOINT<br>xvda    202:0    0   8G  0 disk<br>└─xvda1 202:1    0   8G  0 part /<br>xvdb    202:16   0   8G  0 disk</p>
-<h3 id="create-a-filesystem"><a href="#create-a-filesystem" class="headerlink" title="create a filesystem"></a>create a filesystem</h3><p>[ec2-user@ip-172-31-90-214 ~]$ sudo mke2fs /dev/xvdb<br>mke2fs 1.42.12 (29-Aug-2014)<br>Creating filesystem with 2097152 4k blocks and 524288 inodes<br>Filesystem UUID: b6175fcc-1668-416b-a613-ac57909019e0<br>Superblock backups stored on blocks:<br>        32768, 98304, 163840, 229376, 294912, 819200, 884736, 1605632</p>
+            <p>The EBS storage service is delivered in volumes, which can be attached to an EC2 instance and used just like a disk drive. The EC2 instance must be located within the same availability zones as the EBS volume. To access the volume, we must format it and then mount it to the instance filesystem.</p>
+<h3 id="List-block-devices"><a href="#List-block-devices" class="headerlink" title="List block devices"></a>List block devices</h3><p>[ec2-user@ip-172-31-90-214 ~]$ lsblk<br>NAME    MAJ:MIN RM SIZE RO TYPE MOUNTPOINT<br>xvda    202:0    0   8G  0 disk<br>└─xvda1 202:1    0   8G  0 part /<br>xvdb    202:16   0   8G  0 disk</p>
+<h3 id="Create-a-filesystem"><a href="#Create-a-filesystem" class="headerlink" title="Create a filesystem"></a>Create a filesystem</h3><p>[ec2-user@ip-172-31-90-214 ~]$ sudo mke2fs /dev/xvdb<br>mke2fs 1.42.12 (29-Aug-2014)<br>Creating filesystem with 2097152 4k blocks and 524288 inodes<br>Filesystem UUID: b6175fcc-1668-416b-a613-ac57909019e0<br>Superblock backups stored on blocks:<br>        32768, 98304, 163840, 229376, 294912, 819200, 884736, 1605632</p>
 <p>Allocating group tables: done<br>Writing inode tables: done<br>Writing superblocks and filesystem accounting information: done</p>
-<h3 id="mount-the-volume-to-a-filesystem"><a href="#mount-the-volume-to-a-filesystem" class="headerlink" title="mount the volume to a filesystem"></a>mount the volume to a filesystem</h3><p>[ec2-user@ip-172-31-90-214 ~]$ sudo mount /dev/xvdb /mnt<br>sudo mount /dev/xvdb /mnt</p>
-<h3 id="access-the-volume"><a href="#access-the-volume" class="headerlink" title="access the volume"></a>access the volume</h3><p>[root@ip-172-31-90-214 ec2-user]# cd /mnt</p>
-<h3 id="umount-the-filesystem"><a href="#umount-the-filesystem" class="headerlink" title="umount the filesystem"></a>umount the filesystem</h3><p>[root@ip-172-31-90-214 /]# umount /mnt</p>
+<h3 id="Mount-the-volume-to-a-filesystem"><a href="#Mount-the-volume-to-a-filesystem" class="headerlink" title="Mount the volume to a filesystem"></a>Mount the volume to a filesystem</h3><p>[ec2-user@ip-172-31-90-214 ~]$ sudo mount /dev/xvdb /mnt<br>sudo mount /dev/xvdb /mnt</p>
+<h3 id="Access-the-volume"><a href="#Access-the-volume" class="headerlink" title="Access the volume"></a>Access the volume</h3><p>[root@ip-172-31-90-214 ec2-user]# cd /mnt</p>
+<h3 id="Umount-the-filesystem"><a href="#Umount-the-filesystem" class="headerlink" title="Umount the filesystem"></a>Umount the filesystem</h3><p>[root@ip-172-31-90-214 /]# umount /mnt</p>
+
+          
+        
+      
+    </div>
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+    
+      
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2018/07/01/Upload-content-to-AWS-S3/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="Yifan Zhang">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/author.gif">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Machine Learning and Data Science">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+                
+                <a class="post-title-link" href="/2018/07/01/Upload-content-to-AWS-S3/" itemprop="url">Upload content to S3 by awscli</a></h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">Posted on</span>
+              
+              <time title="Post created" itemprop="dateCreated datePublished" datetime="2018-07-01T14:55:56+12:00">
+                2018-07-01
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+            <span class="post-category" >
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">In</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/AWS/" itemprop="url" rel="index">
+                    <span itemprop="name">AWS</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+            <h3 id="Create-access-keys"><a href="#Create-access-keys" class="headerlink" title="Create access keys"></a>Create access keys</h3><ol>
+<li>Go to AWS Console -&gt; Security -&gt; IAM -&gt; Users</li>
+<li>Select Security credentials tab and then choose Create access key</li>
+</ol>
+<h3 id="Configure-awscli"><a href="#Configure-awscli" class="headerlink" title="Configure awscli"></a>Configure awscli</h3><ol>
+<li>Go to awscli</li>
+<li>Run aws configure</li>
+</ol>
+<p>D:\AWS&gt;aws configure<br>AWS Access Key ID [None]: <your key=""><br>AWS Secret Access Key [None]: <your secret="" key=""><br>Default region name [None]: us-east-1<br>Default output format [None]: json</your></your></p>
+<h3 id="Upload"><a href="#Upload" class="headerlink" title="Upload"></a>Upload</h3><p>D:\AWS&gt;aws s3 cp <file name=""> s3://sesame-bucket-01/<file name=""></file></file></p>
 
           
         
@@ -1617,154 +1768,6 @@
 
 
     
-      
-
-  
-
-  
-  
-  
-
-  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
-  
-  
-  
-  <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2017/08/12/unixshell/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="name" content="Yifan Zhang">
-      <meta itemprop="description" content="">
-      <meta itemprop="image" content="/images/author.gif">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="Machine Learning and Data Science">
-    </span>
-
-    
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">
-                
-                <a class="post-title-link" href="/2017/08/12/unixshell/" itemprop="url">Run Unix Shell Command in R</a></h1>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">Posted on</span>
-              
-              <time title="Post created" itemprop="dateCreated datePublished" datetime="2017-08-12T12:50:07+12:00">
-                2017-08-12
-              </time>
-            
-
-            
-
-            
-          </span>
-
-          
-            <span class="post-category" >
-            
-              <span class="post-meta-divider">|</span>
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-folder-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">In</span>
-              
-              
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/Unix/" itemprop="url" rel="index">
-                    <span itemprop="name">Unix</span>
-                  </a>
-                </span>
-
-                
-                
-              
-            </span>
-          
-
-          
-            
-          
-
-          
-          
-
-          
-
-          
-
-          
-
-        </div>
-      </header>
-    
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          
-            <h2 id="Functions"><a href="#Functions" class="headerlink" title="Functions:"></a>Functions:</h2><p>Functions: <code>system()</code>, <code>strptime()</code>, <code>gsub()</code>,</p>
-<h3 id="Determine-the-number-of-files-in-the-a-directory-in-Unix"><a href="#Determine-the-number-of-files-in-the-a-directory-in-Unix" class="headerlink" title="Determine the number of files in the a directory in Unix"></a>Determine the number of files in the a directory in Unix</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">numFiles &lt;- system(&quot;ls -1 &lt;your path&gt; | wc -l&quot;, intern=TRUE)</span><br><span class="line">cat(numFiles)</span><br></pre></td></tr></table></figure>
-<p>98973</p>
-<h3 id="Extracting-the-file-sizes"><a href="#Extracting-the-file-sizes" class="headerlink" title="Extracting the file sizes"></a>Extracting the file sizes</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">system(&quot;ls -l &lt;your path&gt; | awk -e &apos;&#123;print($5)&#125;&apos; &gt; sizes.txt&quot;)</span><br><span class="line">system(&quot;head sizes.txt&quot;)</span><br><span class="line">size = read.table(&quot;sizes.txt&quot;)</span><br></pre></td></tr></table></figure>
-<p>There are 98973 csv files in this directory, containing information on Auckland Bus delays. The file name contains a date-time component that reflects the exact time of the request for each file. For example: trip_updates_20170401050001.csv.</p>
-<h3 id="Convert-character-to-date-and-time"><a href="#Convert-character-to-date-and-time" class="headerlink" title="Convert character to date and time"></a>Convert character to date and time</h3><p>The following code will convert string 20170401050001 to Date: 2017-04-01 and Time: 05:00:01<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">datetime =  strptime(gsub(&quot;[^[:digit:]]&quot;, &quot;&quot;, size.time$date),</span><br><span class="line">                     &quot;%Y%m%d%H%M%S&quot;)</span><br><span class="line">size.time$date = as.Date(datetime)</span><br><span class="line">size.time$time = strftime(datetime, format=&quot;%H:%M:%S&quot;)</span><br></pre></td></tr></table></figure></p>
-<h3 id="Extracting-trips-made-by-vehicle-6215-on-the-1st-April-2017"><a href="#Extracting-trips-made-by-vehicle-6215-on-the-1st-April-2017" class="headerlink" title="Extracting trips made by vehicle 6215 on the 1st April 2017"></a>Extracting trips made by vehicle 6215 on the 1st April 2017</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">system(&quot;grep -h ,6215, &lt;your path&gt;/trip_updates_20170401* &gt; bus-6215-2017-04-01.csv&quot;)</span><br><span class="line">busLines &lt;- system(&quot;head bus-6215-2017-04-01.csv&quot;, intern=TRUE)</span><br><span class="line">cat(busLines, sep=&quot;\n&quot;)</span><br></pre></td></tr></table></figure>
-
-          
-        
-      
-    </div>
-    
-    
-    
-
-    
-
-    
-
-    
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </div>
-  
-  
-  
-  </article>
-
-
-    
   </section>
 
   
@@ -1819,7 +1822,7 @@
               
                 <a href="/archives/">
               
-                  <span class="site-state-item-count">13</span>
+                  <span class="site-state-item-count">14</span>
                   <span class="site-state-item-name">posts</span>
                 </a>
               </div>
@@ -1841,7 +1844,7 @@
               
               <div class="site-state-item site-state-tags">
                 <a href="/tags/index.html">
-                  <span class="site-state-item-count">22</span>
+                  <span class="site-state-item-count">24</span>
                   <span class="site-state-item-name">tags</span>
                 </a>
               </div>
