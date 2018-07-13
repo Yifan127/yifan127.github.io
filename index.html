@@ -249,6 +249,362 @@
   
   
   <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2018/07/13/Avro-vs-Parquet/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="Yifan Zhang">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/author.gif">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Machine Learning and Data Science">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+                
+                <a class="post-title-link" href="/2018/07/13/Avro-vs-Parquet/" itemprop="url">Avro vs Parquet</a></h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">Posted on</span>
+              
+              <time title="Post created" itemprop="dateCreated datePublished" datetime="2018-07-13T20:59:35+12:00">
+                2018-07-13
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+            <span class="post-category" >
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">In</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/Hadoop/" itemprop="url" rel="index">
+                    <span itemprop="name">Hadoop</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+            <p>Avro and Parquet are two file formats in Hadoop.</p>
+<h3 id="Avro"><a href="#Avro" class="headerlink" title="Avro"></a>Avro</h3><ul>
+<li>Row-based format. When reading data from disk, Avro reads each row.</li>
+<li>Avro stores the data definition in JSON format, the data itself is stored in binary format.</li>
+<li>Avro is designed to be language-independent (can be read across many languages)</li>
+<li>Avro supports schema evolution (schema can change over time)</li>
+<li><p>Avro supports compression</p>
+<ul>
+<li>Snappy is faster</li>
+<li><p>Deflate is slightly more compact.</p>
+<p>In Sqoop 1, the command line is as following</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">--compression-codec=snappy \</span><br><span class="line">--as-avrodatafile \</span><br></pre></td></tr></table></figure>
+</li>
+</ul>
+</li>
+</ul>
+<h3 id="Parquet"><a href="#Parquet" class="headerlink" title="Parquet"></a>Parquet</h3><ul>
+<li>Column-based format. When reading data from disk. A query can examine and perform calculations on all values for a<br>column while reading only a small fraction of the data from a data file or table.</li>
+<li><p>Supports compression.</p>
+<p>In Sqoop 1, the command line is as following</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">--compression-codec=snappy \</span><br><span class="line">--as-parquetfile \</span><br></pre></td></tr></table></figure></li>
+</ul>
+
+          
+        
+      
+    </div>
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+    
+      
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2018/07/07/Sqoop/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="Yifan Zhang">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/author.gif">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Machine Learning and Data Science">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+                
+                <a class="post-title-link" href="/2018/07/07/Sqoop/" itemprop="url">Sqoop</a></h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">Posted on</span>
+              
+              <time title="Post created" itemprop="dateCreated datePublished" datetime="2018-07-07T16:02:19+12:00">
+                2018-07-07
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+            <span class="post-category" >
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">In</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/Hadoop/" itemprop="url" rel="index">
+                    <span itemprop="name">Hadoop</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+            <h3 id="What-is-Sqool"><a href="#What-is-Sqool" class="headerlink" title="What is Sqool?"></a>What is Sqool?</h3><p>Sqoop is a tool used to transfer data between Hadoop and relational database such as MySQL or Oracle.<br>With Sqoop, you can import tables from a RDBMS into HDFS.</p>
+<h3 id="How-does-it-work"><a href="#How-does-it-work" class="headerlink" title="How does it work?"></a>How does it work?</h3><p>The input to the import process is tables in databases. And Sqoop processes the data in the following two stages:</p>
+<ol>
+<li>Sqoop fetches the metadata of the table, including the primary key, names of column, number of rows</li>
+<li>Sqoop submits map jobs only without reduce, because we just want to fetch the raw data.<br>This process is performed in parallel. For example, there are 100 rows in a table and 4 mappers, then each mapper will fetch 25 rows.<br>These 4 mapper takes will work in parallel to achieve high performance.</li>
+</ol>
+<p>The output of the import process is a set of files (delimited text with comma by default).<br>The number of files is equal to the number of mappers used by Sqoop. In above example, we will have 4 output files in HDFS.</p>
+<p>Sqoop can also export the data from HDFS back to RDBMS.</p>
+<h3 id="Import"><a href="#Import" class="headerlink" title="Import"></a>Import</h3><ul>
+<li>Import all tables</li>
+</ul>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">sqoop import-all-tables \</span><br><span class="line">    -m &lt;number of map tasks&gt; \</span><br><span class="line">    --connect jdbc:mysql://&lt;host&gt;:3306/&lt;database-name&gt; \</span><br><span class="line">    --username=&lt;username&gt; \</span><br><span class="line">    --password=&lt;password&gt; \</span><br><span class="line">    --warehouse-dir=&lt;parent for table destination&gt;</span><br></pre></td></tr></table></figure>
+<ul>
+<li>Import a single table</li>
+</ul>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">sqoop import \</span><br><span class="line">    --connect jdbc:mysql://&lt;host&gt;:3306/&lt;database-name&gt; \</span><br><span class="line">    --username=&lt;username&gt; \</span><br><span class="line">    --password=&lt;password&gt; \</span><br><span class="line">    --table &lt;table-name&gt; \</span><br><span class="line">    --target-dir &lt;dir for table in HDFS&gt;</span><br></pre></td></tr></table></figure>
+<ul>
+<li><p>Import partial table</p>
+<ul>
+<li><p>select rows</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">sqoop import \</span><br><span class="line">    --connect jdbc:mysql://&lt;host&gt;:3306/&lt;database-name&gt;  \</span><br><span class="line">    --username=&lt;username&gt; \</span><br><span class="line">    --password=&lt;password&gt; \</span><br><span class="line">    --table &lt;table-name&gt; \</span><br><span class="line">    --where &quot;&lt;condition&gt;&quot;</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>select column</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">sqoop import \</span><br><span class="line">    --connect jdbc:mysql://&lt;host&gt;:3306/&lt;database-name&gt;  \</span><br><span class="line">    --username=&lt;username&gt; \</span><br><span class="line">    --password=&lt;password&gt; \</span><br><span class="line">    --table &lt;table-name&gt; \</span><br><span class="line">    --columns &quot;&lt;col1,col2,…&gt;&quot;</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>free form query</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">sqoop import \</span><br><span class="line">    --connect jdbc:mysql://&lt;host&gt;:3306/&lt;database-name&gt;  \</span><br><span class="line">    --username=&lt;username&gt; \</span><br><span class="line">    --password=&lt;password&gt; \</span><br><span class="line">    --query &apos;SELECT a.*, b.* FROM a JOIN b on (a.id == b.id) WHERE $CONDITIONS&apos; \</span><br></pre></td></tr></table></figure>
+</li>
+</ul>
+</li>
+<li><p>Import into Hive in compressed Parquet format</p>
+</li>
+</ul>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">sqoop import-all-tables \</span><br><span class="line">    --connect jdbc:mysql://&lt;host&gt;:3306/&lt;database-name&gt; \</span><br><span class="line">    --username=&lt;username&gt; \</span><br><span class="line">    --password=&lt;password&gt; \</span><br><span class="line">    --warehouse-dir=&lt;parent for table destination&gt;</span><br><span class="line">    --compression-codec=snappy \</span><br><span class="line">    --as-parquetfile \</span><br><span class="line">    --hive-import</span><br></pre></td></tr></table></figure>
+<h3 id="Export"><a href="#Export" class="headerlink" title="Export"></a>Export</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">sqoop export \</span><br><span class="line">    --connect jdbc:mysql://&lt;host&gt;:3306/&lt;database-name&gt;  \</span><br><span class="line">    --username=&lt;username&gt; \</span><br><span class="line">    --password=&lt;password&gt; \</span><br><span class="line">    --export-dir &lt;HDFS source path&gt; \ </span><br><span class="line">    --table &lt;table-name&gt;</span><br></pre></td></tr></table></figure>
+<h3 id="Jobs"><a href="#Jobs" class="headerlink" title="Jobs"></a>Jobs</h3><ul>
+<li>Create a job</li>
+</ul>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">sqoop job \</span><br><span class="line">    -- create &lt;job_name&gt; \ </span><br><span class="line">    -- import \</span><br><span class="line">    &lt;import arguments&gt;</span><br></pre></td></tr></table></figure>
+<ul>
+<li><p>Show a job</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">sqoop job -- show &lt;job_name&gt;</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>Execute a job</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">sqoop job -- exec &lt;job_name&gt;</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>List all jobs</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">sqoop job -- list</span><br></pre></td></tr></table></figure>
+</li>
+</ul>
+<h3 id="How-to-access-the-output-files"><a href="#How-to-access-the-output-files" class="headerlink" title="How to access the output files?"></a>How to access the output files?</h3><p>Once the import complete, we can confirm that the data was imported into HDFS.</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">hadoop fs -ls /&lt;HDFS path&gt;</span><br><span class="line">hadoop fs -cat /&lt;HDFS path&gt;/&lt;table-name&gt;</span><br></pre></td></tr></table></figure>
+
+          
+        
+      
+    </div>
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+    
+      
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
     <link itemprop="mainEntityOfPage" href="http://yoursite.com/2018/07/02/AWS-Elastic-Block-Storage-EBS/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
@@ -1477,309 +1833,6 @@
 
 
     
-      
-
-  
-
-  
-  
-  
-
-  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
-  
-  
-  
-  <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2017/08/15/largedata/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="name" content="Yifan Zhang">
-      <meta itemprop="description" content="">
-      <meta itemprop="image" content="/images/author.gif">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="Machine Learning and Data Science">
-    </span>
-
-    
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">
-                
-                <a class="post-title-link" href="/2017/08/15/largedata/" itemprop="url">The data.table Package</a></h1>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">Posted on</span>
-              
-              <time title="Post created" itemprop="dateCreated datePublished" datetime="2017-08-15T14:22:10+12:00">
-                2017-08-15
-              </time>
-            
-
-            
-
-            
-          </span>
-
-          
-            <span class="post-category" >
-            
-              <span class="post-meta-divider">|</span>
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-folder-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">In</span>
-              
-              
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/Large-data/" itemprop="url" rel="index">
-                    <span itemprop="name">Large data</span>
-                  </a>
-                </span>
-
-                
-                
-              
-            </span>
-          
-
-          
-            
-          
-
-          
-          
-
-          
-
-          
-
-          
-
-        </div>
-      </header>
-    
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          
-            <h2 id="Functions"><a href="#Functions" class="headerlink" title="Functions:"></a>Functions:</h2><p>Functions: <code>fread()</code>, “:=”, <code>gc()</code>, <code>rm()</code><br>Package: <code>data.table</code></p>
-<p>The <code>data.table</code> package can be used to reduce the amount of copying that R does, thus, it can save memory resources.</p>
-<p>The following code use this package to measure the memory used by R for each of the below steps.</p>
-<ol>
-<li>Read the file into R</li>
-<li>Add a day-of-week column</li>
-<li>Aggregate arrival and departure delays by day-of-week</li>
-</ol>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br></pre></td><td class="code"><pre><span class="line">library(data.table)</span><br><span class="line"># read</span><br><span class="line">gc(reset=TRUE)</span><br><span class="line">bus = fread(&quot;alldata.csv&quot;)</span><br><span class="line">gc()</span><br><span class="line"></span><br><span class="line"># fast add a new column wday(day of week)</span><br><span class="line">gc(reset=TRUE)</span><br><span class="line">bus[,</span><br><span class="line">      wday := as.POSIXlt(timestamp,</span><br><span class="line">                         origin=as.Date(&quot;1970-01-01&quot;))$wday]</span><br><span class="line">gc()</span><br><span class="line"></span><br><span class="line"># aggregate arrival and departure delays by day-of-week</span><br><span class="line">gc(reset=TRUE)</span><br><span class="line">bus[,</span><br><span class="line">    .(avgArr = mean(arrival, na.rm=TRUE),</span><br><span class="line">      avgDep = mean(departure, na.rm=TRUE)),</span><br><span class="line">    by=.(wday)]</span><br><span class="line">gc()      </span><br><span class="line">gc(reset=TRUE)</span><br><span class="line"></span><br><span class="line"># Clean up</span><br><span class="line">rm(bus)</span><br><span class="line">gc(reset=TRUE)</span><br></pre></td></tr></table></figure>
-<p>This method is more efficiency and use less RAM than the standard R functions (e.g., read.csv() and aggregate()).</p>
-
-          
-        
-      
-    </div>
-    
-    
-    
-
-    
-
-    
-
-    
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </div>
-  
-  
-  
-  </article>
-
-
-    
-      
-
-  
-
-  
-  
-  
-
-  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
-  
-  
-  
-  <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2017/08/14/estimateram/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="name" content="Yifan Zhang">
-      <meta itemprop="description" content="">
-      <meta itemprop="image" content="/images/author.gif">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="Machine Learning and Data Science">
-    </span>
-
-    
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">
-                
-                <a class="post-title-link" href="/2017/08/14/estimateram/" itemprop="url">Estimate Memory Size of a Large File</a></h1>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">Posted on</span>
-              
-              <time title="Post created" itemprop="dateCreated datePublished" datetime="2017-08-14T12:50:07+12:00">
-                2017-08-14
-              </time>
-            
-
-            
-
-            
-          </span>
-
-          
-            <span class="post-category" >
-            
-              <span class="post-meta-divider">|</span>
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-folder-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">In</span>
-              
-              
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/Large-data/" itemprop="url" rel="index">
-                    <span itemprop="name">Large data</span>
-                  </a>
-                </span>
-
-                
-                
-              
-            </span>
-          
-
-          
-            
-          
-
-          
-          
-
-          
-
-          
-
-          
-
-        </div>
-      </header>
-    
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          
-            <h2 id="Functions"><a href="#Functions" class="headerlink" title="Functions:"></a>Functions:</h2><p>Functions: <code>objext.size()</code></p>
-<p>We know that R stores all the data in RAM, it automatically allocates memory as required. Before we load a very large dataset into R, we need to estimate how much memory the complete file will take up once it is loaded. Today, I will examine two methods to estimate , WITHOUT reading the entire file.</p>
-<h3 id="Method-One"><a href="#Method-One" class="headerlink" title="Method One"></a>Method One</h3><p>We find the size of a subset of the dataset and then scale up the result to make an estimate. The following code only read the first 1000 lines in the data set, rather than all of them. Then we get the total number of lines of the file to calculate our first estimate.</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line"># read the first 1000 lines</span><br><span class="line">atpart = read.csv(&quot;alldata.csv&quot;, nrow = 1000)</span><br><span class="line">partsize = object.size(atpart)</span><br><span class="line"></span><br><span class="line"># number of lines in the complete file</span><br><span class="line">nline = as.integer(system(&quot;wc -l alldata.csv | awk -e &apos;&#123;print($1)&#125;&apos;&quot;,</span><br><span class="line">                          intern = TRUE))</span><br><span class="line"></span><br><span class="line"># estimate in MB                          </span><br><span class="line">estimate1 = partsize*nline/1000</span><br><span class="line">print(partsize*nline/1000, units = &quot;Mb&quot;)</span><br></pre></td></tr></table></figure>
-<h3 id="Method-Two"><a href="#Method-Two" class="headerlink" title="Method Two"></a>Method Two</h3><p>The second approach examines the types of variables in the dataset to take into account the different memory demands of numeric and character vectors.</p>
-<p>The following code will summary the type of each column in the data frame</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"># Type of vectors</span><br><span class="line">sapply(atpart, class)</span><br><span class="line">table(sapply(atpart, class))</span><br></pre></td></tr></table></figure>
-<p>Assume that it consists of 3 factor variables and 5 integer variables, then our estimate will be the sum of four components:</p>
-<p>1) overhead: Each of the eight vectors, regardless of type, will has an overhead of around 40 bytes.<br>2) integer vectors: integer values require 4 bytes<br>3) character vectors: character values require 8 bytes<br>4) cache size. We use the sample of the first 1000 rows to estimate the number of levels in each of the factors. Assume that the strings of each factor are of fixed lengths. Hence obtaining the character length of the first level will be sufficient for determining the lengths of all unique levels.</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line">CacheSize = function(x) &#123;</span><br><span class="line">  lev = levels(x)</span><br><span class="line">  # assume all levels are the same length</span><br><span class="line">  cache.size = length(lev)*nchar(lev[1])</span><br><span class="line">&#125;</span><br><span class="line">Cache = do.call(rbind.data.frame, lapply(atpart[, 1:3], CacheSize))</span><br><span class="line"></span><br><span class="line">Our second estimate is:</span><br><span class="line"></span><br><span class="line">```&#123;r&#125;</span><br><span class="line">estimate2 = 8*40 + 5*4*nline + 3*8*nline + sum(Cache)</span><br><span class="line">paste(as.numeric(estimate2), &quot;Mb&quot;)</span><br></pre></td></tr></table></figure>
-<p>In summary, the first approach produces a fast estimate, while the second approach requires more calculation but will be closer to the actual file size. Both approaches assume the complexity and structure of the lines in the dataset remain consistent.</p>
-
-          
-        
-      
-    </div>
-    
-    
-    
-
-    
-
-    
-
-    
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </div>
-  
-  
-  
-  </article>
-
-
-    
   </section>
 
   
@@ -1834,7 +1887,7 @@
               
                 <a href="/archives/">
               
-                  <span class="site-state-item-count">15</span>
+                  <span class="site-state-item-count">17</span>
                   <span class="site-state-item-name">posts</span>
                 </a>
               </div>
@@ -1845,7 +1898,7 @@
               
               <div class="site-state-item site-state-categories">
                 <a href="/categories/index.html">
-                  <span class="site-state-item-count">7</span>
+                  <span class="site-state-item-count">8</span>
                   <span class="site-state-item-name">categories</span>
                 </a>
               </div>
@@ -1856,7 +1909,7 @@
               
               <div class="site-state-item site-state-tags">
                 <a href="/tags/index.html">
-                  <span class="site-state-item-count">20</span>
+                  <span class="site-state-item-count">23</span>
                   <span class="site-state-item-name">tags</span>
                 </a>
               </div>
