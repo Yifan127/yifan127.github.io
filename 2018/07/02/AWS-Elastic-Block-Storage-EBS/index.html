@@ -87,7 +87,7 @@
 <meta property="og:site_name" content="Machine Learning and Data Science">
 <meta property="og:description" content="The EBS storage service is delivered in volumes, which can be attached to an EC2 instance and used just like a disk drive. The EC2 instance must be located within the same availability zones as the EB">
 <meta property="og:locale" content="default">
-<meta property="og:updated_time" content="2018-07-02T01:00:41.555Z">
+<meta property="og:updated_time" content="2018-07-02T03:40:09.674Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="AWS-Elastic Block Storage(EBS)">
 <meta name="twitter:description" content="The EBS storage service is delivered in volumes, which can be attached to an EC2 instance and used just like a disk drive. The EC2 instance must be located within the same availability zones as the EB">
@@ -343,12 +343,11 @@
 
       
         <p>The EBS storage service is delivered in volumes, which can be attached to an EC2 instance and used just like a disk drive. The EC2 instance must be located within the same availability zones as the EBS volume. To access the volume, we must format it and then mount it to the instance filesystem.</p>
-<h3 id="List-block-devices"><a href="#List-block-devices" class="headerlink" title="List block devices"></a>List block devices</h3><p>[ec2-user@ip-172-31-90-214 ~]$ lsblk<br>NAME    MAJ:MIN RM SIZE RO TYPE MOUNTPOINT<br>xvda    202:0    0   8G  0 disk<br>└─xvda1 202:1    0   8G  0 part /<br>xvdb    202:16   0   8G  0 disk</p>
-<h3 id="Create-a-filesystem"><a href="#Create-a-filesystem" class="headerlink" title="Create a filesystem"></a>Create a filesystem</h3><p>[ec2-user@ip-172-31-90-214 ~]$ sudo mke2fs /dev/xvdb<br>mke2fs 1.42.12 (29-Aug-2014)<br>Creating filesystem with 2097152 4k blocks and 524288 inodes<br>Filesystem UUID: b6175fcc-1668-416b-a613-ac57909019e0<br>Superblock backups stored on blocks:<br>        32768, 98304, 163840, 229376, 294912, 819200, 884736, 1605632</p>
-<p>Allocating group tables: done<br>Writing inode tables: done<br>Writing superblocks and filesystem accounting information: done</p>
-<h3 id="Mount-the-volume-to-a-filesystem"><a href="#Mount-the-volume-to-a-filesystem" class="headerlink" title="Mount the volume to a filesystem"></a>Mount the volume to a filesystem</h3><p>[ec2-user@ip-172-31-90-214 ~]$ sudo mount /dev/xvdb /mnt<br>sudo mount /dev/xvdb /mnt</p>
-<h3 id="Access-the-volume"><a href="#Access-the-volume" class="headerlink" title="Access the volume"></a>Access the volume</h3><p>[root@ip-172-31-90-214 ec2-user]# cd /mnt</p>
-<h3 id="Umount-the-filesystem"><a href="#Umount-the-filesystem" class="headerlink" title="Umount the filesystem"></a>Umount the filesystem</h3><p>[root@ip-172-31-90-214 /]# umount /mnt</p>
+<h3 id="List-block-devices"><a href="#List-block-devices" class="headerlink" title="List block devices"></a>List block devices</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">[ec2-user@ip-172-31-90-214 ~]$ lsblk</span><br><span class="line">NAME    MAJ:MIN RM SIZE RO TYPE MOUNTPOINT</span><br><span class="line">xvda    202:0    0   8G  0 disk</span><br><span class="line">└─xvda1 202:1    0   8G  0 part /</span><br><span class="line">xvdb    202:16   0   8G  0 disk</span><br></pre></td></tr></table></figure>
+<h3 id="Create-a-filesystem"><a href="#Create-a-filesystem" class="headerlink" title="Create a filesystem"></a>Create a filesystem</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">[ec2-user@ip-172-31-90-214 ~]$ sudo mke2fs /dev/xvdb</span><br><span class="line">mke2fs 1.42.12 (29-Aug-2014)</span><br><span class="line">Creating filesystem with 2097152 4k blocks and 524288 inodes</span><br><span class="line">Filesystem UUID: b6175fcc-1668-416b-a613-ac57909019e0</span><br><span class="line">Superblock backups stored on blocks:</span><br><span class="line">        32768, 98304, 163840, 229376, 294912, 819200, 884736, 1605632</span><br><span class="line"></span><br><span class="line">Allocating group tables: done</span><br><span class="line">Writing inode tables: done</span><br><span class="line">Writing superblocks and filesystem accounting information: done</span><br></pre></td></tr></table></figure>
+<h3 id="Mount-the-volume-to-a-filesystem"><a href="#Mount-the-volume-to-a-filesystem" class="headerlink" title="Mount the volume to a filesystem"></a>Mount the volume to a filesystem</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">[ec2-user@ip-172-31-90-214 ~]$ sudo mount /dev/xvdb /mnt</span><br><span class="line">sudo mount /dev/xvdb /mnt</span><br></pre></td></tr></table></figure>
+<h3 id="Access-the-volume"><a href="#Access-the-volume" class="headerlink" title="Access the volume"></a>Access the volume</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">[root@ip-172-31-90-214 ec2-user]# cd /mnt</span><br></pre></td></tr></table></figure>
+<h3 id="Umount-the-filesystem"><a href="#Umount-the-filesystem" class="headerlink" title="Umount the filesystem"></a>Umount the filesystem</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">[root@ip-172-31-90-214 /]# sudo umount /mnt</span><br></pre></td></tr></table></figure>
 
       
     </div>
@@ -468,7 +467,7 @@
               
                 <a href="/archives/">
               
-                  <span class="site-state-item-count">14</span>
+                  <span class="site-state-item-count">15</span>
                   <span class="site-state-item-name">posts</span>
                 </a>
               </div>
@@ -490,7 +489,7 @@
               
               <div class="site-state-item site-state-tags">
                 <a href="/tags/index.html">
-                  <span class="site-state-item-count">24</span>
+                  <span class="site-state-item-count">20</span>
                   <span class="site-state-item-name">tags</span>
                 </a>
               </div>

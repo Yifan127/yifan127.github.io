@@ -68,7 +68,7 @@
 
 
 
-  <meta name="keywords" content="cross validation,overfitting," />
+  <meta name="keywords" content="shell," />
 
 
 
@@ -79,18 +79,18 @@
 
 
 
-<meta name="description" content="In cross validation, we split the data randomly into k parts, use one part for the test set and the remaining k-1 parts for the training set, and estimate the prediction error with the test set estima">
-<meta name="keywords" content="cross validation,overfitting">
+<meta name="description" content="Directory &amp;amp; File   Command Description     ls list directory contents  -a all -l long listing format  -t sort by modification time  -r reverse   cp copy files and directories  -u update, copy only">
+<meta name="keywords" content="shell">
 <meta property="og:type" content="article">
-<meta property="og:title" content="Cross-Validation Prediction Error">
-<meta property="og:url" content="http://yoursite.com/2017/09/26/cvpe/index.html">
+<meta property="og:title" content="General Linux Commands Summary">
+<meta property="og:url" content="http://yoursite.com/2017/08/08/Linux-Commands-Summary/index.html">
 <meta property="og:site_name" content="Machine Learning and Data Science">
-<meta property="og:description" content="In cross validation, we split the data randomly into k parts, use one part for the test set and the remaining k-1 parts for the training set, and estimate the prediction error with the test set estima">
+<meta property="og:description" content="Directory &amp;amp; File   Command Description     ls list directory contents  -a all -l long listing format  -t sort by modification time  -r reverse   cp copy files and directories  -u update, copy only">
 <meta property="og:locale" content="default">
-<meta property="og:updated_time" content="2018-06-29T11:52:55.776Z">
+<meta property="og:updated_time" content="2018-07-13T01:31:17.544Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="Cross-Validation Prediction Error">
-<meta name="twitter:description" content="In cross validation, we split the data randomly into k parts, use one part for the test set and the remaining k-1 parts for the training set, and estimate the prediction error with the test set estima">
+<meta name="twitter:title" content="General Linux Commands Summary">
+<meta name="twitter:description" content="Directory &amp;amp; File   Command Description     ls list directory contents  -a all -l long listing format  -t sort by modification time  -r reverse   cp copy files and directories  -u update, copy only">
 
 
 
@@ -120,13 +120,13 @@
 
 
 
-  <link rel="canonical" href="http://yoursite.com/2017/09/26/cvpe/"/>
+  <link rel="canonical" href="http://yoursite.com/2017/08/08/Linux-Commands-Summary/"/>
 
 
 
 
 
-  <title>Cross-Validation Prediction Error | Machine Learning and Data Science</title>
+  <title>General Linux Commands Summary | Machine Learning and Data Science</title>
   
 
 
@@ -253,7 +253,7 @@
   
   
   <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2017/09/26/cvpe/">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2017/08/08/Linux-Commands-Summary/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="name" content="Yifan Zhang">
@@ -270,7 +270,7 @@
 
         
         
-          <h1 class="post-title" itemprop="name headline">Cross-Validation Prediction Error</h1>
+          <h1 class="post-title" itemprop="name headline">General Linux Commands Summary</h1>
         
 
         <div class="post-meta">
@@ -282,8 +282,8 @@
               
                 <span class="post-meta-item-text">Posted on</span>
               
-              <time title="Post created" itemprop="dateCreated datePublished" datetime="2017-09-26T18:26:57+13:00">
-                2017-09-26
+              <time title="Post created" itemprop="dateCreated datePublished" datetime="2017-08-08T11:39:25+12:00">
+                2017-08-08
               </time>
             
 
@@ -305,8 +305,8 @@
               
               
                 <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/Statistics/" itemprop="url" rel="index">
-                    <span itemprop="name">Statistics</span>
+                  <a href="/categories/Linux/" itemprop="url" rel="index">
+                    <span itemprop="name">Linux</span>
                   </a>
                 </span>
 
@@ -342,16 +342,299 @@
       
 
       
-        <p>In cross validation, we split the data randomly into k parts, use one part for the test set and the remaining k-1 parts for the training set, and estimate the prediction error with the test set estimator. We repeat this process using a different kth as the test set each time. We average the resulting k prediction error estimates to get a final estimate. This is (k-fold) cross-validation. In practice we fix k=5 or 10.</p>
-<p>In this post, I will use the abalone data set downloaded from UCI.</p>
-<h3 id="Read-the-data-and-save-it-to-a-local-CSV-file"><a href="#Read-the-data-and-save-it-to-a-local-CSV-file" class="headerlink" title="Read the data and save it to a local CSV file"></a>Read the data and save it to a local CSV file</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">url = &quot;https://archive.ics.uci.edu/ml/machine-learning-databases/abalone/abalone.data&quot;</span><br><span class="line"></span><br><span class="line">abalone = read.csv(url, header = FALSE)</span><br><span class="line">names(abalone) = c(&quot;Sex&quot;, &quot;Length&quot;, &quot;Diameter&quot;, &quot;Height&quot;, &quot;Whole_weight&quot;,</span><br><span class="line">                   &quot;Shucked_weight&quot;, &quot;Viscera_weight&quot;, &quot;Shell_weight&quot;, &quot;Rings&quot;)</span><br><span class="line">write.csv(abalone, &quot;abalone.csv&quot;)</span><br><span class="line">dim(abalone)</span><br></pre></td></tr></table></figure>
-<p>[1] 4177    9</p>
-<h3 id="Fit-a-simple-linear-regression-model-and-compute-the-in-sample-prediction-error-PE"><a href="#Fit-a-simple-linear-regression-model-and-compute-the-in-sample-prediction-error-PE" class="headerlink" title="Fit a simple linear regression model and compute the in-sample prediction error (PE)"></a>Fit a simple linear regression model and compute the in-sample prediction error (PE)</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">lmfit = lm(Rings ~ ., data = abalone)</span><br><span class="line">pred = predict(lmfit, newdata = abalone)</span><br><span class="line"># mean squared predict error (in-sample)</span><br><span class="line">mean((abalone$Rings - pred)^2)</span><br></pre></td></tr></table></figure>
-<p>[1] 4.802664</p>
-<h3 id="10-fold-cross-validation-prediction-Error"><a href="#10-fold-cross-validation-prediction-Error" class="headerlink" title="10 fold cross-validation prediction Error"></a>10 fold cross-validation prediction Error</h3><p>The following code is used to compute the cross-validation mean squared prediction error (CVPE)</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line"># 10-fold cv</span><br><span class="line">k = 10</span><br><span class="line">shuffer = sample(nrow(abalone))</span><br><span class="line">chunk = nrow(abalone)/k</span><br><span class="line">cvpe = rep(0, k)</span><br><span class="line">for(i in 1:k)&#123;</span><br><span class="line">  testindex = shuffer[((i-1)*chunk+1):(i*chunk)]</span><br><span class="line">  test = abalone[testindex, ]</span><br><span class="line">  train = abalone[-testindex, ]</span><br><span class="line">  cvlm = lm(Rings ~ ., data = train)</span><br><span class="line">  testpred = predict(cvlm, newdata = test)</span><br><span class="line">  actual = test$Rings</span><br><span class="line">  cvpe[i] = mean((testpred - actual)^2)</span><br><span class="line">&#125;</span><br><span class="line">mean(cvpe)</span><br></pre></td></tr></table></figure>
-<p>[1] 4.908085</p>
-<p>We can see that the CVPE is larger than the PE, this is because we use the same data set to train and predict when computing the PE. The result is too optimistic. CVPE can correct the error by leaving out one chunk to act as the test data set.</p>
+        <h3 id="Directory-amp-File"><a href="#Directory-amp-File" class="headerlink" title="Directory &amp; File"></a>Directory &amp; File</h3><table>
+<thead>
+<tr>
+<th>Command</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>ls</td>
+<td>list directory contents <br> -a all <br>-l long listing format <br> -t sort by modification time <br> -r reverse</td>
+</tr>
+<tr>
+<td>cp</td>
+<td>copy files and directories <br> -u update, copy only newer files</td>
+</tr>
+<tr>
+<td>scp</td>
+<td>secure copy to another host</td>
+</tr>
+<tr>
+<td>mv</td>
+<td>move (rename) files</td>
+</tr>
+<tr>
+<td>rm</td>
+<td>remove files or directories <br> -f force <br> -r recursive</td>
+</tr>
+<tr>
+<td>chmod</td>
+<td>change file mode bits <br> - read (r), write (w), execute(x) <br> - the user who owns it (u), other users in the file’s group (g), other users not in the file’s group (o), or all  users  (a)</td>
+</tr>
+<tr>
+<td>chown</td>
+<td>change file owner and group <br> - user:group</td>
+</tr>
+</tbody>
+</table>
+<h3 id="File"><a href="#File" class="headerlink" title="File"></a>File</h3><table>
+<thead>
+<tr>
+<th>Command</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>cat</td>
+<td>concatenate files and print on the standard output</td>
+</tr>
+<tr>
+<td>head</td>
+<td>output the first part of files <br> -n lines</td>
+</tr>
+<tr>
+<td>tail</td>
+<td>output the last part of files <br> -n lines</td>
+</tr>
+<tr>
+<td>more</td>
+<td>view the files in pages <br> d scroll forward</td>
+</tr>
+<tr>
+<td>less</td>
+<td>similar to more, but allows backward movement as well as forward move <br> d scroll forward <br> b scroll backword</td>
+</tr>
+<tr>
+<td>echo</td>
+<td>display a line of text on the screen</td>
+</tr>
+<tr>
+<td>find</td>
+<td>search for files in a directory <br> find ./ -name myfile.txt</td>
+</tr>
+<tr>
+<td>grep</td>
+<td>print lines matching a pattern <br> grep word /etc/passwd</td>
+</tr>
+<tr>
+<td>wc</td>
+<td>count the lines, words, and characters in a file <br> -l count line <br> ls -l &#124; wc -l: count the number of objects in current directory</td>
+</tr>
+<tr>
+<td>tar</td>
+<td>-cvzf file.tar.gz /home/download: create tar.gz from files verbosely <br> -xvzf file.tar.gz: extract files</td>
+</tr>
+</tbody>
+</table>
+<h3 id="Process"><a href="#Process" class="headerlink" title="Process"></a>Process</h3><table>
+<thead>
+<tr>
+<th>Command</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>ps</td>
+<td>report the current processes <br> -a all <br>-f full listing</td>
+</tr>
+<tr>
+<td>kill</td>
+<td>terminate a process</td>
+</tr>
+<tr>
+<td>top</td>
+<td>display Linux processes</td>
+</tr>
+<tr>
+<td>nice</td>
+<td>run a program with modified scheduling priority <br> -n values range from -20 to 19 (from the highest priority to the lowest)  to  19</td>
+</tr>
+</tbody>
+</table>
+<h3 id="User"><a href="#User" class="headerlink" title="User"></a>User</h3><table>
+<thead>
+<tr>
+<th>Command</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>who</td>
+<td>how who is logged on</td>
+</tr>
+<tr>
+<td>whoami</td>
+<td>print effective userid</td>
+</tr>
+<tr>
+<td>addgroup</td>
+<td>display Linux processes</td>
+</tr>
+<tr>
+<td>adduser</td>
+<td>create a new user or update default new user information <br> -d home directory <br> -g group id</td>
+</tr>
+<tr>
+<td>sudo</td>
+<td>execute a command as another user <br> -u to run the specified command as a user other than root</td>
+</tr>
+</tbody>
+</table>
+<h3 id="Network"><a href="#Network" class="headerlink" title="Network"></a>Network</h3><table>
+<thead>
+<tr>
+<th>Command</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>ping</td>
+<td>verify if the computer can connect over the network to another computer</td>
+</tr>
+<tr>
+<td>netstat</td>
+<td>print network connections, routing tables</td>
+</tr>
+<tr>
+<td>ip address <br> ifconfig</td>
+<td>check ip address</td>
+</tr>
+<tr>
+<td>traceroute</td>
+<td>print the path that packets take to a network host <br> traceroute google.com</td>
+</tr>
+<tr>
+<td>telnet</td>
+<td>user interface to the TELNET protocol <br> telnet myhost.com:5555</td>
+</tr>
+<tr>
+<td>nslookup</td>
+<td>query Internet name servers (DNS) <br> nslookup google.com</td>
+</tr>
+</tbody>
+</table>
+<h3 id="Resource"><a href="#Resource" class="headerlink" title="Resource"></a>Resource</h3><table>
+<thead>
+<tr>
+<th>Command</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>df</td>
+<td>report file system disk space usage <br> -h human readable <br> -k in KB</td>
+</tr>
+<tr>
+<td>du</td>
+<td>estimate file space usage, summarize disk usage of each FILE, recursively for directories</td>
+</tr>
+<tr>
+<td>free</td>
+<td>display amount of free and used memory in the system <br> -m in MB</td>
+</tr>
+</tbody>
+</table>
+<h3 id="Install-package"><a href="#Install-package" class="headerlink" title="Install package"></a>Install package</h3><table>
+<thead>
+<tr>
+<th>Command</th>
+<th>OS</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>yum</td>
+<td>Redhat/Centos</td>
+<td>install, remove, update, info, list, search</td>
+</tr>
+<tr>
+<td>apt-get</td>
+<td>Debian/Ubuntu</td>
+<td>update： resynchronizes the local index of packages files <br> install, remove, upgrade</td>
+</tr>
+</tbody>
+</table>
+<h3 id="Environmental-Variables"><a href="#Environmental-Variables" class="headerlink" title="Environmental Variables"></a>Environmental Variables</h3><table>
+<thead>
+<tr>
+<th>Command</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>printenv</td>
+<td>print all or part of environment</td>
+</tr>
+<tr>
+<td>export</td>
+<td>set env variable <br> export PATH=${PATH}:/home/xxx</td>
+</tr>
+<tr>
+<td>vi ~/.bash_proflle <br> append the PATH</td>
+<td>make all settings permanent</td>
+</tr>
+</tbody>
+</table>
+<h3 id="VIM-Text-Edit"><a href="#VIM-Text-Edit" class="headerlink" title="VIM Text Edit"></a>VIM Text Edit</h3><table>
+<thead>
+<tr>
+<th>Command</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>i</td>
+<td>insert mode</td>
+</tr>
+<tr>
+<td>a</td>
+<td>append mode</td>
+</tr>
+<tr>
+<td>0(zero)</td>
+<td>move cursor to start of current line</td>
+</tr>
+<tr>
+<td>$</td>
+<td>move cursor to end of current line</td>
+</tr>
+<tr>
+<td>yy</td>
+<td>copy line in buffer</td>
+</tr>
+<tr>
+<td>p</td>
+<td>paste/put buffer</td>
+</tr>
+<tr>
+<td>x</td>
+<td>delete character</td>
+</tr>
+<tr>
+<td>dd</td>
+<td>delete line</td>
+</tr>
+<tr>
+<td>:q!</td>
+<td>quit no save</td>
+</tr>
+<tr>
+<td>:wq</td>
+<td>quit and save</td>
+</tr>
+</tbody>
+</table>
 
       
     </div>
@@ -369,9 +652,7 @@
       
         <div class="post-tags">
           
-            <a href="/tags/cross-validation/" rel="tag"># cross validation</a>
-          
-            <a href="/tags/overfitting/" rel="tag"># overfitting</a>
+            <a href="/tags/shell/" rel="tag"># shell</a>
           
         </div>
       
@@ -384,8 +665,8 @@
         <div class="post-nav">
           <div class="post-nav-next post-nav-item">
             
-              <a href="/2017/09/11/crossvm/" rel="next" title="Running a Function on Cluster">
-                <i class="fa fa-chevron-left"></i> Running a Function on Cluster
+              <a href="/2017/08/07/webapi/" rel="next" title="Access Data From Restful API">
+                <i class="fa fa-chevron-left"></i> Access Data From Restful API
               </a>
             
           </div>
@@ -394,8 +675,8 @@
 
           <div class="post-nav-prev post-nav-item">
             
-              <a href="/2017/10/08/biglm/" rel="prev" title="The biglm Package">
-                The biglm Package <i class="fa fa-chevron-right"></i>
+              <a href="/2017/08/12/unixshell/" rel="prev" title="Run Unix Shell Command in R">
+                Run Unix Shell Command in R <i class="fa fa-chevron-right"></i>
               </a>
             
           </div>
@@ -532,7 +813,7 @@
             
 
             
-              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-3"><a class="nav-link" href="#Read-the-data-and-save-it-to-a-local-CSV-file"><span class="nav-number">1.</span> <span class="nav-text">Read the data and save it to a local CSV file</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Fit-a-simple-linear-regression-model-and-compute-the-in-sample-prediction-error-PE"><span class="nav-number">2.</span> <span class="nav-text">Fit a simple linear regression model and compute the in-sample prediction error (PE)</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#10-fold-cross-validation-prediction-Error"><span class="nav-number">3.</span> <span class="nav-text">10 fold cross-validation prediction Error</span></a></li></ol></div>
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-3"><a class="nav-link" href="#Directory-amp-File"><span class="nav-number">1.</span> <span class="nav-text">Directory &amp; File</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#File"><span class="nav-number">2.</span> <span class="nav-text">File</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Process"><span class="nav-number">3.</span> <span class="nav-text">Process</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#User"><span class="nav-number">4.</span> <span class="nav-text">User</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Network"><span class="nav-number">5.</span> <span class="nav-text">Network</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Resource"><span class="nav-number">6.</span> <span class="nav-text">Resource</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Install-package"><span class="nav-number">7.</span> <span class="nav-text">Install package</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Environmental-Variables"><span class="nav-number">8.</span> <span class="nav-text">Environmental Variables</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#VIM-Text-Edit"><span class="nav-number">9.</span> <span class="nav-text">VIM Text Edit</span></a></li></ol></div>
             
 
           </div>

@@ -79,18 +79,18 @@
 
 
 
-<meta name="description" content="Create access keys Go to AWS Console -&amp;gt; Security -&amp;gt; IAM -&amp;gt; Users Select Security credentials tab and then choose Create access key  Configure awscli Go to awscli Run aws configure  D:\AWS&amp;gt;">
+<meta name="description" content="Create access keys Go to AWS Console -&amp;gt; Security -&amp;gt; IAM -&amp;gt; Users Select Security credentials tab and then choose Create access key  Configure awscli Go to awscli Run aws configure  12345aws c">
 <meta name="keywords" content="S3,awscli">
 <meta property="og:type" content="article">
 <meta property="og:title" content="Upload content to S3 by awscli">
 <meta property="og:url" content="http://yoursite.com/2018/07/01/Upload-content-to-AWS-S3/index.html">
 <meta property="og:site_name" content="Machine Learning and Data Science">
-<meta property="og:description" content="Create access keys Go to AWS Console -&amp;gt; Security -&amp;gt; IAM -&amp;gt; Users Select Security credentials tab and then choose Create access key  Configure awscli Go to awscli Run aws configure  D:\AWS&amp;gt;">
+<meta property="og:description" content="Create access keys Go to AWS Console -&amp;gt; Security -&amp;gt; IAM -&amp;gt; Users Select Security credentials tab and then choose Create access key  Configure awscli Go to awscli Run aws configure  12345aws c">
 <meta property="og:locale" content="default">
-<meta property="og:updated_time" content="2018-07-02T03:20:42.928Z">
+<meta property="og:updated_time" content="2018-07-02T04:54:48.366Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="Upload content to S3 by awscli">
-<meta name="twitter:description" content="Create access keys Go to AWS Console -&amp;gt; Security -&amp;gt; IAM -&amp;gt; Users Select Security credentials tab and then choose Create access key  Configure awscli Go to awscli Run aws configure  D:\AWS&amp;gt;">
+<meta name="twitter:description" content="Create access keys Go to AWS Console -&amp;gt; Security -&amp;gt; IAM -&amp;gt; Users Select Security credentials tab and then choose Create access key  Configure awscli Go to awscli Run aws configure  12345aws c">
 
 
 
@@ -350,8 +350,21 @@
 <li>Go to awscli</li>
 <li>Run aws configure</li>
 </ol>
-<p>D:\AWS&gt;aws configure<br>AWS Access Key ID [None]: <code>&lt;your key&gt;</code><br>AWS Secret Access Key [None]: <code>&lt;your secret key&gt;</code><br>Default region name [None]: us-east-1<br>Default output format [None]: json</p>
-<h3 id="Upload"><a href="#Upload" class="headerlink" title="Upload"></a>Upload</h3><p>D:\AWS&gt;aws s3 cp <code>&lt;file name&gt;</code> s3://sesame-bucket-01/<code>&lt;file name&gt;</code></p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">aws configure</span><br><span class="line">AWS Access Key ID [None]: `&lt;your key&gt;`</span><br><span class="line">AWS Secret Access Key [None]: `&lt;your secret key&gt;`</span><br><span class="line">Default region name [None]: us-east-1</span><br><span class="line">Default output format [None]: json</span><br></pre></td></tr></table></figure>
+<h3 id="Upload-a-single-file"><a href="#Upload-a-single-file" class="headerlink" title="Upload a single file"></a>Upload a single file</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">aws s3 cp `&lt;file name&gt;` s3://sesame-bucket-01/`&lt;file name&gt;`</span><br></pre></td></tr></table></figure>
+<h3 id="Sync-a-fold"><a href="#Sync-a-fold" class="headerlink" title="Sync a fold"></a>Sync a fold</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">aws s3 sync `&lt;fold name&gt;` s3://sesame-bucket-01/`&lt;fold name&gt;`</span><br></pre></td></tr></table></figure>
+<h3 id="List-S3-objects-under-a-S3-Bucket"><a href="#List-S3-objects-under-a-S3-Bucket" class="headerlink" title="List S3 objects under a S3 Bucket"></a>List S3 objects under a S3 Bucket</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">aws s3 ls s3://sesame-bucket-01 --recursive</span><br></pre></td></tr></table></figure>
+<h3 id="Download-an-object-from-S3-to-EC2-instance"><a href="#Download-an-object-from-S3-to-EC2-instance" class="headerlink" title="Download an object from S3 to EC2 instance"></a>Download an object from S3 to EC2 instance</h3><ol>
+<li>use awscli</li>
+</ol>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">aws s3 cp s3://sesame-bucket-01/thefile.txt .</span><br></pre></td></tr></table></figure>
+<ol start="2">
+<li>use wget</li>
+</ol>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">wget https://sesame-bucket-01.s3.amazonaws.com/thefile.txt</span><br></pre></td></tr></table></figure>
+<p>If you get the following 403 error, go to your bucket from the console, change the permission of the object to public.</p>
+<p>HTTP request sent, awaiting response… 403 Forbidden<br>2018-07-02 04:49:15 ERROR 403: Forbidden.</p>
+<h3 id="Download-a-fold-from-S3-to-EC2-instance"><a href="#Download-a-fold-from-S3-to-EC2-instance" class="headerlink" title="Download a fold from S3 to EC2 instance"></a>Download a fold from S3 to EC2 instance</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">aws s3 sync s3://sesame-bucket-01/files myfolder</span><br></pre></td></tr></table></figure>
 
       
     </div>
@@ -477,7 +490,7 @@
               
                 <a href="/archives/">
               
-                  <span class="site-state-item-count">14</span>
+                  <span class="site-state-item-count">15</span>
                   <span class="site-state-item-name">posts</span>
                 </a>
               </div>
@@ -499,7 +512,7 @@
               
               <div class="site-state-item site-state-tags">
                 <a href="/tags/index.html">
-                  <span class="site-state-item-count">24</span>
+                  <span class="site-state-item-count">20</span>
                   <span class="site-state-item-name">tags</span>
                 </a>
               </div>
@@ -532,7 +545,7 @@
             
 
             
-              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-3"><a class="nav-link" href="#Create-access-keys"><span class="nav-number">1.</span> <span class="nav-text">Create access keys</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Configure-awscli"><span class="nav-number">2.</span> <span class="nav-text">Configure awscli</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Upload"><span class="nav-number">3.</span> <span class="nav-text">Upload</span></a></li></ol></div>
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-3"><a class="nav-link" href="#Create-access-keys"><span class="nav-number">1.</span> <span class="nav-text">Create access keys</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Configure-awscli"><span class="nav-number">2.</span> <span class="nav-text">Configure awscli</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Upload-a-single-file"><span class="nav-number">3.</span> <span class="nav-text">Upload a single file</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Sync-a-fold"><span class="nav-number">4.</span> <span class="nav-text">Sync a fold</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#List-S3-objects-under-a-S3-Bucket"><span class="nav-number">5.</span> <span class="nav-text">List S3 objects under a S3 Bucket</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Download-an-object-from-S3-to-EC2-instance"><span class="nav-number">6.</span> <span class="nav-text">Download an object from S3 to EC2 instance</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Download-a-fold-from-S3-to-EC2-instance"><span class="nav-number">7.</span> <span class="nav-text">Download a fold from S3 to EC2 instance</span></a></li></ol></div>
             
 
           </div>
