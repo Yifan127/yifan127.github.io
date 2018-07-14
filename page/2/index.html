@@ -249,6 +249,472 @@
   
   
   <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2017/09/10/loadbalancing/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="Yifan Zhang">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/author.gif">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Machine Learning and Data Science">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+                
+                <a class="post-title-link" href="/2017/09/10/loadbalancing/" itemprop="url">Load Balancing in R</a></h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">Posted on</span>
+              
+              <time title="Post created" itemprop="dateCreated datePublished" datetime="2017-09-10T17:20:56+12:00">
+                2017-09-10
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+            <span class="post-category" >
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">In</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/Parallel-computing/" itemprop="url" rel="index">
+                    <span itemprop="name">Parallel computing</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+            <h2 id="Functions"><a href="#Functions" class="headerlink" title="Functions:"></a>Functions:</h2><p>Functions: <code>mclapply()</code>, <code>proc.time()</code></p>
+<p>Package: <code>parallel</code></p>
+<p>Usually, when we process an amount of files, we will find that the size of some of the CSV files are larger than others, therefore, it take quite dissimilar amount of computation time. In order to balance the workload among all the sessions, we can rearrange the files by their sizes in decreasing order, in this way, R will run the larger files first. In addition, we set the parameter <code>mc.preschedule = FALSE</code>, so R will allocate the tasks to the slave sessions dynamically.</p>
+<h3 id="The-parallel-approach-mclapply"><a href="#The-parallel-approach-mclapply" class="headerlink" title="The parallel approach mclapply()"></a>The parallel approach <code>mclapply()</code></h3><p>To compare the result, we first use the parallel approach <code>mclapply()</code> to apply the function fileStats() on the full set of CSV files, and then measure and save the time used by this approach for further comparison.</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">library(parallel)</span><br><span class="line"># calculate time for the full set of CSV files using parallel processing</span><br><span class="line">ptm.old &lt;- proc.time()</span><br><span class="line">allfiles &lt;- mclapply(fileSizes$V2, fileStats, mc.cores = numCores)</span><br><span class="line">ptm.mc &lt;- proc.time() - ptm.old</span><br><span class="line">print(ptm.mc)</span><br></pre></td></tr></table></figure>
+<p>user  system elapsed<br>420.805   5.757  25.068</p>
+<h3 id="The-load-balance-approach"><a href="#The-load-balance-approach" class="headerlink" title="The load balance approach"></a>The load balance approach</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"># reaggrange the files by size in decreasing order</span><br><span class="line">orderedFiles &lt;- fileSizes[order(fileSizes$V1, decreasing = TRUE), ]</span><br><span class="line">ptm.old &lt;- proc.time()</span><br><span class="line"># disable preschedule</span><br><span class="line">allfilesLB &lt;- mclapply(orderedFiles$V2, fileStats,</span><br><span class="line">                      mc.cores = numCores, mc.preschedule = FALSE)</span><br><span class="line">ptm.lb &lt;- proc.time() - ptm.old</span><br><span class="line">print(ptm.lb)</span><br></pre></td></tr></table></figure>
+<p>user   system  elapsed<br>827.347 4959.750 1701.329</p>
+<p>The result clearly indicates that load balancing does not reduce the time taken to perform the parallel computations on this data set. To investigate the reason, we enable the preschedule again, so the data is divided into 20 sections and passed to 20 processes.</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">ptm.old &lt;- proc.time()</span><br><span class="line">allfilesOrder &lt;- mclapply(orderedFiles$V2, fileStats, mc.cores = numCores)</span><br><span class="line">proc.time() - ptm.old</span><br></pre></td></tr></table></figure>
+<p>user   system  elapsed<br>445.861   5.708  62.172</p>
+<p>From the result we can observe that the standard approach with mc.preschedule = TRUE runs faster than the load balancing approach. This is because there are too many elements (98973) in the vector fileSizes$V1, and 98973 tasks need to be allocated to 20 nodes, so the number of tasks is almost 5000 times the number of nodes. This approach sends tasks one at a time to a node, and the communication overhead is very high. Therefore, I believe that the standard approach mc.preschedule = TRUE is better for short computations or vector with large length, and the load balancing approach mc.preschedule = FALSE is better for jobs that have high variance of computation time and not too many elements in the vector.</p>
+
+          
+        
+      
+    </div>
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+    
+      
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2017/09/09/parallel/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="Yifan Zhang">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/author.gif">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Machine Learning and Data Science">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+                
+                <a class="post-title-link" href="/2017/09/09/parallel/" itemprop="url">Serial vs. Parallel Processing</a></h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">Posted on</span>
+              
+              <time title="Post created" itemprop="dateCreated datePublished" datetime="2017-09-09T16:43:07+12:00">
+                2017-09-09
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+            <span class="post-category" >
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">In</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/Parallel-computing/" itemprop="url" rel="index">
+                    <span itemprop="name">Parallel computing</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+            <h2 id="Functions"><a href="#Functions" class="headerlink" title="Functions:"></a>Functions:</h2><p>Functions: <code>lapply()</code>, <code>system.time()</code>, <code>mclapply()</code>, <code>detectCores()</code>, <code>identical()</code></p>
+<p>Package: <code>parallel</code></p>
+<p>The goal of this post is to compare the speed between serial and parallel processing.</p>
+<h3 id="Serial-processing"><a href="#Serial-processing" class="headerlink" title="Serial processing"></a>Serial processing</h3><p>In the serial processing part, we use the lapply() to apply the function <code>fileStats()</code> on each of the first 1000 CSV files. It returns a list object with length 1000. Also, we use <code>system.time()</code> to get how much CPU and real time the serial process has already taken.</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"># serial</span><br><span class="line">files &lt;- head(fileSizes, 1000)</span><br><span class="line">serial.time &lt;- system.time(serial &lt;- lapply(files$V2, fileStats))</span><br><span class="line">class(serial)</span><br></pre></td></tr></table></figure>
+<p>[1] “list”</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">length(serial)</span><br></pre></td></tr></table></figure>
+<p>[1] 1000</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">print(serial.time)</span><br></pre></td></tr></table></figure>
+<p>user  system elapsed<br>3.585   0.080   3.668</p>
+<h3 id="Parallel-processing"><a href="#Parallel-processing" class="headerlink" title="Parallel processing"></a>Parallel processing</h3><p>In this part, we use <code>detectCores()</code> in the <code>parallel</code> package to detect the number of cores in the Linux virtual machine, and the result shows that there are 20 cores in the VM.</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">library(parallel)</span><br><span class="line"># detect cores</span><br><span class="line">numCores &lt;- detectCores()</span><br><span class="line">print(numCores)</span><br></pre></td></tr></table></figure>
+<p>[1] 20</p>
+<p>After that, we use <code>mclapply()</code> to run the function fileStats() on all of the 20 cores in parallel at once. The slave R sessions can recognize the fileStats() function because of the forked R sessions, so the variables and functions are shared between these sessions.</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"># run in parallel</span><br><span class="line">par.time &lt;- system.time(parallel &lt;- mclapply(files$V2, fileStats, mc.cores = numCores))</span><br><span class="line">class(parallel)</span><br></pre></td></tr></table></figure>
+<p>[1] “list”</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">length(parallel)</span><br></pre></td></tr></table></figure>
+<p>[1] 1000</p>
+<p>Similar to the serial processing, it also returns a list object with length 1000.</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">print(par.time)</span><br></pre></td></tr></table></figure>
+<p>user  system elapsed<br>4.318   0.684   0.378</p>
+<p>To compare the answers, we use <code>identical()</code> to test whether the whole outputs are equal, and it returns TRUE, which means that the two objects are exactly the same. Furthermore, we notice that the user time exceeds the elapsed time, and that is the sign of working in parallel.</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"># check whether the answers are the same</span><br><span class="line">identical(serial, parallel)</span><br></pre></td></tr></table></figure>
+<p>[1] TRUE</p>
+<figure class="highlight plain"><figcaption><span>comparing time&#125;</span></figcaption><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"># Times faster</span><br><span class="line">serial.time[3]/par.time[3]</span><br></pre></td></tr></table></figure>
+<p>elapsed<br>9.703704</p>
+<p>From the user CPU and real time, we can see that parallel processing is about 10 times faster than serial processing instead of 20 times. There are two main reasons for this result. First, there is overhead in starting up slave R sessions. Second, there is some communication overhead between the master and slave sessions, because these slave sessions need to send the results back to the master after executing the function.</p>
+
+          
+        
+      
+    </div>
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+    
+      
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2017/08/16/rsqlite/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="Yifan Zhang">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/author.gif">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Machine Learning and Data Science">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+                
+                <a class="post-title-link" href="/2017/08/16/rsqlite/" itemprop="url">The RSQLite Package</a></h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">Posted on</span>
+              
+              <time title="Post created" itemprop="dateCreated datePublished" datetime="2017-08-16T16:43:07+12:00">
+                2017-08-16
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+            <span class="post-category" >
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">In</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/Large-data/" itemprop="url" rel="index">
+                    <span itemprop="name">Large data</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+            <h2 id="Functions"><a href="#Functions" class="headerlink" title="Functions:"></a>Functions:</h2><p>Functions: <code>dbConnect()</code>, <code>dbGetQuery()</code><br>Package: <code>RSQLite</code></p>
+<p>In the previous post, we use the <code>data.table</code> package to read, add and aggregate the data, and we found that it is faster and use less RAM than the stardard R functions. Today, we will repeat the steps using the ‘RSQLite’ package.</p>
+<p>We will find dramatically less memory usage by R, because all of the calculations are happen in SQLite, rather in R.</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line">library(RSQLite)</span><br><span class="line"></span><br><span class="line">gc(reset=TRUE)</span><br><span class="line">db = dbConnect(SQLite(), db=&quot;alldata.sqlite&quot;)</span><br><span class="line">gc()</span><br><span class="line"></span><br><span class="line">gc(reset=TRUE)</span><br><span class="line">arrivals = dbGetQuery(db, &quot;SELECT AVG(arrival), strftime(&apos;%w&apos;, timestamp, &apos;unixepoch&apos;, &apos;localtime&apos;) as wday FROM buses WHERE arrival != &apos;NA&apos; GROUP BY wday&quot;)</span><br><span class="line">departures = dbGetQuery(db, &quot;SELECT AVG(departure), strftime(&apos;%w&apos;, timestamp, &apos;unixepoch&apos;, &apos;localtime&apos;) as wday FROM buses WHERE departure != &apos;NA&apos; GROUP BY wday&quot;)</span><br><span class="line">merge(arrivals, departures)</span><br><span class="line">gc()</span><br></pre></td></tr></table></figure>
+
+          
+        
+      
+    </div>
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+    
+      
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
     <link itemprop="mainEntityOfPage" href="http://yoursite.com/2017/08/15/largedata/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
@@ -1706,7 +2172,7 @@
               
                 <a href="/archives/">
               
-                  <span class="site-state-item-count">17</span>
+                  <span class="site-state-item-count">20</span>
                   <span class="site-state-item-name">posts</span>
                 </a>
               </div>
@@ -1728,7 +2194,7 @@
               
               <div class="site-state-item site-state-tags">
                 <a href="/tags/index.html">
-                  <span class="site-state-item-count">23</span>
+                  <span class="site-state-item-count">24</span>
                   <span class="site-state-item-name">tags</span>
                 </a>
               </div>
