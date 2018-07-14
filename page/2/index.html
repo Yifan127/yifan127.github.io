@@ -249,6 +249,168 @@
   
   
   <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2017/09/11/crossvm/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="Yifan Zhang">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/author.gif">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Machine Learning and Data Science">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+                
+                <a class="post-title-link" href="/2017/09/11/crossvm/" itemprop="url">Running a Function on Cluster</a></h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">Posted on</span>
+              
+              <time title="Post created" itemprop="dateCreated datePublished" datetime="2017-09-11T12:34:39+12:00">
+                2017-09-11
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+            <span class="post-category" >
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">In</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/Parallel-computing/" itemprop="url" rel="index">
+                    <span itemprop="name">Parallel computing</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+            <h2 id="Functions"><a href="#Functions" class="headerlink" title="Functions:"></a>Functions:</h2><p>Functions: <code>makeCluster()</code>, <code>parLapply()</code></p>
+<p>Package: <code>parallel</code></p>
+<p>In this post, we aim at running the function fileStats() on multiple virtual machines with more cores via <code>makeCluster()</code>.</p>
+<p>First, we take the virtual machine <code>vm01</code> as our master machine, and run <code>ssh-keygen</code> to generate key with empty passphrase. This step generates two files under the .ssh folder in user home directory.</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">ls .ssh</span><br></pre></td></tr></table></figure>
+<p>id_rsa  id_rsa.pub</p>
+<p>Second, we use <code>ssh-copy-id</code> to copy the key to the other virtual machines.</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">ssh-copy-id vm02</span><br></pre></td></tr></table></figure>
+<p>Now, we can use <code>ssh</code> to login other virtual machines without providing username and password.</p>
+<p>Also, we need to use <code>scp</code> to copy the R script which contains the function fileStats() to the other virtual machines, because they don’t share the same file system.</p>
+<p>To execute the code in parallel across multiple virtual machines, we use <code>makeCluster</code> to create 20 sessions on each of vm01 and vm02. Additionally, we use <code>clusterEvalQ</code> to load packages, variables and functions on each cluster node, because they are independent and communicate via sockets. At last, we use <code>stopCluster</code> to shutdown the cluster after completing the job. If it is not stopped, the processes continue to run in the background and consume resources, so new processes might be delayed.</p>
+<p>If we want to compare this approach to the other two approaches described in the previous two posts, we  need to include the time to create and stop the cluster, as well as load the setup R script when timing this approach, because it is unfair if we just time the makeCluster or the parLapply call. The result indicates that it runs slower than the mclapply approach.</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br></pre></td><td class="code"><pre><span class="line">library(parallel)</span><br><span class="line"># run on 2 VMs with 40 cores in parallel</span><br><span class="line">ptm.old &lt;- proc.time()</span><br><span class="line"># create cluster</span><br><span class="line">invisible(cluster &lt;- makeCluster(rep(c(&quot;vm01&quot;,</span><br><span class="line">                                       &quot;vm02&quot;), each = 20),</span><br><span class="line">                                 master = &quot;vm01&quot;,</span><br><span class="line">                                 user = &quot;&lt;username&gt;&quot;,</span><br><span class="line">                                 homogeneous = FALSE,</span><br><span class="line">                                 Rscript = &quot;/usr/bin/Rscript&quot;))</span><br><span class="line"></span><br><span class="line"># load the R script on each cluster node</span><br><span class="line">clusterEvalQ(cluster, source(&quot;./setup.R&quot;))</span><br><span class="line">allfilesCL &lt;- clusterApply(cluster, fileSizes$V2, fileStats)</span><br><span class="line"># shutdown cluster</span><br><span class="line">stopCluster(cluster)</span><br><span class="line">ptm.cl &lt;- proc.time() - ptm.old</span><br><span class="line">print(ptm.cl)</span><br></pre></td></tr></table></figure>
+<p>user  system elapsed<br>17.228   4.786 268.946</p>
+<p>Then, we try the <code>parLapply</code> approach. The result shows that the speed is faster than the clusterApply, and very close to the mclapply approach.</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line">ptm.old &lt;- proc.time()</span><br><span class="line"># create cluster</span><br><span class="line">invisible(cluster &lt;- makeCluster(rep(c(&quot;vm01&quot;,</span><br><span class="line">                                       &quot;vm02&quot;), each = 20),</span><br><span class="line">                                 master = &quot;vm01&quot;,</span><br><span class="line">                                 user = &quot;&lt;username&gt;&quot;,</span><br><span class="line">                                 homogeneous = FALSE,</span><br><span class="line">                                 Rscript = &quot;/usr/bin/Rscript&quot;))</span><br><span class="line"># load the R script on each cluster node</span><br><span class="line">invisible(clusterEvalQ(cluster, source(&quot;./setup.R&quot;)))</span><br><span class="line">allfilesParL &lt;- parLapply(cluster, fileSizes$V2, fileStats)</span><br><span class="line"># shutdown cluster</span><br><span class="line">stopCluster(cluster)</span><br><span class="line">ptm.par &lt;- proc.time() - ptm.old</span><br><span class="line">print(ptm.par)</span><br></pre></td></tr></table></figure>
+<p>user  system elapsed<br>0.540   0.209  25.791</p>
+<p>The <code>clusterApply()</code> approach is slower than the standard <code>mclapply()</code> approach as there are additional communication overhead across the virtual machines. Also, the mclapply() approach creates new R sessions via forking, which is very fast. By contrast, <code>the clusterApply()</code> approach need to copy all the data via the sockets.</p>
+<p>Although in both of <code>clusterApply()</code> and <code>parLapply()</code>, the nodes need to communicate via the sockets, <code>parLapply()</code> is still faster than  <code>clusterApply()</code>, because <code>clusterApply()</code> calls the function fileStats on the first node with the first element in fileSizes$V2, on the second node with the second element in fileSizes$V2, and so on. In the contrary, if we look at the definition of the function parLapply(), we can see that it is actually a wrapper of function <code>clusterApply()</code>, and the splitList(X, length(cl)) will split the tasks into even portions and send them to the nodes, which reduces the overhead of communication.</p>
+<p>The speed of the <code>parLapply()</code> approach is very close to the <code>mclapply()</code>, but I think the individual running time of the single <code>parLapply()</code> call is faster, and the extra overhead via the sockets slows the overall speed down.</p>
+<p>In conclusion, it is not always true that the more cores, the better the performance. We need to choose the approach on a case-by-case basis to prevent decreasing the computation speed.</p>
+
+          
+        
+      
+    </div>
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+    
+      
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
     <link itemprop="mainEntityOfPage" href="http://yoursite.com/2017/09/10/loadbalancing/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
@@ -1924,205 +2086,11 @@
 
 
     
-      
-
-  
-
-  
-  
-  
-
-  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
-  
-  
-  
-  <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2017/08/01/mergeaggregate/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="name" content="Yifan Zhang">
-      <meta itemprop="description" content="">
-      <meta itemprop="image" content="/images/author.gif">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="Machine Learning and Data Science">
-    </span>
-
-    
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">
-                
-                <a class="post-title-link" href="/2017/08/01/mergeaggregate/" itemprop="url">Load and Merge Multiple CSV Files into R</a></h1>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">Posted on</span>
-              
-              <time title="Post created" itemprop="dateCreated datePublished" datetime="2017-08-01T17:55:35+12:00">
-                2017-08-01
-              </time>
-            
-
-            
-
-            
-          </span>
-
-          
-            <span class="post-category" >
-            
-              <span class="post-meta-divider">|</span>
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-folder-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">In</span>
-              
-              
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/data-pre-processing/" itemprop="url" rel="index">
-                    <span itemprop="name">data pre-processing</span>
-                  </a>
-                </span>
-
-                
-                
-              
-            </span>
-          
-
-          
-            
-          
-
-          
-          
-
-          
-
-          
-
-          
-
-        </div>
-      </header>
-    
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          
-            <h2 id="Data-description"><a href="#Data-description" class="headerlink" title="Data description:"></a>Data description:</h2><p>The dataset consists of 60 CSV files, each contains information on Auckland Bus delays. The file name contains a date-time component that reflects the exact time of the request for each file. For example: trip_updates_20170401053101.csv.</p>
-<h2 id="The-goal"><a href="#The-goal" class="headerlink" title="The goal:"></a>The goal:</h2><ol>
-<li>Load the 60 CSV files into R and create a single data frame. Provide a summary of the arrival and delay values.</li>
-<li>Merge the route and agency datafiles and calculate average arrival and departure values for each Bus Agency.</li>
-</ol>
-<h2 id="Functions-packages-and-plots"><a href="#Functions-packages-and-plots" class="headerlink" title="Functions, packages and plots:"></a>Functions, packages and plots:</h2><ol>
-<li>Functions: <code>list.files()</code>, <code>lapply()</code>, <code>sapply()</code>, <code>rbind()</code>, <code>cbind()</code>, <code>do.call()</code>, <code>which.max()</code>, <code>strsplit()</code>, <code>merge()</code>, <code>aggregate()</code>, <code>melt()</code></li>
-<li>Packages: <code>reshape2</code>, <code>ggplot2</code>, <code>ggpubr</code></li>
-<li>Plot: histogram</li>
-</ol>
-<h3 id="Load-the-60-csv-files-to-a-data-frame"><a href="#Load-the-60-csv-files-to-a-data-frame" class="headerlink" title="Load the 60 csv files to a data frame"></a>Load the 60 csv files to a data frame</h3><ul>
-<li>Put all the csv files in the current working directory.</li>
-<li>Read them to a list by applying the  <code>read.csv</code> function to all of them.</li>
-<li>Call the <code>rbind</code> function to combine the list by rows, and obtain a single data frame.</li>
-</ul>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">myfiles = list.files(pattern = &quot;*.csv&quot;)</span><br><span class="line">trips = do.call(rbind, lapply(myfiles, read.csv, header = TRUE, stringsAsFactors = FALSE))</span><br><span class="line">head(trips)</span><br></pre></td></tr></table></figure>
-<p><img src="/2017/08/01/mergeaggregate/head.jpg" alt=""></p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">dim(trips)</span><br></pre></td></tr></table></figure>
-<p>[1] 754   9</p>
-<h3 id="Summary-of-departure-and-arrival-delay"><a href="#Summary-of-departure-and-arrival-delay" class="headerlink" title="Summary of departure and arrival delay"></a>Summary of departure and arrival delay</h3><p>We are interested in two variables: departure and arrival. The <code>summary</code> function can generate simple statistics.</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">summary(trips[c(&quot;arrival&quot;, &quot;departure&quot;)])</span><br></pre></td></tr></table></figure>
-<p><img src="/2017/08/01/mergeaggregate/summary.jpg" alt=""></p>
-<p>Notice that there are missing values in both departure and arrival. And more of the arrival delays are missing. The following code plots histogram of these two variables.</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">library(ggplot2)</span><br><span class="line">p1 = ggplot(trips, aes(departure)) + geom_histogram(binwidth = 20) + xlim(c(-1000, 2300))</span><br><span class="line">p2 = ggplot(trips, aes(arrival)) + geom_histogram(binwidth = 20) + xlim(c(-1000, 2300))</span><br><span class="line"></span><br><span class="line">library(ggpubr)</span><br><span class="line">ggarrange(p1, p2,</span><br><span class="line">          ncol = 2, nrow = 1, common.legend = TRUE)</span><br></pre></td></tr></table></figure>
-<p><img src="/2017/08/01/mergeaggregate/histogram.jpg" alt=""></p>
-<p>The distribution of arrival and departure are similar, with a slight skew to left. Also, we can see that there is one record with very large arrival delay of around 38 minutes.</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">trips$arrival[which.max(trips$arrival)]/60</span><br></pre></td></tr></table></figure>
-<p>[1] 38.06667</p>
-<h3 id="Truncate-trip-and-route"><a href="#Truncate-trip-and-route" class="headerlink" title="Truncate trip and route"></a>Truncate trip and route</h3><p>We define a function to truncate the trip and route. First, split the character by the separator “-“, then extract the first component from the list. In this way, we trim the timestamp and version information off the string.</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">truncId = function(x, sep = &quot;-&quot;, index = 1)&#123;</span><br><span class="line">  sapply(strsplit(x, sep), &quot;[&quot;, index)</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-<p>Call the above function, then add the trimmed trip and route to the data frame, and remove the original ones.</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">trip = truncId(trips$trip)</span><br><span class="line">route = truncId(trips$route)</span><br><span class="line">trips = cbind(trip, route, trips[-c(1, 2)])</span><br></pre></td></tr></table></figure>
-<h3 id="Load-two-supplementary-files"><a href="#Load-two-supplementary-files" class="headerlink" title="Load two supplementary files"></a>Load two supplementary files</h3><p>routes.txt and ageny.txt provide more information about routes and agencies. Before we merge these files, we need to truncate the route_id in the routes file.</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">agency = read.table(&quot;agency.txt&quot;, header = TRUE, sep = &quot;,&quot; stringsAsFactors = FALSE)</span><br><span class="line">routes = read.table(&quot;routes.txt&quot;, header = TRUE, sep = &quot;,&quot;, stringsAsFactors = FALSE)</span><br><span class="line">routes$route_id = truncId(routes$route_id)</span><br></pre></td></tr></table></figure>
-<h3 id="Merge-trips-route-and-agency"><a href="#Merge-trips-route-and-agency" class="headerlink" title="Merge trips, route and agency"></a>Merge trips, route and agency</h3><ul>
-<li>Merge trips and routes by column “route” in trips and column “route_id” in routes.</li>
-<li>Merge trips and agency by column “agency_id”<br>The following code merges the data sets.</li>
-</ul>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">tripsplus = merge(trips, routes, by.x = &quot;route&quot;, by.y = &quot;route_id&quot;, all.x = TRUE)</span><br><span class="line">tripsplus = merge(tripsplus, agency, by = &quot;agency_id&quot;, all.x = TRUE)</span><br></pre></td></tr></table></figure>
-<h3 id="Calculates-average-departure-and-arrival-by-agency"><a href="#Calculates-average-departure-and-arrival-by-agency" class="headerlink" title="Calculates average departure and arrival by agency"></a>Calculates average departure and arrival by agency</h3><ul>
-<li>Aggregate departure and arrival by agency_id</li>
-<li>Apply mean function to get the average values</li>
-</ul>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">mean.agency = aggregate(tripsplus[c(&quot;departure&quot;,&quot;arrival&quot;)], by = list(agency_id = tripsplus$agency_id), mean, na.rm = TRUE)</span><br><span class="line">mean.agency</span><br></pre></td></tr></table></figure>
-<p><img src="/2017/08/01/mergeaggregate/delaybyagency.jpg" alt=""></p>
-<h3 id="A-scatter-plot-to-display-the-average-departure-and-arrival-by-agency"><a href="#A-scatter-plot-to-display-the-average-departure-and-arrival-by-agency" class="headerlink" title="A scatter plot to display the average departure and arrival by agency"></a>A scatter plot to display the average departure and arrival by agency</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line">library(reshape2)</span><br><span class="line">meltmean = melt(mean.agency, id = &quot;agency_id&quot;)</span><br><span class="line"></span><br><span class="line">pp = function(df, title)&#123;</span><br><span class="line">  ggplot(df, aes(agency_id, value, colour = variable, group = variable)) +</span><br><span class="line">    geom_point(size = 4) +</span><br><span class="line">    geom_hline(yintercept = 0) +</span><br><span class="line">    geom_vline(xintercept = 0) +</span><br><span class="line">    ggtitle(title) +</span><br><span class="line">    labs(x = &quot;Agency ID&quot;, y = &quot;Time&quot;, colour = &quot;Delay&quot;)</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">pp(meltmean, title = &quot;Average Departure and Arrival Delays by Agency&quot;)</span><br></pre></td></tr></table></figure>
-<p><img src="/2017/08/01/mergeaggregate/plot.jpg" alt=""></p>
-<p>The result shows that<br>1) Birkenhead Transport (BTL) has the largest average departure and arrival delays<br>2) Eastern (HE) has a very small average  departure and arrival delay<br>3) Go Bus (GBT) and Ritchies Transport (RTH) are early on average for both arrivals and departures!</p>
-<p>However, this is a small data sets, and the data was collected in a small time range.</p>
-<h3 id="Removes-duplicated-observations"><a href="#Removes-duplicated-observations" class="headerlink" title="Removes duplicated observations"></a>Removes duplicated observations</h3><p>There are some duplicated observations, so a single delayed bus could have an even large impact on the results. Therefore, we need to removes all duplicated.</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">unique.tripsplus = tripsplus[!duplicated(tripsplus),]</span><br><span class="line">dim(tripsplus)</span><br><span class="line">dim(unique.tripsplus)</span><br></pre></td></tr></table></figure>
-<p>[1] 754  19<br>[1] 477  19</p>
-<p>After removing duplicated, we can calculate and plot the average departure and arrival delay by agency again to get a more accurate result.</p>
-
-          
-        
-      
-    </div>
-    
-    
-    
-
-    
-
-    
-
-    
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </div>
-  
-  
-  
-  </article>
-
-
-    
   </section>
 
   
   <nav class="pagination">
-    <a class="extend prev" rel="prev" href="/"><i class="fa fa-angle-left"></i></a><a class="page-number" href="/">1</a><span class="page-number current">2</span>
+    <a class="extend prev" rel="prev" href="/"><i class="fa fa-angle-left"></i></a><a class="page-number" href="/">1</a><span class="page-number current">2</span><a class="page-number" href="/page/3/">3</a><a class="extend next" rel="next" href="/page/3/"><i class="fa fa-angle-right"></i></a>
   </nav>
 
 
@@ -2172,7 +2140,7 @@
               
                 <a href="/archives/">
               
-                  <span class="site-state-item-count">20</span>
+                  <span class="site-state-item-count">21</span>
                   <span class="site-state-item-name">posts</span>
                 </a>
               </div>
