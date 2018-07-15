@@ -1,0 +1,740 @@
+<!DOCTYPE html>
+
+
+
+  
+
+
+<html class="theme-next muse use-motion" lang="">
+<head>
+  <meta charset="UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+<meta name="theme-color" content="#222">
+
+
+
+
+
+
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <link href="/lib/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css" />
+
+
+
+
+
+
+
+<link href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2" rel="stylesheet" type="text/css" />
+
+<link href="/css/main.css?v=5.1.4" rel="stylesheet" type="text/css" />
+
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png?v=5.1.4">
+
+
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png?v=5.1.4">
+
+
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png?v=5.1.4">
+
+
+  <link rel="mask-icon" href="/images/logo.svg?v=5.1.4" color="#222">
+
+
+
+
+
+  <meta name="keywords" content="Hive," />
+
+
+
+
+
+
+
+
+
+
+<meta name="description" content="By default, a simple HiveQL query scans the whole table. This slows down the performance when querying a big table.This issue could be resolved by creating partitions. In Hive, each partition correspo">
+<meta name="keywords" content="Hive">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Static Partitions in Hive">
+<meta property="og:url" content="http://yoursite.com/2018/06/02/Static-Partitions-in-Hive/index.html">
+<meta property="og:site_name" content="Machine Learning and Data Science">
+<meta property="og:description" content="By default, a simple HiveQL query scans the whole table. This slows down the performance when querying a big table.This issue could be resolved by creating partitions. In Hive, each partition correspo">
+<meta property="og:locale" content="default">
+<meta property="og:updated_time" content="2018-07-15T09:52:14.979Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="Static Partitions in Hive">
+<meta name="twitter:description" content="By default, a simple HiveQL query scans the whole table. This slows down the performance when querying a big table.This issue could be resolved by creating partitions. In Hive, each partition correspo">
+
+
+
+<script type="text/javascript" id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Muse',
+    version: '5.1.4',
+    sidebar: {"position":"left","display":"post","offset":12,"b2t":false,"scrollpercent":false,"onmobile":false},
+    fancybox: true,
+    tabs: true,
+    motion: {"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},
+    duoshuo: {
+      userId: '0',
+      author: 'Author'
+    },
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+
+  <link rel="canonical" href="http://yoursite.com/2018/06/02/Static-Partitions-in-Hive/"/>
+
+
+
+
+
+  <title>Static Partitions in Hive | Machine Learning and Data Science</title>
+  
+
+
+
+
+
+
+
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="default">
+
+  
+  
+    
+  
+
+  <div class="container sidebar-position-left page-post-detail">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-wrapper">
+  <div class="site-meta ">
+    
+
+    <div class="custom-logo-site-title">
+      <a href="/"  class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">Machine Learning and Data Science</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+      
+        <p class="site-subtitle"></p>
+      
+  </div>
+
+  <div class="site-nav-toggle">
+    <button>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-home"></i> <br />
+            
+            Home
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-tags">
+          <a href="/tags/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-tags"></i> <br />
+            
+            Tags
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-categories">
+          <a href="/categories/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-th"></i> <br />
+            
+            Categories
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-archive"></i> <br />
+            
+            Archives
+          </a>
+        </li>
+      
+
+      
+    </ul>
+  
+
+  
+</nav>
+
+
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2018/06/02/Static-Partitions-in-Hive/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="Yifan Zhang">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/author.gif">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Machine Learning and Data Science">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">Static Partitions in Hive</h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">Posted on</span>
+              
+              <time title="Post created" itemprop="dateCreated datePublished" datetime="2018-06-02T20:40:17+12:00">
+                2018-06-02
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+            <span class="post-category" >
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">In</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/Hadoop/" itemprop="url" rel="index">
+                    <span itemprop="name">Hadoop</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <p>By default, a simple HiveQL query scans the whole table. This slows down the performance when querying a big table.<br>This issue could be resolved by creating partitions. In Hive, each partition corresponds to a predefined partition column(s), which maps to subdirectories in the table’s directory in HDFS.<br>When the table gets queried, only the required partitions (directory) of data in the table are being read, so the I/O and time of the query is greatly reduced.<br>Using partition is a very easy and effective way to improve performance in Hive.</p>
+<h3 id="Create-a-table-with-partition"><a href="#Create-a-table-with-partition" class="headerlink" title="Create a table with partition"></a>Create a table with partition</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line">CREATE TABLE employee_partitioned (</span><br><span class="line">    name STRING,</span><br><span class="line">    work_place ARRAY&lt;STRING&gt;,</span><br><span class="line">    gender_age STRUCT&lt;gender:STRING,age:INT&gt;,</span><br><span class="line">    skills_score MAP&lt;STRING,INT&gt;,</span><br><span class="line">    depart_title MAP&lt;STRING,ARRAY&lt;STRING&gt;&gt; </span><br><span class="line">    -- This is regular column</span><br><span class="line">    )</span><br><span class="line">    PARTITIONED BY (year INT, month INT) </span><br><span class="line">    -- Use lower case partition column</span><br><span class="line">    ROW FORMAT DELIMITED</span><br><span class="line">    FIELDS TERMINATED BY &apos;|&apos;</span><br><span class="line">    COLLECTION ITEMS TERMINATED BY &apos;,&apos;</span><br><span class="line">    MAP KEYS TERMINATED BY &apos;:&apos;;</span><br></pre></td></tr></table></figure>
+<h3 id="Check-table-structure"><a href="#Check-table-structure" class="headerlink" title="Check table structure"></a>Check table structure</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br></pre></td><td class="code"><pre><span class="line">desc employee_partitioned;</span><br><span class="line"></span><br><span class="line">+--------------------------+--------------------------------+-----------------------+--+</span><br><span class="line">|         col_name         |           data_type            |        comment        |</span><br><span class="line">+--------------------------+--------------------------------+-----------------------+--+</span><br><span class="line">| name                     | string                         |                       |</span><br><span class="line">| work_place               | array&lt;string&gt;                  |                       |</span><br><span class="line">| gender_age               | struct&lt;gender:string,age:int&gt;  |                       |</span><br><span class="line">| skills_score             | map&lt;string,int&gt;                |                       |</span><br><span class="line">| depart_title             | map&lt;string,array&lt;string&gt;&gt;      |                       |</span><br><span class="line">| year                     | int                            |                       |</span><br><span class="line">| month                    | int                            |                       |</span><br><span class="line">|                          | NULL                           | NULL                  |</span><br><span class="line">| # Partition Information  | NULL                           | NULL                  |</span><br><span class="line">| # col_name               | data_type                      | comment               |</span><br><span class="line">|                          | NULL                           | NULL                  |</span><br><span class="line">| year                     | int                            |                       |</span><br><span class="line">| month                    | int                            |                       |</span><br><span class="line">+--------------------------+--------------------------------+-----------------------+--+</span><br></pre></td></tr></table></figure>
+<h3 id="Show-partition"><a href="#Show-partition" class="headerlink" title="Show partition"></a>Show partition</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">SHOW PARTITIONS employee_partitioned; -- Check partitions</span><br><span class="line"></span><br><span class="line">+------------+--+</span><br><span class="line">| partition  |</span><br><span class="line">+------------+--+</span><br><span class="line">+------------+--+</span><br></pre></td></tr></table></figure>
+<p>From the preceding result, we can see that the partition is not enabled automatically.</p>
+<h3 id="Add-partition"><a href="#Add-partition" class="headerlink" title="Add partition"></a>Add partition</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">ALTER TABLE employee_partitioned ADD</span><br><span class="line">PARTITION (year=2018, month=11)</span><br><span class="line">PARTITION (year=2018, month=12);</span><br></pre></td></tr></table></figure>
+<p>Check partition again<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">SHOW PARTITIONS employee_partitioned;</span><br><span class="line"></span><br><span class="line">+---------------------+--+</span><br><span class="line">|      partition      |</span><br><span class="line">+---------------------+--+</span><br><span class="line">| year=2018/month=11  |</span><br><span class="line">| year=2018/month=12  |</span><br><span class="line">+---------------------+--+</span><br></pre></td></tr></table></figure></p>
+<h3 id="Check-in-HDFS"><a href="#Check-in-HDFS" class="headerlink" title="Check in HDFS"></a>Check in HDFS</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">[cloudera@quickstart data]$ hadoop fs -ls /user/hive/warehouse/my_database.db/employee_partitioned</span><br><span class="line">Found 1 items</span><br><span class="line">drwxrwxrwx   - anonymous supergroup          0 2018-07-15 01:51 /user/hive/warehouse/my_database.db/employee_partitioned/year=2018</span><br><span class="line">[cloudera@quickstart data]$ hadoop fs -ls /user/hive/warehouse/my_database.db/employee_partitioned/year=2018</span><br><span class="line">Found 2 items</span><br><span class="line">drwxrwxrwx   - anonymous supergroup          0 2018-07-15 01:51 /user/hive/warehouse/my_database.db/employee_partitioned/year=2018/month=11</span><br><span class="line">drwxrwxrwx   - anonymous supergroup          0 2018-07-15 01:51 /user/hive/warehouse/my_database.db/employee_partitioned/year=2018/month=12</span><br></pre></td></tr></table></figure>
+<h3 id="Drop-partition"><a href="#Drop-partition" class="headerlink" title="Drop partition"></a>Drop partition</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">ALTER TABLE employee_partitioned DROP IF EXISTS PARTITION (year=2018, month=11);</span><br></pre></td></tr></table></figure>
+<h3 id="Load-data-into-the-table"><a href="#Load-data-into-the-table" class="headerlink" title="Load data into the table"></a>Load data into the table</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">LOAD DATA LOCAL inpath &apos;/home/cloudera/data/employee.txt&apos; OVERWRITE INTO TABLE employee_partitioned PARTITION (year=2018, month=12);</span><br></pre></td></tr></table></figure>
+<h3 id="Verify-data-loaded"><a href="#Verify-data-loaded" class="headerlink" title="Verify data loaded"></a>Verify data loaded</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">SELECT name, year, month FROM employee_partitioned;</span><br><span class="line"></span><br><span class="line">+----------+--------+-------+--+</span><br><span class="line">|   name   | month  | year  |</span><br><span class="line">+----------+--------+-------+--+</span><br><span class="line">| Michael  | 12     | 2018  |</span><br><span class="line">| Will     | 12     | 2018  |</span><br><span class="line">| Shelley  | 12     | 2018  |</span><br><span class="line">| Lucy     | 12     | 2018  |</span><br><span class="line">+----------+--------+-------+--+</span><br></pre></td></tr></table></figure>
+<h3 id="Verify-the-data-in-HDFS"><a href="#Verify-the-data-in-HDFS" class="headerlink" title="Verify the data in HDFS"></a>Verify the data in HDFS</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">hadoop fs -cat /user/hive/warehouse/my_database.db/employee_partitioned/year=2018/month=12/employee.txt</span><br><span class="line"></span><br><span class="line">Michael|Montreal,Toronto|Male,30|DB:80|Product:Developer^DLead</span><br><span class="line">Will|Montreal|Male,35|Perl:85|Product:Lead,Test:Lead</span><br><span class="line">Shelley|New York|Female,27|Python:80|Test:Lead,COE:Architect</span><br><span class="line">Lucy|Vancouver|Female,57|Sales:89,HR:94|Sales:Lead</span><br></pre></td></tr></table></figure>
+      
+    </div>
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/Hive/" rel="tag"># Hive</a>
+          
+        </div>
+      
+
+      
+      
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2018/06/01/Processing-Json-and-XML-in-Hive/" rel="next" title="Processing Json and XML in Hive">
+                <i class="fa fa-chevron-left"></i> Processing Json and XML in Hive
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+              <a href="/2018/07/01/Upload-content-to-AWS-S3/" rel="prev" title="Upload content to S3 by awscli">
+                Upload content to S3 by awscli <i class="fa fa-chevron-right"></i>
+              </a>
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+
+    <div class="post-spread">
+      
+    </div>
+  </div>
+
+
+          </div>
+          
+
+
+          
+
+  
+
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap">
+            Table of Contents
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview-wrap">
+            Overview
+          </li>
+        </ul>
+      
+
+      <section class="site-overview-wrap sidebar-panel">
+        <div class="site-overview">
+          <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+            
+              <img class="site-author-image" itemprop="image"
+                src="/images/author.gif"
+                alt="Yifan Zhang" />
+            
+              <p class="site-author-name" itemprop="name">Yifan Zhang</p>
+              <p class="site-description motion-element" itemprop="description"></p>
+          </div>
+
+          <nav class="site-state motion-element">
+
+            
+              <div class="site-state-item site-state-posts">
+              
+                <a href="/archives/">
+              
+                  <span class="site-state-item-count">24</span>
+                  <span class="site-state-item-name">posts</span>
+                </a>
+              </div>
+            
+
+            
+              
+              
+              <div class="site-state-item site-state-categories">
+                <a href="/categories/index.html">
+                  <span class="site-state-item-count">8</span>
+                  <span class="site-state-item-name">categories</span>
+                </a>
+              </div>
+            
+
+            
+              
+              
+              <div class="site-state-item site-state-tags">
+                <a href="/tags/index.html">
+                  <span class="site-state-item-count">25</span>
+                  <span class="site-state-item-name">tags</span>
+                </a>
+              </div>
+            
+
+          </nav>
+
+          
+
+          
+
+          
+          
+
+          
+          
+
+          
+
+        </div>
+      </section>
+
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-3"><a class="nav-link" href="#Create-a-table-with-partition"><span class="nav-number">1.</span> <span class="nav-text">Create a table with partition</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Check-table-structure"><span class="nav-number">2.</span> <span class="nav-text">Check table structure</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Show-partition"><span class="nav-number">3.</span> <span class="nav-text">Show partition</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Add-partition"><span class="nav-number">4.</span> <span class="nav-text">Add partition</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Check-in-HDFS"><span class="nav-number">5.</span> <span class="nav-text">Check in HDFS</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Drop-partition"><span class="nav-number">6.</span> <span class="nav-text">Drop partition</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Load-data-into-the-table"><span class="nav-number">7.</span> <span class="nav-text">Load data into the table</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Verify-data-loaded"><span class="nav-number">8.</span> <span class="nav-text">Verify data loaded</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Verify-the-data-in-HDFS"><span class="nav-number">9.</span> <span class="nav-text">Verify the data in HDFS</span></a></li></ol></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
+      
+
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright">&copy; <span itemprop="copyrightYear">2018</span>
+  <span class="with-love">
+    <i class="fa fa-user"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">Yifan Zhang</span>
+
+  
+</div>
+
+
+  <div class="powered-by">Powered by <a class="theme-link" target="_blank" href="https://hexo.io">Hexo</a></div>
+
+
+
+  <span class="post-meta-divider">|</span>
+
+
+
+  <div class="theme-info">Theme &mdash; <a class="theme-link" target="_blank" href="https://github.com/iissnan/hexo-theme-next">NexT.Muse</a> v5.1.4</div>
+
+
+
+
+        
+
+
+
+
+
+
+
+        
+      </div>
+    </footer>
+
+    
+      <div class="back-to-top">
+        <i class="fa fa-arrow-up"></i>
+        
+      </div>
+    
+
+    
+
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+    <script type="text/javascript" src="/lib/jquery/index.js?v=2.1.3"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+  
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=5.1.4"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=5.1.4"></script>
+
+
+
+  
+  
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.1.4"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.1.4"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.1.4"></script>
+
+
+
+  
+
+
+  
+
+
+
+
+	
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+  
+
+  
+
+  
+  
+
+  
+
+  
+
+  
+
+</body>
+</html>

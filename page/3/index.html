@@ -249,6 +249,454 @@
   
   
   <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2017/08/08/Linux-Commands-Summary/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="Yifan Zhang">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/author.gif">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Machine Learning and Data Science">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+                
+                <a class="post-title-link" href="/2017/08/08/Linux-Commands-Summary/" itemprop="url">General Linux Commands Summary</a></h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">Posted on</span>
+              
+              <time title="Post created" itemprop="dateCreated datePublished" datetime="2017-08-08T11:39:25+12:00">
+                2017-08-08
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+            <span class="post-category" >
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">In</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/Linux/" itemprop="url" rel="index">
+                    <span itemprop="name">Linux</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+            <h3 id="Directory-amp-File"><a href="#Directory-amp-File" class="headerlink" title="Directory &amp; File"></a>Directory &amp; File</h3><table>
+<thead>
+<tr>
+<th>Command</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>ls</td>
+<td>list directory contents <br> -a all <br>-l long listing format <br> -t sort by modification time <br> -r reverse</td>
+</tr>
+<tr>
+<td>cp</td>
+<td>copy files and directories <br> -u update, copy only newer files</td>
+</tr>
+<tr>
+<td>scp</td>
+<td>secure copy to another host</td>
+</tr>
+<tr>
+<td>mv</td>
+<td>move (rename) files</td>
+</tr>
+<tr>
+<td>rm</td>
+<td>remove files or directories <br> -f force <br> -r recursive</td>
+</tr>
+<tr>
+<td>chmod</td>
+<td>change file mode bits <br> - read (r), write (w), execute(x) <br> - the user who owns it (u), other users in the file’s group (g), other users not in the file’s group (o), or all  users  (a)</td>
+</tr>
+<tr>
+<td>chown</td>
+<td>change file owner and group <br> - user:group</td>
+</tr>
+</tbody>
+</table>
+<h3 id="File"><a href="#File" class="headerlink" title="File"></a>File</h3><table>
+<thead>
+<tr>
+<th>Command</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>cat</td>
+<td>concatenate files and print on the standard output</td>
+</tr>
+<tr>
+<td>head</td>
+<td>output the first part of files <br> -n lines</td>
+</tr>
+<tr>
+<td>tail</td>
+<td>output the last part of files <br> -n lines</td>
+</tr>
+<tr>
+<td>more</td>
+<td>view the files in pages <br> d scroll forward</td>
+</tr>
+<tr>
+<td>less</td>
+<td>similar to more, but allows backward movement as well as forward move <br> d scroll forward <br> b scroll backword</td>
+</tr>
+<tr>
+<td>echo</td>
+<td>display a line of text on the screen</td>
+</tr>
+<tr>
+<td>find</td>
+<td>search for files in a directory <br> find ./ -name myfile.txt</td>
+</tr>
+<tr>
+<td>grep</td>
+<td>print lines matching a pattern <br> grep word /etc/passwd</td>
+</tr>
+<tr>
+<td>wc</td>
+<td>count the lines, words, and characters in a file <br> -l count line <br> ls -l &#124; wc -l: count the number of objects in current directory</td>
+</tr>
+<tr>
+<td>tar</td>
+<td>-cvzf file.tar.gz /home/download: create tar.gz from files verbosely <br> -xvzf file.tar.gz: extract files</td>
+</tr>
+</tbody>
+</table>
+<h3 id="Process"><a href="#Process" class="headerlink" title="Process"></a>Process</h3><table>
+<thead>
+<tr>
+<th>Command</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>ps</td>
+<td>report the current processes <br> -a all <br>-f full listing</td>
+</tr>
+<tr>
+<td>kill</td>
+<td>terminate a process</td>
+</tr>
+<tr>
+<td>top</td>
+<td>display Linux processes</td>
+</tr>
+<tr>
+<td>nice</td>
+<td>run a program with modified scheduling priority <br> -n values range from -20 to 19 (from the highest priority to the lowest)  to  19</td>
+</tr>
+</tbody>
+</table>
+<h3 id="User"><a href="#User" class="headerlink" title="User"></a>User</h3><table>
+<thead>
+<tr>
+<th>Command</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>who</td>
+<td>how who is logged on</td>
+</tr>
+<tr>
+<td>whoami</td>
+<td>print effective userid</td>
+</tr>
+<tr>
+<td>addgroup</td>
+<td>display Linux processes</td>
+</tr>
+<tr>
+<td>adduser</td>
+<td>create a new user or update default new user information <br> -d home directory <br> -g group id</td>
+</tr>
+<tr>
+<td>sudo</td>
+<td>execute a command as another user <br> -u to run the specified command as a user other than root</td>
+</tr>
+</tbody>
+</table>
+<h3 id="Network"><a href="#Network" class="headerlink" title="Network"></a>Network</h3><table>
+<thead>
+<tr>
+<th>Command</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>ping</td>
+<td>verify if the computer can connect over the network to another computer</td>
+</tr>
+<tr>
+<td>netstat</td>
+<td>print network connections, routing tables</td>
+</tr>
+<tr>
+<td>ip address <br> ifconfig</td>
+<td>check ip address</td>
+</tr>
+<tr>
+<td>traceroute</td>
+<td>print the path that packets take to a network host <br> traceroute google.com</td>
+</tr>
+<tr>
+<td>telnet</td>
+<td>user interface to the TELNET protocol <br> telnet myhost.com:5555</td>
+</tr>
+<tr>
+<td>nslookup</td>
+<td>query Internet name servers (DNS) <br> nslookup google.com</td>
+</tr>
+</tbody>
+</table>
+<h3 id="Resource"><a href="#Resource" class="headerlink" title="Resource"></a>Resource</h3><table>
+<thead>
+<tr>
+<th>Command</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>df</td>
+<td>report file system disk space usage <br> -h human readable <br> -k in KB</td>
+</tr>
+<tr>
+<td>du</td>
+<td>estimate file space usage, summarize disk usage of each FILE, recursively for directories</td>
+</tr>
+<tr>
+<td>free</td>
+<td>display amount of free and used memory in the system <br> -m in MB</td>
+</tr>
+</tbody>
+</table>
+<h3 id="Install-package"><a href="#Install-package" class="headerlink" title="Install package"></a>Install package</h3><table>
+<thead>
+<tr>
+<th>Command</th>
+<th>OS</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>yum</td>
+<td>Redhat/Centos</td>
+<td>install, remove, update, info, list, search</td>
+</tr>
+<tr>
+<td>apt-get</td>
+<td>Debian/Ubuntu</td>
+<td>update： resynchronizes the local index of packages files <br> install, remove, upgrade</td>
+</tr>
+</tbody>
+</table>
+<h3 id="Environmental-Variables"><a href="#Environmental-Variables" class="headerlink" title="Environmental Variables"></a>Environmental Variables</h3><table>
+<thead>
+<tr>
+<th>Command</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>printenv</td>
+<td>print all or part of environment</td>
+</tr>
+<tr>
+<td>export</td>
+<td>set env variable <br> export PATH=${PATH}:/home/xxx</td>
+</tr>
+<tr>
+<td>vi ~/.bash_proflle <br> append the PATH</td>
+<td>make all settings permanent</td>
+</tr>
+</tbody>
+</table>
+<h3 id="VIM-Text-Edit"><a href="#VIM-Text-Edit" class="headerlink" title="VIM Text Edit"></a>VIM Text Edit</h3><table>
+<thead>
+<tr>
+<th>Command</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>i</td>
+<td>insert mode</td>
+</tr>
+<tr>
+<td>a</td>
+<td>append mode</td>
+</tr>
+<tr>
+<td>0(zero)</td>
+<td>move cursor to start of current line</td>
+</tr>
+<tr>
+<td>$</td>
+<td>move cursor to end of current line</td>
+</tr>
+<tr>
+<td>yy</td>
+<td>copy line in buffer</td>
+</tr>
+<tr>
+<td>p</td>
+<td>paste/put buffer</td>
+</tr>
+<tr>
+<td>x</td>
+<td>delete character</td>
+</tr>
+<tr>
+<td>dd</td>
+<td>delete line</td>
+</tr>
+<tr>
+<td>:q!</td>
+<td>quit no save</td>
+</tr>
+<tr>
+<td>:wq</td>
+<td>quit and save</td>
+</tr>
+</tbody>
+</table>
+<h3 id="Help"><a href="#Help" class="headerlink" title="Help"></a>Help</h3><table>
+<thead>
+<tr>
+<th>Command</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>man</td>
+<td>see the usage of a command</td>
+</tr>
+</tbody>
+</table>
+
+          
+        
+      
+    </div>
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+    
+      
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
     <link itemprop="mainEntityOfPage" href="http://yoursite.com/2017/08/07/webapi/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
@@ -807,7 +1255,7 @@
               
                 <a href="/archives/">
               
-                  <span class="site-state-item-count">23</span>
+                  <span class="site-state-item-count">24</span>
                   <span class="site-state-item-name">posts</span>
                 </a>
               </div>

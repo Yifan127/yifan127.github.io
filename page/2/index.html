@@ -249,6 +249,191 @@
   
   
   <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2018/06/01/Processing-Json-and-XML-in-Hive/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="Yifan Zhang">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/author.gif">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Machine Learning and Data Science">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+                
+                <a class="post-title-link" href="/2018/06/01/Processing-Json-and-XML-in-Hive/" itemprop="url">Processing Json and XML in Hive</a></h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">Posted on</span>
+              
+              <time title="Post created" itemprop="dateCreated datePublished" datetime="2018-06-01T16:28:48+12:00">
+                2018-06-01
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+            <span class="post-category" >
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">In</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/Hadoop/" itemprop="url" rel="index">
+                    <span itemprop="name">Hadoop</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+            <h3 id="Regular-Expressions-in-Hive"><a href="#Regular-Expressions-in-Hive" class="headerlink" title="Regular Expressions in Hive"></a>Regular Expressions in Hive</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">CREATE EXTERNAL TABLE intermediate_access_logs (</span><br><span class="line">    code STRING,</span><br><span class="line">    name STRING,</span><br><span class="line">    method STRING)</span><br><span class="line">ROW FORMAT SERDE &apos;org.apache.hadoop.hive.contrib.serde2.RegexSerDe&apos;</span><br><span class="line">WITH SERDEPROPERTIES (</span><br><span class="line">    &apos;input.regex&apos; = &apos;&lt;regular expression&gt;&apos;,</span><br><span class="line">    &apos;output.format.string&apos; = &quot;%1$$s %2$$s %3$$s&quot;)</span><br><span class="line">LOCATION &apos;/user/hive/warehouse/logs&apos;;</span><br></pre></td></tr></table></figure>
+<h3 id="Processing-Json-in-Hive"><a href="#Processing-Json-in-Hive" class="headerlink" title="Processing Json in Hive"></a>Processing Json in Hive</h3><ul>
+<li><p>Prepare a JSON file</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">cat products.json</span><br><span class="line"></span><br><span class="line">&#123;&quot;name&quot;:&quot;iPhone 6&quot;, &quot;price&quot;: 600, &quot;category&quot; :&quot;phone&quot;, &quot;color&quot;: &quot;gold&quot;, &quot;stock&quot;: 10, &quot;tags&quot; : [&quot;phone&quot;, &quot;iphone&quot;, &quot;cell&quot;] &#125;</span><br><span class="line">&#123;&quot;name&quot;:&quot;iPhone 6 plus&quot;, &quot;price&quot;: 660, &quot;category&quot; :&quot;phone&quot;, &quot;color&quot;: &quot;silver&quot;, &quot;stock&quot;: 20, &quot;tags&quot; : [&quot;phone&quot;, &quot;iphone&quot;, &quot;cell&quot;] &#125;</span><br><span class="line">&#123;&quot;name&quot;:&quot;Samsung S6&quot;, &quot;price&quot;: 600, &quot;category&quot; :&quot;phone&quot;, &quot;color&quot;: &quot;white&quot;, &quot;stock&quot;: 10, &quot;tags&quot; : [&quot;phone&quot;, &quot;samsung&quot;, &quot;cell&quot;] &#125;</span><br><span class="line">&#123;&quot;name&quot;:&quot;Macbook Pro&quot;, &quot;price&quot;: 800, &quot;category&quot; :&quot;computer&quot;, &quot;color&quot;: &quot;silver&quot;, &quot;stock&quot;: 8, &quot;tags&quot; : [&quot;laptop&quot;, &quot;apple&quot;] &#125;</span><br><span class="line">&#123;&quot;name&quot;:&quot;Samsung Refrigerator 13 Ltr&quot;, &quot;price&quot;: 400, &quot;category&quot; :&quot;fridge&quot;, &quot;color&quot;: &quot;red&quot;, &quot;stock&quot;: 10, &quot;tags&quot; : [&quot;fridge&quot;, &quot;samsung&quot;] &#125;</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>Copy the JSON file to HDFS</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">hadoop fs -mkdir  /user/hive/warehouse/my_database.db/products</span><br><span class="line">hadoop fs -copyFromLocal products.json /user/hive/warehouse/my_database.db/products</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>Connect to Hive</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">beeline -u &quot;jdbc:hive2://localhost:10000/default&quot;</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>Create a table</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">CREATE TABLE products_json (</span><br><span class="line">name STRING,</span><br><span class="line">price DOUBLE,</span><br><span class="line">category STRING,</span><br><span class="line">color STRING,</span><br><span class="line">stock INT,</span><br><span class="line">tags ARRAY&lt;STRING&gt;)</span><br><span class="line">ROW FORMAT SERDE &apos;org.apache.hive.hcatalog.data.JsonSerDe&apos;</span><br><span class="line">LOCATION &apos;/user/hive/warehouse/my_database.db/products&apos;;</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>Verify records in the table </p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line">select * from products_json;</span><br><span class="line"></span><br><span class="line">+------------------------------+----------------------+-------------------------+----------------------+----------------------+-----------------------------+--+</span><br><span class="line">|      products_json.name      | products_json.price  | products_json.category  | products_json.color  | products_json.stock  |     products_json.tags      |</span><br><span class="line">+------------------------------+----------------------+-------------------------+----------------------+----------------------+-----------------------------+--+</span><br><span class="line">| iPhone 6                     | 600.0                | phone                   | gold                 | 10                   | [&quot;phone&quot;,&quot;iphone&quot;,&quot;cell&quot;]   |</span><br><span class="line">| iPhone 6 plus                | 660.0                | phone                   | silver               | 20                   | [&quot;phone&quot;,&quot;iphone&quot;,&quot;cell&quot;]   |</span><br><span class="line">| Samsung S6                   | 600.0                | phone                   | white                | 10                   | [&quot;phone&quot;,&quot;samsung&quot;,&quot;cell&quot;]  |</span><br><span class="line">| Macbook Pro                  | 800.0                | computer                | silver               | 8                    | [&quot;laptop&quot;,&quot;apple&quot;]          |</span><br><span class="line">| Samsung Refrigerator 13 Ltr  | 400.0                | fridge                  | red                  | 10                   | [&quot;fridge&quot;,&quot;samsung&quot;]        |</span><br><span class="line">+------------------------------+----------------------+-------------------------+----------------------+----------------------+-----------------------------+--+</span><br></pre></td></tr></table></figure>
+</li>
+</ul>
+<h3 id="Processing-XML-in-Hive"><a href="#Processing-XML-in-Hive" class="headerlink" title="Processing XML in Hive"></a>Processing XML in Hive</h3><ul>
+<li>Download XML SerDe</li>
+</ul>
+<p>Download URL: <a href="https://github.com/dvasilen/Hive-XML-SerDe" target="_blank" rel="noopener">XML SerDe</a></p>
+<ul>
+<li><p>Prepare a XML file</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line">&lt;products&gt;</span><br><span class="line">    &lt;product id=&quot;1&quot;&gt;</span><br><span class="line">        &lt;name&gt;iPhone 6&lt;/name&gt;</span><br><span class="line">        &lt;category&gt;phone&lt;/category&gt;</span><br><span class="line">        &lt;price&gt;600&lt;/price&gt;</span><br><span class="line">        &lt;stock&gt;14&lt;/stock&gt;</span><br><span class="line">        &lt;features&gt;</span><br><span class="line">            &lt;storage&gt;64GB&lt;/storage&gt;</span><br><span class="line">            &lt;battery&gt;20Hrs&lt;/battery&gt;</span><br><span class="line">        &lt;/features&gt;</span><br><span class="line">    &lt;/product&gt;</span><br><span class="line">&lt;/products&gt;</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>Copy the XML file to HDFS</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">hadoop fs -copyFromLocal products.xml /user/hive/warehouse/my_database.db/products</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>Connect to Hive</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">beeline -u &quot;jdbc:hive2://localhost:10000/default&quot;</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>Add jar</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">add jar /home/cloudera/Downloads/hivexmlserde-1.0.5.3.jar;</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>Create a table</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br></pre></td><td class="code"><pre><span class="line">CREATE TABLE products_xml(</span><br><span class="line">id STRING, </span><br><span class="line">name STRING, </span><br><span class="line">category STRING,</span><br><span class="line">price DOUBLE,</span><br><span class="line">stock BIGINT,</span><br><span class="line">features map&lt;string,string&gt;)</span><br><span class="line">ROW FORMAT SERDE &apos;com.ibm.spss.hive.serde2.xml.XmlSerDe&apos;</span><br><span class="line">WITH SERDEPROPERTIES (</span><br><span class="line">&quot;column.xpath.id&quot;=&quot;/product/@id&quot;,</span><br><span class="line">&quot;column.xpath.name&quot;=&quot;/product/name/text()&quot;,</span><br><span class="line">&quot;column.xpath.category&quot;=&quot;/product/category/text()&quot;,</span><br><span class="line">&quot;column.xpath.price&quot;=&quot;/product/price/text()&quot;,</span><br><span class="line">&quot;column.xpath.stock&quot;=&quot;/product/stock/text()&quot;,</span><br><span class="line">&quot;column.xpath.features&quot;=&quot;/product/features/*&quot;</span><br><span class="line">)</span><br><span class="line">STORED AS</span><br><span class="line">INPUTFORMAT &apos;com.ibm.spss.hive.serde2.xml.XmlInputFormat&apos;</span><br><span class="line">OUTPUTFORMAT &apos;org.apache.hadoop.hive.ql.io.IgnoreKeyTextOutputFormat&apos;</span><br><span class="line">TBLPROPERTIES (</span><br><span class="line">&quot;xmlinput.start&quot;=&quot;&lt;product id&quot;,</span><br><span class="line">&quot;xmlinput.end&quot;=&quot;&lt;/product&gt;&quot;</span><br><span class="line">);</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>Load data</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">LOAD DATA INPATH &apos;/user/hive/warehouse/my_database.db/products/products.xml&apos; INTO TABLE products_xml;</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>Verify records in the table </p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">select * from product_xml;</span><br><span class="line"></span><br><span class="line">+-----------------+-------------------+-----------------------+--------------------+--------------------+---------------------------------------+--+</span><br><span class="line">| product_xml.id  | product_xml.name  | product_xml.category  | product_xml.price  | product_xml.stock  |         product_xml.features          |</span><br><span class="line">+-----------------+-------------------+-----------------------+--------------------+--------------------+---------------------------------------+--+</span><br><span class="line">| 1               | iPhone 6          | phone                 | 600.0              | 14                 | &#123;&quot;battery&quot;:&quot;20Hrs&quot;,&quot;storage&quot;:&quot;64GB&quot;&#125;  |</span><br><span class="line">| 2               | iPhone 6 Plus     | phone                 | 800.0              | 15                 | &#123;&quot;battery&quot;:&quot;10Hrs&quot;,&quot;storage&quot;:&quot;64GB&quot;&#125;  |</span><br><span class="line">| 3               | Samsung S6        | phone                 | 650.0              | 12                 | &#123;&quot;battery&quot;:&quot;10Hrs&quot;,&quot;storage&quot;:&quot;16GB&quot;&#125;  |</span><br><span class="line">+-----------------+-------------------+-----------------------+--------------------+--------------------+---------------------------------------+--+</span><br></pre></td></tr></table></figure></li>
+</ul>
+
+          
+        
+      
+    </div>
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+    
+      
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
     <link itemprop="mainEntityOfPage" href="http://yoursite.com/2017/10/08/biglm/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
@@ -1617,454 +1802,6 @@
 
 
     
-      
-
-  
-
-  
-  
-  
-
-  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
-  
-  
-  
-  <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2017/08/08/Linux-Commands-Summary/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="name" content="Yifan Zhang">
-      <meta itemprop="description" content="">
-      <meta itemprop="image" content="/images/author.gif">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="Machine Learning and Data Science">
-    </span>
-
-    
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">
-                
-                <a class="post-title-link" href="/2017/08/08/Linux-Commands-Summary/" itemprop="url">General Linux Commands Summary</a></h1>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">Posted on</span>
-              
-              <time title="Post created" itemprop="dateCreated datePublished" datetime="2017-08-08T11:39:25+12:00">
-                2017-08-08
-              </time>
-            
-
-            
-
-            
-          </span>
-
-          
-            <span class="post-category" >
-            
-              <span class="post-meta-divider">|</span>
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-folder-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">In</span>
-              
-              
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/Linux/" itemprop="url" rel="index">
-                    <span itemprop="name">Linux</span>
-                  </a>
-                </span>
-
-                
-                
-              
-            </span>
-          
-
-          
-            
-          
-
-          
-          
-
-          
-
-          
-
-          
-
-        </div>
-      </header>
-    
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          
-            <h3 id="Directory-amp-File"><a href="#Directory-amp-File" class="headerlink" title="Directory &amp; File"></a>Directory &amp; File</h3><table>
-<thead>
-<tr>
-<th>Command</th>
-<th>Description</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td>ls</td>
-<td>list directory contents <br> -a all <br>-l long listing format <br> -t sort by modification time <br> -r reverse</td>
-</tr>
-<tr>
-<td>cp</td>
-<td>copy files and directories <br> -u update, copy only newer files</td>
-</tr>
-<tr>
-<td>scp</td>
-<td>secure copy to another host</td>
-</tr>
-<tr>
-<td>mv</td>
-<td>move (rename) files</td>
-</tr>
-<tr>
-<td>rm</td>
-<td>remove files or directories <br> -f force <br> -r recursive</td>
-</tr>
-<tr>
-<td>chmod</td>
-<td>change file mode bits <br> - read (r), write (w), execute(x) <br> - the user who owns it (u), other users in the file’s group (g), other users not in the file’s group (o), or all  users  (a)</td>
-</tr>
-<tr>
-<td>chown</td>
-<td>change file owner and group <br> - user:group</td>
-</tr>
-</tbody>
-</table>
-<h3 id="File"><a href="#File" class="headerlink" title="File"></a>File</h3><table>
-<thead>
-<tr>
-<th>Command</th>
-<th>Description</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td>cat</td>
-<td>concatenate files and print on the standard output</td>
-</tr>
-<tr>
-<td>head</td>
-<td>output the first part of files <br> -n lines</td>
-</tr>
-<tr>
-<td>tail</td>
-<td>output the last part of files <br> -n lines</td>
-</tr>
-<tr>
-<td>more</td>
-<td>view the files in pages <br> d scroll forward</td>
-</tr>
-<tr>
-<td>less</td>
-<td>similar to more, but allows backward movement as well as forward move <br> d scroll forward <br> b scroll backword</td>
-</tr>
-<tr>
-<td>echo</td>
-<td>display a line of text on the screen</td>
-</tr>
-<tr>
-<td>find</td>
-<td>search for files in a directory <br> find ./ -name myfile.txt</td>
-</tr>
-<tr>
-<td>grep</td>
-<td>print lines matching a pattern <br> grep word /etc/passwd</td>
-</tr>
-<tr>
-<td>wc</td>
-<td>count the lines, words, and characters in a file <br> -l count line <br> ls -l &#124; wc -l: count the number of objects in current directory</td>
-</tr>
-<tr>
-<td>tar</td>
-<td>-cvzf file.tar.gz /home/download: create tar.gz from files verbosely <br> -xvzf file.tar.gz: extract files</td>
-</tr>
-</tbody>
-</table>
-<h3 id="Process"><a href="#Process" class="headerlink" title="Process"></a>Process</h3><table>
-<thead>
-<tr>
-<th>Command</th>
-<th>Description</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td>ps</td>
-<td>report the current processes <br> -a all <br>-f full listing</td>
-</tr>
-<tr>
-<td>kill</td>
-<td>terminate a process</td>
-</tr>
-<tr>
-<td>top</td>
-<td>display Linux processes</td>
-</tr>
-<tr>
-<td>nice</td>
-<td>run a program with modified scheduling priority <br> -n values range from -20 to 19 (from the highest priority to the lowest)  to  19</td>
-</tr>
-</tbody>
-</table>
-<h3 id="User"><a href="#User" class="headerlink" title="User"></a>User</h3><table>
-<thead>
-<tr>
-<th>Command</th>
-<th>Description</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td>who</td>
-<td>how who is logged on</td>
-</tr>
-<tr>
-<td>whoami</td>
-<td>print effective userid</td>
-</tr>
-<tr>
-<td>addgroup</td>
-<td>display Linux processes</td>
-</tr>
-<tr>
-<td>adduser</td>
-<td>create a new user or update default new user information <br> -d home directory <br> -g group id</td>
-</tr>
-<tr>
-<td>sudo</td>
-<td>execute a command as another user <br> -u to run the specified command as a user other than root</td>
-</tr>
-</tbody>
-</table>
-<h3 id="Network"><a href="#Network" class="headerlink" title="Network"></a>Network</h3><table>
-<thead>
-<tr>
-<th>Command</th>
-<th>Description</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td>ping</td>
-<td>verify if the computer can connect over the network to another computer</td>
-</tr>
-<tr>
-<td>netstat</td>
-<td>print network connections, routing tables</td>
-</tr>
-<tr>
-<td>ip address <br> ifconfig</td>
-<td>check ip address</td>
-</tr>
-<tr>
-<td>traceroute</td>
-<td>print the path that packets take to a network host <br> traceroute google.com</td>
-</tr>
-<tr>
-<td>telnet</td>
-<td>user interface to the TELNET protocol <br> telnet myhost.com:5555</td>
-</tr>
-<tr>
-<td>nslookup</td>
-<td>query Internet name servers (DNS) <br> nslookup google.com</td>
-</tr>
-</tbody>
-</table>
-<h3 id="Resource"><a href="#Resource" class="headerlink" title="Resource"></a>Resource</h3><table>
-<thead>
-<tr>
-<th>Command</th>
-<th>Description</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td>df</td>
-<td>report file system disk space usage <br> -h human readable <br> -k in KB</td>
-</tr>
-<tr>
-<td>du</td>
-<td>estimate file space usage, summarize disk usage of each FILE, recursively for directories</td>
-</tr>
-<tr>
-<td>free</td>
-<td>display amount of free and used memory in the system <br> -m in MB</td>
-</tr>
-</tbody>
-</table>
-<h3 id="Install-package"><a href="#Install-package" class="headerlink" title="Install package"></a>Install package</h3><table>
-<thead>
-<tr>
-<th>Command</th>
-<th>OS</th>
-<th>Description</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td>yum</td>
-<td>Redhat/Centos</td>
-<td>install, remove, update, info, list, search</td>
-</tr>
-<tr>
-<td>apt-get</td>
-<td>Debian/Ubuntu</td>
-<td>update： resynchronizes the local index of packages files <br> install, remove, upgrade</td>
-</tr>
-</tbody>
-</table>
-<h3 id="Environmental-Variables"><a href="#Environmental-Variables" class="headerlink" title="Environmental Variables"></a>Environmental Variables</h3><table>
-<thead>
-<tr>
-<th>Command</th>
-<th>Description</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td>printenv</td>
-<td>print all or part of environment</td>
-</tr>
-<tr>
-<td>export</td>
-<td>set env variable <br> export PATH=${PATH}:/home/xxx</td>
-</tr>
-<tr>
-<td>vi ~/.bash_proflle <br> append the PATH</td>
-<td>make all settings permanent</td>
-</tr>
-</tbody>
-</table>
-<h3 id="VIM-Text-Edit"><a href="#VIM-Text-Edit" class="headerlink" title="VIM Text Edit"></a>VIM Text Edit</h3><table>
-<thead>
-<tr>
-<th>Command</th>
-<th>Description</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td>i</td>
-<td>insert mode</td>
-</tr>
-<tr>
-<td>a</td>
-<td>append mode</td>
-</tr>
-<tr>
-<td>0(zero)</td>
-<td>move cursor to start of current line</td>
-</tr>
-<tr>
-<td>$</td>
-<td>move cursor to end of current line</td>
-</tr>
-<tr>
-<td>yy</td>
-<td>copy line in buffer</td>
-</tr>
-<tr>
-<td>p</td>
-<td>paste/put buffer</td>
-</tr>
-<tr>
-<td>x</td>
-<td>delete character</td>
-</tr>
-<tr>
-<td>dd</td>
-<td>delete line</td>
-</tr>
-<tr>
-<td>:q!</td>
-<td>quit no save</td>
-</tr>
-<tr>
-<td>:wq</td>
-<td>quit and save</td>
-</tr>
-</tbody>
-</table>
-<h3 id="Help"><a href="#Help" class="headerlink" title="Help"></a>Help</h3><table>
-<thead>
-<tr>
-<th>Command</th>
-<th>Description</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td>man</td>
-<td>see the usage of a command</td>
-</tr>
-</tbody>
-</table>
-
-          
-        
-      
-    </div>
-    
-    
-    
-
-    
-
-    
-
-    
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </div>
-  
-  
-  
-  </article>
-
-
-    
   </section>
 
   
@@ -2119,7 +1856,7 @@
               
                 <a href="/archives/">
               
-                  <span class="site-state-item-count">23</span>
+                  <span class="site-state-item-count">24</span>
                   <span class="site-state-item-name">posts</span>
                 </a>
               </div>
