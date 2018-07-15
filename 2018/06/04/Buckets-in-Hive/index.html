@@ -79,18 +79,18 @@
 
 
 
-<meta name="description" content="Besides partition, the bucket is another technique to cluster datasets into more manageable parts to optimize query performance.By using buckets, an HiveQL query can easily and efficiently do sampling">
+<meta name="description" content="Besides partition, the bucket is another technique to cluster datasets into more manageable parts to optimize query performance. By using buckets, an HiveQL query can easily and efficiently do samplin">
 <meta name="keywords" content="Hive">
 <meta property="og:type" content="article">
 <meta property="og:title" content="Buckets in Hive">
 <meta property="og:url" content="http://yoursite.com/2018/06/04/Buckets-in-Hive/index.html">
 <meta property="og:site_name" content="Machine Learning and Data Science">
-<meta property="og:description" content="Besides partition, the bucket is another technique to cluster datasets into more manageable parts to optimize query performance.By using buckets, an HiveQL query can easily and efficiently do sampling">
+<meta property="og:description" content="Besides partition, the bucket is another technique to cluster datasets into more manageable parts to optimize query performance. By using buckets, an HiveQL query can easily and efficiently do samplin">
 <meta property="og:locale" content="default">
-<meta property="og:updated_time" content="2018-07-15T10:56:22.752Z">
+<meta property="og:updated_time" content="2018-07-15T11:00:43.619Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="Buckets in Hive">
-<meta name="twitter:description" content="Besides partition, the bucket is another technique to cluster datasets into more manageable parts to optimize query performance.By using buckets, an HiveQL query can easily and efficiently do sampling">
+<meta name="twitter:description" content="Besides partition, the bucket is another technique to cluster datasets into more manageable parts to optimize query performance. By using buckets, an HiveQL query can easily and efficiently do samplin">
 
 
 
@@ -342,12 +342,12 @@
       
 
       
-        <p>Besides partition, the bucket is another technique to cluster datasets into more manageable parts to optimize query performance.<br>By using buckets, an HiveQL query can easily and efficiently do sampling.</p>
+        <p>Besides partition, the bucket is another technique to cluster datasets into more manageable parts to optimize query performance. By using buckets, an HiveQL query can easily and efficiently do sampling.</p>
 <h3 id="Difference-between-partitions-and-buckets"><a href="#Difference-between-partitions-and-buckets" class="headerlink" title="Difference between partitions and buckets"></a>Difference between partitions and buckets</h3><ul>
 <li>A partition corresponds to directories in HDFS. A bucket corresponds to segments of files in HDFS.</li>
-<li>Partition columns don’t need to be actual table columns. Bucket columns have to be actual table data columns</li>
+<li>Partition columns don’t need to be actual table columns. Bucket columns have to be actual table data columns.</li>
 </ul>
-<h3 id="Create-a-table-with-bucket"><a href="#Create-a-table-with-bucket" class="headerlink" title="Create a table with bucket"></a>Create a table with bucket</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">CREATE TABLE employee_id_buckets (</span><br><span class="line">    name STRING,</span><br><span class="line">    employee_id INT  -- Use this table column as bucket column later</span><br><span class="line">    )</span><br><span class="line">    PARTITIONED BY (year INT, month INT) </span><br><span class="line">    CLUSTERED BY (employee_id) INTO 2 BUCKETS -- Support more columns</span><br><span class="line">    ROW FORMAT DELIMITED</span><br><span class="line">    FIELDS TERMINATED BY &apos;|&apos;;</span><br></pre></td></tr></table></figure>
+<h3 id="Create-a-table-with-bucket"><a href="#Create-a-table-with-bucket" class="headerlink" title="Create a table with bucket"></a>Create a table with bucket</h3><p>In the following example, we use employee_id as a bucket column. The records with the same employee_id will always be stored in the same bucket.<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">CREATE TABLE employee_id_buckets (</span><br><span class="line">    name STRING,</span><br><span class="line">    employee_id INT  -- Use this table column as bucket column later</span><br><span class="line">    )</span><br><span class="line">    PARTITIONED BY (year INT, month INT) </span><br><span class="line">    CLUSTERED BY (employee_id) INTO 2 BUCKETS -- Support more columns</span><br><span class="line">    ROW FORMAT DELIMITED</span><br><span class="line">    FIELDS TERMINATED BY &apos;|&apos;;</span><br></pre></td></tr></table></figure></p>
 <h3 id="Bucket-table-sampling"><a href="#Bucket-table-sampling" class="headerlink" title="Bucket table sampling"></a>Bucket table sampling</h3><ul>
 <li>Sampling on the entire row</li>
 </ul>
