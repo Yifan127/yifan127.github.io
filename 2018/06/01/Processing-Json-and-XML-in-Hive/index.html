@@ -79,15 +79,20 @@
 
 
 
+<meta name="description" content="Regular Expressions in Hive123456789CREATE EXTERNAL TABLE intermediate_access_logs (    code STRING,    name STRING,    method STRING)ROW FORMAT SERDE &amp;apos;org.apache.hadoop.hive.contrib.serde2.Regex">
 <meta name="keywords" content="Hive">
 <meta property="og:type" content="article">
 <meta property="og:title" content="Processing Json and XML in Hive">
 <meta property="og:url" content="http://yoursite.com/2018/06/01/Processing-Json-and-XML-in-Hive/index.html">
 <meta property="og:site_name" content="Machine Learning and Data Science">
+<meta property="og:description" content="Regular Expressions in Hive123456789CREATE EXTERNAL TABLE intermediate_access_logs (    code STRING,    name STRING,    method STRING)ROW FORMAT SERDE &amp;apos;org.apache.hadoop.hive.contrib.serde2.Regex">
 <meta property="og:locale" content="default">
-<meta property="og:updated_time" content="2018-07-15T04:29:09.981Z">
+<meta property="og:image" content="https://github.com/dvasilen/Hive-XML-SerDe">
+<meta property="og:updated_time" content="2018-07-15T08:00:20.632Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="Processing Json and XML in Hive">
+<meta name="twitter:description" content="Regular Expressions in Hive123456789CREATE EXTERNAL TABLE intermediate_access_logs (    code STRING,    name STRING,    method STRING)ROW FORMAT SERDE &amp;apos;org.apache.hadoop.hive.contrib.serde2.Regex">
+<meta name="twitter:image" content="https://github.com/dvasilen/Hive-XML-SerDe">
 
 
 
@@ -339,7 +344,51 @@
       
 
       
-        
+        <h3 id="Regular-Expressions-in-Hive"><a href="#Regular-Expressions-in-Hive" class="headerlink" title="Regular Expressions in Hive"></a>Regular Expressions in Hive</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">CREATE EXTERNAL TABLE intermediate_access_logs (</span><br><span class="line">    code STRING,</span><br><span class="line">    name STRING,</span><br><span class="line">    method STRING)</span><br><span class="line">ROW FORMAT SERDE &apos;org.apache.hadoop.hive.contrib.serde2.RegexSerDe&apos;</span><br><span class="line">WITH SERDEPROPERTIES (</span><br><span class="line">    &apos;input.regex&apos; = &apos;&lt;regular expression&gt;&apos;,</span><br><span class="line">    &apos;output.format.string&apos; = &quot;%1$$s %2$$s %3$$s&quot;)</span><br><span class="line">LOCATION &apos;/user/hive/warehouse/logs&apos;;</span><br></pre></td></tr></table></figure>
+<h3 id="Processing-Json-in-Hive"><a href="#Processing-Json-in-Hive" class="headerlink" title="Processing Json in Hive"></a>Processing Json in Hive</h3><ul>
+<li><p>Prepare a JSON file</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">cat products.json</span><br><span class="line"></span><br><span class="line">&#123;&quot;name&quot;:&quot;iPhone 6&quot;, &quot;price&quot;: 600, &quot;category&quot; :&quot;phone&quot;, &quot;color&quot;: &quot;gold&quot;, &quot;stock&quot;: 10, &quot;tags&quot; : [&quot;phone&quot;, &quot;iphone&quot;, &quot;cell&quot;] &#125;</span><br><span class="line">&#123;&quot;name&quot;:&quot;iPhone 6 plus&quot;, &quot;price&quot;: 660, &quot;category&quot; :&quot;phone&quot;, &quot;color&quot;: &quot;silver&quot;, &quot;stock&quot;: 20, &quot;tags&quot; : [&quot;phone&quot;, &quot;iphone&quot;, &quot;cell&quot;] &#125;</span><br><span class="line">&#123;&quot;name&quot;:&quot;Samsung S6&quot;, &quot;price&quot;: 600, &quot;category&quot; :&quot;phone&quot;, &quot;color&quot;: &quot;white&quot;, &quot;stock&quot;: 10, &quot;tags&quot; : [&quot;phone&quot;, &quot;samsung&quot;, &quot;cell&quot;] &#125;</span><br><span class="line">&#123;&quot;name&quot;:&quot;Macbook Pro&quot;, &quot;price&quot;: 800, &quot;category&quot; :&quot;computer&quot;, &quot;color&quot;: &quot;silver&quot;, &quot;stock&quot;: 8, &quot;tags&quot; : [&quot;laptop&quot;, &quot;apple&quot;] &#125;</span><br><span class="line">&#123;&quot;name&quot;:&quot;Samsung Refrigerator 13 Ltr&quot;, &quot;price&quot;: 400, &quot;category&quot; :&quot;fridge&quot;, &quot;color&quot;: &quot;red&quot;, &quot;stock&quot;: 10, &quot;tags&quot; : [&quot;fridge&quot;, &quot;samsung&quot;] &#125;</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>Copy the JSON file to HDFS</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">hadoop fs -mkdir  /user/hive/warehouse/my_database.db/products</span><br><span class="line">hadoop fs -copyFromLocal products.json /user/hive/warehouse/my_database.db/products</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>Connect to Hive</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">beeline -u &quot;jdbc:hive2://localhost:10000/default&quot;</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>Create a table</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">CREATE TABLE products_json (</span><br><span class="line">name STRING,</span><br><span class="line">price DOUBLE,</span><br><span class="line">category STRING,</span><br><span class="line">color STRING,</span><br><span class="line">stock INT,</span><br><span class="line">tags ARRAY&lt;STRING&gt;)</span><br><span class="line">ROW FORMAT SERDE &apos;org.apache.hive.hcatalog.data.JsonSerDe&apos;</span><br><span class="line">LOCATION &apos;/user/hive/warehouse/my_database.db/products&apos;;</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>Verify records in the table </p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line">select * from products_json;</span><br><span class="line"></span><br><span class="line">+------------------------------+----------------------+-------------------------+----------------------+----------------------+-----------------------------+--+</span><br><span class="line">|      products_json.name      | products_json.price  | products_json.category  | products_json.color  | products_json.stock  |     products_json.tags      |</span><br><span class="line">+------------------------------+----------------------+-------------------------+----------------------+----------------------+-----------------------------+--+</span><br><span class="line">| iPhone 6                     | 600.0                | phone                   | gold                 | 10                   | [&quot;phone&quot;,&quot;iphone&quot;,&quot;cell&quot;]   |</span><br><span class="line">| iPhone 6 plus                | 660.0                | phone                   | silver               | 20                   | [&quot;phone&quot;,&quot;iphone&quot;,&quot;cell&quot;]   |</span><br><span class="line">| Samsung S6                   | 600.0                | phone                   | white                | 10                   | [&quot;phone&quot;,&quot;samsung&quot;,&quot;cell&quot;]  |</span><br><span class="line">| Macbook Pro                  | 800.0                | computer                | silver               | 8                    | [&quot;laptop&quot;,&quot;apple&quot;]          |</span><br><span class="line">| Samsung Refrigerator 13 Ltr  | 400.0                | fridge                  | red                  | 10                   | [&quot;fridge&quot;,&quot;samsung&quot;]        |</span><br><span class="line">+------------------------------+----------------------+-------------------------+----------------------+----------------------+-----------------------------+--+</span><br></pre></td></tr></table></figure>
+</li>
+</ul>
+<h3 id="Processing-XML-in-Hive"><a href="#Processing-XML-in-Hive" class="headerlink" title="Processing XML in Hive"></a>Processing XML in Hive</h3><ul>
+<li>Download XML SerDe</li>
+</ul>
+<p>Download URL: <img src="https://github.com/dvasilen/Hive-XML-SerDe" alt="XML SerDe"></p>
+<ul>
+<li><p>Prepare a XML file</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line">&lt;products&gt;</span><br><span class="line">    &lt;product id=&quot;1&quot;&gt;</span><br><span class="line">        &lt;name&gt;iPhone 6&lt;/name&gt;</span><br><span class="line">        &lt;category&gt;phone&lt;/category&gt;</span><br><span class="line">        &lt;price&gt;600&lt;/price&gt;</span><br><span class="line">        &lt;stock&gt;14&lt;/stock&gt;</span><br><span class="line">        &lt;features&gt;</span><br><span class="line">            &lt;storage&gt;64GB&lt;/storage&gt;</span><br><span class="line">            &lt;battery&gt;20Hrs&lt;/battery&gt;</span><br><span class="line">        &lt;/features&gt;</span><br><span class="line">    &lt;/product&gt;</span><br><span class="line">&lt;/products&gt;</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>Copy the XML file to HDFS</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">hadoop fs -copyFromLocal products.xml /user/hive/warehouse/my_database.db/products</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>Connect to Hive</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">beeline -u &quot;jdbc:hive2://localhost:10000/default&quot;</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>Add jar</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">add jar /home/cloudera/Downloads/hivexmlserde-1.0.5.3.jar;</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>Create a table</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br></pre></td><td class="code"><pre><span class="line">CREATE TABLE products_xml(</span><br><span class="line">id STRING, </span><br><span class="line">name STRING, </span><br><span class="line">category STRING,</span><br><span class="line">price DOUBLE,</span><br><span class="line">stock BIGINT,</span><br><span class="line">features map&lt;string,string&gt;)</span><br><span class="line">ROW FORMAT SERDE &apos;com.ibm.spss.hive.serde2.xml.XmlSerDe&apos;</span><br><span class="line">WITH SERDEPROPERTIES (</span><br><span class="line">&quot;column.xpath.id&quot;=&quot;/product/@id&quot;,</span><br><span class="line">&quot;column.xpath.name&quot;=&quot;/product/name/text()&quot;,</span><br><span class="line">&quot;column.xpath.category&quot;=&quot;/product/category/text()&quot;,</span><br><span class="line">&quot;column.xpath.price&quot;=&quot;/product/price/text()&quot;,</span><br><span class="line">&quot;column.xpath.stock&quot;=&quot;/product/stock/text()&quot;,</span><br><span class="line">&quot;column.xpath.features&quot;=&quot;/product/features/*&quot;</span><br><span class="line">)</span><br><span class="line">STORED AS</span><br><span class="line">INPUTFORMAT &apos;com.ibm.spss.hive.serde2.xml.XmlInputFormat&apos;</span><br><span class="line">OUTPUTFORMAT &apos;org.apache.hadoop.hive.ql.io.IgnoreKeyTextOutputFormat&apos;</span><br><span class="line">TBLPROPERTIES (</span><br><span class="line">&quot;xmlinput.start&quot;=&quot;&lt;product id&quot;,</span><br><span class="line">&quot;xmlinput.end&quot;=&quot;&lt;/product&gt;&quot;</span><br><span class="line">);</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>Load data</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">LOAD DATA INPATH &apos;/user/hive/warehouse/my_database.db/products/products.xml&apos; INTO TABLE products_xml;</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>Verify records in the table </p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">select * from product_xml;</span><br><span class="line"></span><br><span class="line">+-----------------+-------------------+-----------------------+--------------------+--------------------+---------------------------------------+--+</span><br><span class="line">| product_xml.id  | product_xml.name  | product_xml.category  | product_xml.price  | product_xml.stock  |         product_xml.features          |</span><br><span class="line">+-----------------+-------------------+-----------------------+--------------------+--------------------+---------------------------------------+--+</span><br><span class="line">| 1               | iPhone 6          | phone                 | 600.0              | 14                 | &#123;&quot;battery&quot;:&quot;20Hrs&quot;,&quot;storage&quot;:&quot;64GB&quot;&#125;  |</span><br><span class="line">| 2               | iPhone 6 Plus     | phone                 | 800.0              | 15                 | &#123;&quot;battery&quot;:&quot;10Hrs&quot;,&quot;storage&quot;:&quot;64GB&quot;&#125;  |</span><br><span class="line">| 3               | Samsung S6        | phone                 | 650.0              | 12                 | &#123;&quot;battery&quot;:&quot;10Hrs&quot;,&quot;storage&quot;:&quot;16GB&quot;&#125;  |</span><br><span class="line">+-----------------+-------------------+-----------------------+--------------------+--------------------+---------------------------------------+--+</span><br></pre></td></tr></table></figure></li>
+</ul>
+
       
     </div>
     
@@ -433,8 +482,17 @@
       
 
       
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap">
+            Table of Contents
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview-wrap">
+            Overview
+          </li>
+        </ul>
+      
 
-      <section class="site-overview-wrap sidebar-panel sidebar-panel-active">
+      <section class="site-overview-wrap sidebar-panel">
         <div class="site-overview">
           <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
             
@@ -498,6 +556,22 @@
         </div>
       </section>
 
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-3"><a class="nav-link" href="#Regular-Expressions-in-Hive"><span class="nav-number">1.</span> <span class="nav-text">Regular Expressions in Hive</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Processing-Json-in-Hive"><span class="nav-number">2.</span> <span class="nav-text">Processing Json in Hive</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Processing-XML-in-Hive"><span class="nav-number">3.</span> <span class="nav-text">Processing XML in Hive</span></a></li></ol></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
       
 
       
