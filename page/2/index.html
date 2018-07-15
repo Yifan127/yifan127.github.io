@@ -249,6 +249,302 @@
   
   
   <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2018/06/03/Dynamic-Partitions-in-Hive/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="Yifan Zhang">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/author.gif">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Machine Learning and Data Science">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+                
+                <a class="post-title-link" href="/2018/06/03/Dynamic-Partitions-in-Hive/" itemprop="url">Dynamic Partitions in Hive</a></h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">Posted on</span>
+              
+              <time title="Post created" itemprop="dateCreated datePublished" datetime="2018-06-03T22:13:29+12:00">
+                2018-06-03
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+            <span class="post-category" >
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">In</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/Hadoop/" itemprop="url" rel="index">
+                    <span itemprop="name">Hadoop</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+            <p>Dynamic partitions are useful when it is necessary to populate partitions dynamically from data values. </p>
+<h3 id="Enable-dynamic-partitions"><a href="#Enable-dynamic-partitions" class="headerlink" title="Enable dynamic partitions"></a>Enable dynamic partitions</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">SET hive.exec.dynamic.partition=true;</span><br></pre></td></tr></table></figure>
+<h3 id="Disable-restriction"><a href="#Disable-restriction" class="headerlink" title="Disable restriction"></a>Disable restriction</h3><p>By default, the user must specify at least one static partition column. This is to avoid accidentally overwriting partitions.<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">SET hive.exec.dynamic.partition.mode=nonstrict;</span><br></pre></td></tr></table></figure></p>
+<h3 id="Insert-data-into-table-from-select-with-partition"><a href="#Insert-data-into-table-from-select-with-partition" class="headerlink" title="Insert data into table from select with partition"></a>Insert data into table from select with partition</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">INSERT INTO TABLE employee_partitioned</span><br><span class="line">    PARTITION(year, month)</span><br><span class="line">    SELECT name, </span><br><span class="line">    year(start_date) as year, </span><br><span class="line">    month(start_date) as month</span><br><span class="line">    FROM employee_hr eh</span><br><span class="line">    WHERE eh.employee_id = 102;</span><br></pre></td></tr></table></figure>
+          
+        
+      
+    </div>
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+    
+      
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2018/06/02/Static-Partitions-in-Hive/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="Yifan Zhang">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/author.gif">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Machine Learning and Data Science">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+                
+                <a class="post-title-link" href="/2018/06/02/Static-Partitions-in-Hive/" itemprop="url">Static Partitions in Hive</a></h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">Posted on</span>
+              
+              <time title="Post created" itemprop="dateCreated datePublished" datetime="2018-06-02T20:40:17+12:00">
+                2018-06-02
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+            <span class="post-category" >
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">In</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/Hadoop/" itemprop="url" rel="index">
+                    <span itemprop="name">Hadoop</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+            <p>By default, a simple HiveQL query scans the whole table. This slows down the performance when querying a big table. This issue could be resolved by creating partitions. In Hive, each partition corresponds to a predefined partition column(s), which maps to subdirectories in the table’s directory in HDFS.<br>When the table gets queried, only the required partitions (directory) of data in the table are being read, so the I/O and time of the query is greatly reduced. Using partition is a very easy and effective way to improve performance in Hive.</p>
+<h3 id="Create-a-table-with-partition"><a href="#Create-a-table-with-partition" class="headerlink" title="Create a table with partition"></a>Create a table with partition</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line">CREATE TABLE employee_partitioned (</span><br><span class="line">    name STRING,</span><br><span class="line">    work_place ARRAY&lt;STRING&gt;,</span><br><span class="line">    gender_age STRUCT&lt;gender:STRING,age:INT&gt;,</span><br><span class="line">    skills_score MAP&lt;STRING,INT&gt;,</span><br><span class="line">    depart_title MAP&lt;STRING,ARRAY&lt;STRING&gt;&gt; </span><br><span class="line">    -- This is regular column</span><br><span class="line">    )</span><br><span class="line">    PARTITIONED BY (year INT, month INT) </span><br><span class="line">    -- Use lower case partition column</span><br><span class="line">    ROW FORMAT DELIMITED</span><br><span class="line">    FIELDS TERMINATED BY &apos;|&apos;</span><br><span class="line">    COLLECTION ITEMS TERMINATED BY &apos;,&apos;</span><br><span class="line">    MAP KEYS TERMINATED BY &apos;:&apos;;</span><br></pre></td></tr></table></figure>
+<h3 id="Check-table-structure"><a href="#Check-table-structure" class="headerlink" title="Check table structure"></a>Check table structure</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br></pre></td><td class="code"><pre><span class="line">desc employee_partitioned;</span><br><span class="line"></span><br><span class="line">+--------------------------+--------------------------------+-----------------------+--+</span><br><span class="line">|         col_name         |           data_type            |        comment        |</span><br><span class="line">+--------------------------+--------------------------------+-----------------------+--+</span><br><span class="line">| name                     | string                         |                       |</span><br><span class="line">| work_place               | array&lt;string&gt;                  |                       |</span><br><span class="line">| gender_age               | struct&lt;gender:string,age:int&gt;  |                       |</span><br><span class="line">| skills_score             | map&lt;string,int&gt;                |                       |</span><br><span class="line">| depart_title             | map&lt;string,array&lt;string&gt;&gt;      |                       |</span><br><span class="line">| year                     | int                            |                       |</span><br><span class="line">| month                    | int                            |                       |</span><br><span class="line">|                          | NULL                           | NULL                  |</span><br><span class="line">| # Partition Information  | NULL                           | NULL                  |</span><br><span class="line">| # col_name               | data_type                      | comment               |</span><br><span class="line">|                          | NULL                           | NULL                  |</span><br><span class="line">| year                     | int                            |                       |</span><br><span class="line">| month                    | int                            |                       |</span><br><span class="line">+--------------------------+--------------------------------+-----------------------+--+</span><br></pre></td></tr></table></figure>
+<h3 id="Show-partition"><a href="#Show-partition" class="headerlink" title="Show partition"></a>Show partition</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">SHOW PARTITIONS employee_partitioned; -- Check partitions</span><br><span class="line"></span><br><span class="line">+------------+--+</span><br><span class="line">| partition  |</span><br><span class="line">+------------+--+</span><br><span class="line">+------------+--+</span><br></pre></td></tr></table></figure>
+<p>From the preceding result, we can see that the partition is not enabled automatically.</p>
+<h3 id="Add-partition"><a href="#Add-partition" class="headerlink" title="Add partition"></a>Add partition</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">ALTER TABLE employee_partitioned ADD</span><br><span class="line">PARTITION (year=2018, month=11)</span><br><span class="line">PARTITION (year=2018, month=12);</span><br></pre></td></tr></table></figure>
+<p>Check partition again<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">SHOW PARTITIONS employee_partitioned;</span><br><span class="line"></span><br><span class="line">+---------------------+--+</span><br><span class="line">|      partition      |</span><br><span class="line">+---------------------+--+</span><br><span class="line">| year=2018/month=11  |</span><br><span class="line">| year=2018/month=12  |</span><br><span class="line">+---------------------+--+</span><br></pre></td></tr></table></figure></p>
+<h3 id="Check-in-HDFS"><a href="#Check-in-HDFS" class="headerlink" title="Check in HDFS"></a>Check in HDFS</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">[cloudera@quickstart data]$ hadoop fs -ls /user/hive/warehouse/my_database.db/employee_partitioned</span><br><span class="line">Found 1 items</span><br><span class="line">drwxrwxrwx   - anonymous supergroup          0 2018-07-15 01:51 /user/hive/warehouse/my_database.db/employee_partitioned/year=2018</span><br><span class="line">[cloudera@quickstart data]$ hadoop fs -ls /user/hive/warehouse/my_database.db/employee_partitioned/year=2018</span><br><span class="line">Found 2 items</span><br><span class="line">drwxrwxrwx   - anonymous supergroup          0 2018-07-15 01:51 /user/hive/warehouse/my_database.db/employee_partitioned/year=2018/month=11</span><br><span class="line">drwxrwxrwx   - anonymous supergroup          0 2018-07-15 01:51 /user/hive/warehouse/my_database.db/employee_partitioned/year=2018/month=12</span><br></pre></td></tr></table></figure>
+<h3 id="Drop-partition"><a href="#Drop-partition" class="headerlink" title="Drop partition"></a>Drop partition</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">ALTER TABLE employee_partitioned DROP IF EXISTS PARTITION (year=2018, month=11);</span><br></pre></td></tr></table></figure>
+<h3 id="Load-data-into-the-table"><a href="#Load-data-into-the-table" class="headerlink" title="Load data into the table"></a>Load data into the table</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">LOAD DATA LOCAL inpath &apos;/home/cloudera/data/employee.txt&apos; OVERWRITE INTO TABLE employee_partitioned PARTITION (year=2018, month=12);</span><br></pre></td></tr></table></figure>
+<h3 id="Verify-data-loaded"><a href="#Verify-data-loaded" class="headerlink" title="Verify data loaded"></a>Verify data loaded</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">SELECT name, year, month FROM employee_partitioned;</span><br><span class="line"></span><br><span class="line">+----------+--------+-------+--+</span><br><span class="line">|   name   | month  | year  |</span><br><span class="line">+----------+--------+-------+--+</span><br><span class="line">| Michael  | 12     | 2018  |</span><br><span class="line">| Will     | 12     | 2018  |</span><br><span class="line">| Shelley  | 12     | 2018  |</span><br><span class="line">| Lucy     | 12     | 2018  |</span><br><span class="line">+----------+--------+-------+--+</span><br></pre></td></tr></table></figure>
+<h3 id="Verify-the-data-in-HDFS"><a href="#Verify-the-data-in-HDFS" class="headerlink" title="Verify the data in HDFS"></a>Verify the data in HDFS</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">hadoop fs -cat /user/hive/warehouse/my_database.db/employee_partitioned/year=2018/month=12/employee.txt</span><br><span class="line"></span><br><span class="line">Michael|Montreal,Toronto|Male,30|DB:80|Product:Developer^DLead</span><br><span class="line">Will|Montreal|Male,35|Perl:85|Product:Lead,Test:Lead</span><br><span class="line">Shelley|New York|Female,27|Python:80|Test:Lead,COE:Architect</span><br><span class="line">Lucy|Vancouver|Female,57|Sales:89,HR:94|Sales:Lead</span><br></pre></td></tr></table></figure>
+          
+        
+      
+    </div>
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+    
+      
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
     <link itemprop="mainEntityOfPage" href="http://yoursite.com/2018/06/01/Processing-Json-and-XML-in-Hive/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
@@ -1502,306 +1798,6 @@
 
 
     
-      
-
-  
-
-  
-  
-  
-
-  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
-  
-  
-  
-  <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2017/08/14/estimateram/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="name" content="Yifan Zhang">
-      <meta itemprop="description" content="">
-      <meta itemprop="image" content="/images/author.gif">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="Machine Learning and Data Science">
-    </span>
-
-    
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">
-                
-                <a class="post-title-link" href="/2017/08/14/estimateram/" itemprop="url">Estimate Memory Size of a Large File</a></h1>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">Posted on</span>
-              
-              <time title="Post created" itemprop="dateCreated datePublished" datetime="2017-08-14T12:50:07+12:00">
-                2017-08-14
-              </time>
-            
-
-            
-
-            
-          </span>
-
-          
-            <span class="post-category" >
-            
-              <span class="post-meta-divider">|</span>
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-folder-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">In</span>
-              
-              
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/Large-data/" itemprop="url" rel="index">
-                    <span itemprop="name">Large data</span>
-                  </a>
-                </span>
-
-                
-                
-              
-            </span>
-          
-
-          
-            
-          
-
-          
-          
-
-          
-
-          
-
-          
-
-        </div>
-      </header>
-    
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          
-            <h2 id="Functions"><a href="#Functions" class="headerlink" title="Functions:"></a>Functions:</h2><p>Functions: <code>objext.size()</code></p>
-<p>We know that R stores all the data in RAM, it automatically allocates memory as required. Before we load a very large dataset into R, we need to estimate how much memory the complete file will take up once it is loaded. Today, I will examine two methods to estimate , WITHOUT reading the entire file.</p>
-<h3 id="Method-One"><a href="#Method-One" class="headerlink" title="Method One"></a>Method One</h3><p>We find the size of a subset of the dataset and then scale up the result to make an estimate. The following code only read the first 1000 lines in the data set, rather than all of them. Then we get the total number of lines of the file to calculate our first estimate.</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line"># read the first 1000 lines</span><br><span class="line">atpart = read.csv(&quot;alldata.csv&quot;, nrow = 1000)</span><br><span class="line">partsize = object.size(atpart)</span><br><span class="line"></span><br><span class="line"># number of lines in the complete file</span><br><span class="line">nline = as.integer(system(&quot;wc -l alldata.csv | awk -e &apos;&#123;print($1)&#125;&apos;&quot;,</span><br><span class="line">                          intern = TRUE))</span><br><span class="line"></span><br><span class="line"># estimate in MB                          </span><br><span class="line">estimate1 = partsize*nline/1000</span><br><span class="line">print(partsize*nline/1000, units = &quot;Mb&quot;)</span><br></pre></td></tr></table></figure>
-<h3 id="Method-Two"><a href="#Method-Two" class="headerlink" title="Method Two"></a>Method Two</h3><p>The second approach examines the types of variables in the dataset to take into account the different memory demands of numeric and character vectors.</p>
-<p>The following code will summary the type of each column in the data frame</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"># Type of vectors</span><br><span class="line">sapply(atpart, class)</span><br><span class="line">table(sapply(atpart, class))</span><br></pre></td></tr></table></figure>
-<p>Assume that it consists of 3 factor variables and 5 integer variables, then our estimate will be the sum of four components:</p>
-<p>1) overhead: Each of the eight vectors, regardless of type, will has an overhead of around 40 bytes.<br>2) integer vectors: integer values require 4 bytes<br>3) character vectors: character values require 8 bytes<br>4) cache size. We use the sample of the first 1000 rows to estimate the number of levels in each of the factors. Assume that the strings of each factor are of fixed lengths. Hence obtaining the character length of the first level will be sufficient for determining the lengths of all unique levels.</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line">CacheSize = function(x) &#123;</span><br><span class="line">  lev = levels(x)</span><br><span class="line">  # assume all levels are the same length</span><br><span class="line">  cache.size = length(lev)*nchar(lev[1])</span><br><span class="line">&#125;</span><br><span class="line">Cache = do.call(rbind.data.frame, lapply(atpart[, 1:3], CacheSize))</span><br><span class="line"></span><br><span class="line">Our second estimate is:</span><br><span class="line"></span><br><span class="line">```&#123;r&#125;</span><br><span class="line">estimate2 = 8*40 + 5*4*nline + 3*8*nline + sum(Cache)</span><br><span class="line">paste(as.numeric(estimate2), &quot;Mb&quot;)</span><br></pre></td></tr></table></figure>
-<p>In summary, the first approach produces a fast estimate, while the second approach requires more calculation but will be closer to the actual file size. Both approaches assume the complexity and structure of the lines in the dataset remain consistent.</p>
-
-          
-        
-      
-    </div>
-    
-    
-    
-
-    
-
-    
-
-    
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </div>
-  
-  
-  
-  </article>
-
-
-    
-      
-
-  
-
-  
-  
-  
-
-  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
-  
-  
-  
-  <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2017/08/12/unixshell/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="name" content="Yifan Zhang">
-      <meta itemprop="description" content="">
-      <meta itemprop="image" content="/images/author.gif">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="Machine Learning and Data Science">
-    </span>
-
-    
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">
-                
-                <a class="post-title-link" href="/2017/08/12/unixshell/" itemprop="url">Run Unix Shell Command in R</a></h1>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">Posted on</span>
-              
-              <time title="Post created" itemprop="dateCreated datePublished" datetime="2017-08-12T12:50:07+12:00">
-                2017-08-12
-              </time>
-            
-
-            
-
-            
-          </span>
-
-          
-            <span class="post-category" >
-            
-              <span class="post-meta-divider">|</span>
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-folder-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">In</span>
-              
-              
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/Linux/" itemprop="url" rel="index">
-                    <span itemprop="name">Linux</span>
-                  </a>
-                </span>
-
-                
-                
-              
-            </span>
-          
-
-          
-            
-          
-
-          
-          
-
-          
-
-          
-
-          
-
-        </div>
-      </header>
-    
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          
-            <h2 id="Functions"><a href="#Functions" class="headerlink" title="Functions:"></a>Functions:</h2><p>Functions: <code>system()</code>, <code>strptime()</code>, <code>gsub()</code>,</p>
-<h3 id="Determine-the-number-of-files-in-the-a-directory-in-Unix"><a href="#Determine-the-number-of-files-in-the-a-directory-in-Unix" class="headerlink" title="Determine the number of files in the a directory in Unix"></a>Determine the number of files in the a directory in Unix</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">numFiles &lt;- system(&quot;ls -1 &lt;your path&gt; | wc -l&quot;, intern=TRUE)</span><br><span class="line">cat(numFiles)</span><br></pre></td></tr></table></figure>
-<p>98973</p>
-<h3 id="Extracting-the-file-sizes"><a href="#Extracting-the-file-sizes" class="headerlink" title="Extracting the file sizes"></a>Extracting the file sizes</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">system(&quot;ls -l &lt;your path&gt; | awk -e &apos;&#123;print($5)&#125;&apos; &gt; sizes.txt&quot;)</span><br><span class="line">system(&quot;head sizes.txt&quot;)</span><br><span class="line">size = read.table(&quot;sizes.txt&quot;)</span><br></pre></td></tr></table></figure>
-<p>There are 98973 csv files in this directory, containing information on Auckland Bus delays. The file name contains a date-time component that reflects the exact time of the request for each file. For example: trip_updates_20170401050001.csv.</p>
-<h3 id="Convert-character-to-date-and-time"><a href="#Convert-character-to-date-and-time" class="headerlink" title="Convert character to date and time"></a>Convert character to date and time</h3><p>The following code will convert string 20170401050001 to Date: 2017-04-01 and Time: 05:00:01<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">datetime =  strptime(gsub(&quot;[^[:digit:]]&quot;, &quot;&quot;, size.time$date),</span><br><span class="line">                     &quot;%Y%m%d%H%M%S&quot;)</span><br><span class="line">size.time$date = as.Date(datetime)</span><br><span class="line">size.time$time = strftime(datetime, format=&quot;%H:%M:%S&quot;)</span><br></pre></td></tr></table></figure></p>
-<h3 id="Extracting-trips-made-by-vehicle-6215-on-the-1st-April-2017"><a href="#Extracting-trips-made-by-vehicle-6215-on-the-1st-April-2017" class="headerlink" title="Extracting trips made by vehicle 6215 on the 1st April 2017"></a>Extracting trips made by vehicle 6215 on the 1st April 2017</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">system(&quot;grep -h ,6215, &lt;your path&gt;/trip_updates_20170401* &gt; bus-6215-2017-04-01.csv&quot;)</span><br><span class="line">busLines &lt;- system(&quot;head bus-6215-2017-04-01.csv&quot;, intern=TRUE)</span><br><span class="line">cat(busLines, sep=&quot;\n&quot;)</span><br></pre></td></tr></table></figure>
-
-          
-        
-      
-    </div>
-    
-    
-    
-
-    
-
-    
-
-    
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </div>
-  
-  
-  
-  </article>
-
-
-    
   </section>
 
   
@@ -1856,7 +1852,7 @@
               
                 <a href="/archives/">
               
-                  <span class="site-state-item-count">24</span>
+                  <span class="site-state-item-count">26</span>
                   <span class="site-state-item-name">posts</span>
                 </a>
               </div>

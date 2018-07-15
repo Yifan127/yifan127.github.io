@@ -68,7 +68,7 @@
 
 
 
-  <meta name="keywords" content="memory," />
+  <meta name="keywords" content="Hive," />
 
 
 
@@ -79,18 +79,18 @@
 
 
 
-<meta name="description" content="Functions:Functions: objext.size() We know that R stores all the data in RAM, it automatically allocates memory as required. Before we load a very large dataset into R, we need to estimate how much me">
-<meta name="keywords" content="memory">
+<meta name="description" content="Dynamic partitions are useful when it is necessary to populate partitions dynamically from data values.  Enable dynamic partitions1SET hive.exec.dynamic.partition=true; Disable restrictionBy default,">
+<meta name="keywords" content="Hive">
 <meta property="og:type" content="article">
-<meta property="og:title" content="Estimate Memory Size of a Large File">
-<meta property="og:url" content="http://yoursite.com/2017/08/14/estimateram/index.html">
+<meta property="og:title" content="Dynamic Partitions in Hive">
+<meta property="og:url" content="http://yoursite.com/2018/06/03/Dynamic-Partitions-in-Hive/index.html">
 <meta property="og:site_name" content="Machine Learning and Data Science">
-<meta property="og:description" content="Functions:Functions: objext.size() We know that R stores all the data in RAM, it automatically allocates memory as required. Before we load a very large dataset into R, we need to estimate how much me">
+<meta property="og:description" content="Dynamic partitions are useful when it is necessary to populate partitions dynamically from data values.  Enable dynamic partitions1SET hive.exec.dynamic.partition=true; Disable restrictionBy default,">
 <meta property="og:locale" content="default">
-<meta property="og:updated_time" content="2018-06-29T06:20:40.654Z">
+<meta property="og:updated_time" content="2018-07-15T10:41:09.991Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="Estimate Memory Size of a Large File">
-<meta name="twitter:description" content="Functions:Functions: objext.size() We know that R stores all the data in RAM, it automatically allocates memory as required. Before we load a very large dataset into R, we need to estimate how much me">
+<meta name="twitter:title" content="Dynamic Partitions in Hive">
+<meta name="twitter:description" content="Dynamic partitions are useful when it is necessary to populate partitions dynamically from data values.  Enable dynamic partitions1SET hive.exec.dynamic.partition=true; Disable restrictionBy default,">
 
 
 
@@ -120,13 +120,13 @@
 
 
 
-  <link rel="canonical" href="http://yoursite.com/2017/08/14/estimateram/"/>
+  <link rel="canonical" href="http://yoursite.com/2018/06/03/Dynamic-Partitions-in-Hive/"/>
 
 
 
 
 
-  <title>Estimate Memory Size of a Large File | Machine Learning and Data Science</title>
+  <title>Dynamic Partitions in Hive | Machine Learning and Data Science</title>
   
 
 
@@ -253,7 +253,7 @@
   
   
   <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2017/08/14/estimateram/">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2018/06/03/Dynamic-Partitions-in-Hive/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="name" content="Yifan Zhang">
@@ -270,7 +270,7 @@
 
         
         
-          <h1 class="post-title" itemprop="name headline">Estimate Memory Size of a Large File</h1>
+          <h1 class="post-title" itemprop="name headline">Dynamic Partitions in Hive</h1>
         
 
         <div class="post-meta">
@@ -282,8 +282,8 @@
               
                 <span class="post-meta-item-text">Posted on</span>
               
-              <time title="Post created" itemprop="dateCreated datePublished" datetime="2017-08-14T12:50:07+12:00">
-                2017-08-14
+              <time title="Post created" itemprop="dateCreated datePublished" datetime="2018-06-03T22:13:29+12:00">
+                2018-06-03
               </time>
             
 
@@ -305,8 +305,8 @@
               
               
                 <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/Large-data/" itemprop="url" rel="index">
-                    <span itemprop="name">Large data</span>
+                  <a href="/categories/Hadoop/" itemprop="url" rel="index">
+                    <span itemprop="name">Hadoop</span>
                   </a>
                 </span>
 
@@ -342,18 +342,10 @@
       
 
       
-        <h2 id="Functions"><a href="#Functions" class="headerlink" title="Functions:"></a>Functions:</h2><p>Functions: <code>objext.size()</code></p>
-<p>We know that R stores all the data in RAM, it automatically allocates memory as required. Before we load a very large dataset into R, we need to estimate how much memory the complete file will take up once it is loaded. Today, I will examine two methods to estimate , WITHOUT reading the entire file.</p>
-<h3 id="Method-One"><a href="#Method-One" class="headerlink" title="Method One"></a>Method One</h3><p>We find the size of a subset of the dataset and then scale up the result to make an estimate. The following code only read the first 1000 lines in the data set, rather than all of them. Then we get the total number of lines of the file to calculate our first estimate.</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line"># read the first 1000 lines</span><br><span class="line">atpart = read.csv(&quot;alldata.csv&quot;, nrow = 1000)</span><br><span class="line">partsize = object.size(atpart)</span><br><span class="line"></span><br><span class="line"># number of lines in the complete file</span><br><span class="line">nline = as.integer(system(&quot;wc -l alldata.csv | awk -e &apos;&#123;print($1)&#125;&apos;&quot;,</span><br><span class="line">                          intern = TRUE))</span><br><span class="line"></span><br><span class="line"># estimate in MB                          </span><br><span class="line">estimate1 = partsize*nline/1000</span><br><span class="line">print(partsize*nline/1000, units = &quot;Mb&quot;)</span><br></pre></td></tr></table></figure>
-<h3 id="Method-Two"><a href="#Method-Two" class="headerlink" title="Method Two"></a>Method Two</h3><p>The second approach examines the types of variables in the dataset to take into account the different memory demands of numeric and character vectors.</p>
-<p>The following code will summary the type of each column in the data frame</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"># Type of vectors</span><br><span class="line">sapply(atpart, class)</span><br><span class="line">table(sapply(atpart, class))</span><br></pre></td></tr></table></figure>
-<p>Assume that it consists of 3 factor variables and 5 integer variables, then our estimate will be the sum of four components:</p>
-<p>1) overhead: Each of the eight vectors, regardless of type, will has an overhead of around 40 bytes.<br>2) integer vectors: integer values require 4 bytes<br>3) character vectors: character values require 8 bytes<br>4) cache size. We use the sample of the first 1000 rows to estimate the number of levels in each of the factors. Assume that the strings of each factor are of fixed lengths. Hence obtaining the character length of the first level will be sufficient for determining the lengths of all unique levels.</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line">CacheSize = function(x) &#123;</span><br><span class="line">  lev = levels(x)</span><br><span class="line">  # assume all levels are the same length</span><br><span class="line">  cache.size = length(lev)*nchar(lev[1])</span><br><span class="line">&#125;</span><br><span class="line">Cache = do.call(rbind.data.frame, lapply(atpart[, 1:3], CacheSize))</span><br><span class="line"></span><br><span class="line">Our second estimate is:</span><br><span class="line"></span><br><span class="line">```&#123;r&#125;</span><br><span class="line">estimate2 = 8*40 + 5*4*nline + 3*8*nline + sum(Cache)</span><br><span class="line">paste(as.numeric(estimate2), &quot;Mb&quot;)</span><br></pre></td></tr></table></figure>
-<p>In summary, the first approach produces a fast estimate, while the second approach requires more calculation but will be closer to the actual file size. Both approaches assume the complexity and structure of the lines in the dataset remain consistent.</p>
-
+        <p>Dynamic partitions are useful when it is necessary to populate partitions dynamically from data values. </p>
+<h3 id="Enable-dynamic-partitions"><a href="#Enable-dynamic-partitions" class="headerlink" title="Enable dynamic partitions"></a>Enable dynamic partitions</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">SET hive.exec.dynamic.partition=true;</span><br></pre></td></tr></table></figure>
+<h3 id="Disable-restriction"><a href="#Disable-restriction" class="headerlink" title="Disable restriction"></a>Disable restriction</h3><p>By default, the user must specify at least one static partition column. This is to avoid accidentally overwriting partitions.<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">SET hive.exec.dynamic.partition.mode=nonstrict;</span><br></pre></td></tr></table></figure></p>
+<h3 id="Insert-data-into-table-from-select-with-partition"><a href="#Insert-data-into-table-from-select-with-partition" class="headerlink" title="Insert data into table from select with partition"></a>Insert data into table from select with partition</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">INSERT INTO TABLE employee_partitioned</span><br><span class="line">    PARTITION(year, month)</span><br><span class="line">    SELECT name, </span><br><span class="line">    year(start_date) as year, </span><br><span class="line">    month(start_date) as month</span><br><span class="line">    FROM employee_hr eh</span><br><span class="line">    WHERE eh.employee_id = 102;</span><br></pre></td></tr></table></figure>
       
     </div>
     
@@ -370,7 +362,7 @@
       
         <div class="post-tags">
           
-            <a href="/tags/memory/" rel="tag"># memory</a>
+            <a href="/tags/Hive/" rel="tag"># Hive</a>
           
         </div>
       
@@ -383,8 +375,8 @@
         <div class="post-nav">
           <div class="post-nav-next post-nav-item">
             
-              <a href="/2017/08/12/unixshell/" rel="next" title="Run Unix Shell Command in R">
-                <i class="fa fa-chevron-left"></i> Run Unix Shell Command in R
+              <a href="/2018/06/02/Static-Partitions-in-Hive/" rel="next" title="Static Partitions in Hive">
+                <i class="fa fa-chevron-left"></i> Static Partitions in Hive
               </a>
             
           </div>
@@ -393,8 +385,8 @@
 
           <div class="post-nav-prev post-nav-item">
             
-              <a href="/2017/08/15/largedata/" rel="prev" title="The data.table Package">
-                The data.table Package <i class="fa fa-chevron-right"></i>
+              <a href="/2018/06/04/Buckets-in-Hive/" rel="prev" title="Buckets in Hive">
+                Buckets in Hive <i class="fa fa-chevron-right"></i>
               </a>
             
           </div>
@@ -531,7 +523,7 @@
             
 
             
-              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#Functions"><span class="nav-number">1.</span> <span class="nav-text">Functions:</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#Method-One"><span class="nav-number">1.1.</span> <span class="nav-text">Method One</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Method-Two"><span class="nav-number">1.2.</span> <span class="nav-text">Method Two</span></a></li></ol></li></ol></div>
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-3"><a class="nav-link" href="#Enable-dynamic-partitions"><span class="nav-number">1.</span> <span class="nav-text">Enable dynamic partitions</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Disable-restriction"><span class="nav-number">2.</span> <span class="nav-text">Disable restriction</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Insert-data-into-table-from-select-with-partition"><span class="nav-number">3.</span> <span class="nav-text">Insert data into table from select with partition</span></a></li></ol></div>
             
 
           </div>
