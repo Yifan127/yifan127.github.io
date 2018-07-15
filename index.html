@@ -355,20 +355,20 @@
 <tbody>
 <tr>
 <td>ARRAY</td>
-<td>This is a list of items of the same type, <br> such as an ordered list of strings or <br> an ordered list of integers.</td>
-<td>work_place ARRAY\<string></string></td>
+<td>This is a list of items of the same type, such as an ordered list of strings or an ordered list of integers.</td>
+<td>work_place ARRAY\&lt;STRING></td>
 <td>work_place[0]</td>
 </tr>
 <tr>
 <td>MAP</td>
 <td>This is a set of key-value pairs.</td>
-<td>skills_score MAP&lt;STRING,INT&gt;</td>
+<td>skills_score MAP\&lt;STRING,INT></td>
 <td>skills_score[‘DB’]</td>
 </tr>
 <tr>
 <td>STRUCT</td>
 <td>set env variable</td>
-<td>gender_age STRUCT\<a href="gender:STRING,age:INT" target="_blank" rel="noopener">gender:STRING,age:INT</a></td>
+<td>gender_age STRUCT\<a href="gender:STRING,age:INT\" target="_blank" rel="noopener">gender:STRING,age:INT\</a></td>
 <td>gender_age.gender</td>
 </tr>
 </tbody>
@@ -1918,7 +1918,7 @@
 <h3 id="Processing-XML-in-Hive"><a href="#Processing-XML-in-Hive" class="headerlink" title="Processing XML in Hive"></a>Processing XML in Hive</h3><ul>
 <li>Download XML SerDe</li>
 </ul>
-<p>Download URL: <img src="https://github.com/dvasilen/Hive-XML-SerDe" alt="XML SerDe"></p>
+<p>Download URL: <a href="https://github.com/dvasilen/Hive-XML-SerDe" target="_blank" rel="noopener">XML SerDe</a></p>
 <ul>
 <li><p>Prepare a XML file</p>
 <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line">&lt;products&gt;</span><br><span class="line">    &lt;product id=&quot;1&quot;&gt;</span><br><span class="line">        &lt;name&gt;iPhone 6&lt;/name&gt;</span><br><span class="line">        &lt;category&gt;phone&lt;/category&gt;</span><br><span class="line">        &lt;price&gt;600&lt;/price&gt;</span><br><span class="line">        &lt;stock&gt;14&lt;/stock&gt;</span><br><span class="line">        &lt;features&gt;</span><br><span class="line">            &lt;storage&gt;64GB&lt;/storage&gt;</span><br><span class="line">            &lt;battery&gt;20Hrs&lt;/battery&gt;</span><br><span class="line">        &lt;/features&gt;</span><br><span class="line">    &lt;/product&gt;</span><br><span class="line">&lt;/products&gt;</span><br></pre></td></tr></table></figure>
