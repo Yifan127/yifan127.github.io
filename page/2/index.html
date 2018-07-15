@@ -249,6 +249,308 @@
   
   
   <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2017/10/08/biglm/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="Yifan Zhang">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/author.gif">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Machine Learning and Data Science">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+                
+                <a class="post-title-link" href="/2017/10/08/biglm/" itemprop="url">The biglm Package</a></h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">Posted on</span>
+              
+              <time title="Post created" itemprop="dateCreated datePublished" datetime="2017-10-08T23:26:57+13:00">
+                2017-10-08
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+            <span class="post-category" >
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">In</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/Large-data/" itemprop="url" rel="index">
+                    <span itemprop="name">Large data</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+            <p>The biglm package provides a way to fit linear regression models on data sets larger than memory. It fits the model sequentially on a subset of the data set (chunks) and updates the model at each step.</p>
+<h3 id="Data-description"><a href="#Data-description" class="headerlink" title="Data description"></a>Data description</h3><p>I will use a subset of the Million Song Dataset from UCI machine learning database in the following address: <a href="https://archive.ics.uci.edu/ml/machine-learning-databases/00203/YearPredictionMSD.txt.zip" target="_blank" rel="noopener">https://archive.ics.uci.edu/ml/machine-learning-databases/00203/YearPredictionMSD.txt.zip</a> The task is to predict the release year of a song from audio features. Songs are mostly western, commercial tracks ranging from 1922 to 2011, with a peak in the year 2000s. The first column is the output and the remaining columns are the predictors.</p>
+<h3 id="Read-the-data-and-save-it-to-a-local-CSV-file"><a href="#Read-the-data-and-save-it-to-a-local-CSV-file" class="headerlink" title="Read the data and save it to a local CSV file"></a>Read the data and save it to a local CSV file</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">library(biglm)</span><br><span class="line">library(data.table)</span><br><span class="line"></span><br><span class="line"># read the file into a data frame</span><br><span class="line">msd = fread(&quot;YearPredictionMSD.txt&quot;)</span><br><span class="line">dim(msd)</span><br></pre></td></tr></table></figure>
+<p>[1] 515345     91</p>
+<p>We can see that this is large data set with 515345 records.</p>
+<h3 id="Split-to-the-training-set-and-the-test-set"><a href="#Split-to-the-training-set-and-the-test-set" class="headerlink" title="Split to the training set and the test set"></a>Split to the training set and the test set</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"># split training dataset and testing dataset</span><br><span class="line">training = head(msd, 463715)</span><br><span class="line">testing = tail(msd, 51630)</span><br></pre></td></tr></table></figure>
+<h3 id="Split-the-training-set-to-10-chunks"><a href="#Split-the-training-set-to-10-chunks" class="headerlink" title="Split the training set to 10 chunks"></a>Split the training set to 10 chunks</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"># split training dataset into 10 chucks</span><br><span class="line">k = 10</span><br><span class="line">n = nrow(training)</span><br><span class="line">r = rep(1:k, each = ceiling(n/k))[1:n]</span><br><span class="line">chuck = split(training, r)</span><br></pre></td></tr></table></figure>
+<h3 id="Fit-a-linear-model-using-biglm-chunk-by-chunk"><a href="#Fit-a-linear-model-using-biglm-chunk-by-chunk" class="headerlink" title="Fit a linear model using biglm chunk by chunk"></a>Fit a linear model using biglm chunk by chunk</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"># fit the linear model</span><br><span class="line">colname = names(msd)</span><br><span class="line">fml = formula(paste(&quot;V1 ~&quot;, paste(colname[!colname %in% &quot;V1&quot;], collapse = &quot; + &quot;)))</span><br><span class="line">lmfit = biglm(fml, data = chuck[[1]])</span><br><span class="line"></span><br><span class="line">for(i in 2:k)&#123;</span><br><span class="line">  lmfit = update(lmfit, chuck[[i]])</span><br><span class="line">&#125;</span><br><span class="line">summary(lmfit)</span><br></pre></td></tr></table></figure>
+<h3 id="Compute-the-mean-squared-prediction-error"><a href="#Compute-the-mean-squared-prediction-error" class="headerlink" title="Compute the mean squared prediction error"></a>Compute the mean squared prediction error</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"># predict</span><br><span class="line">prediction = predict(lmfit, newdata = testing)</span><br><span class="line">actual = testing$V1</span><br><span class="line"># prediction error of testing set</span><br><span class="line">mean((prediction - actual)^2)</span><br></pre></td></tr></table></figure>
+<p>[1] 90.44316</p>
+
+          
+        
+      
+    </div>
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+    
+      
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2017/09/26/cvpe/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="Yifan Zhang">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/author.gif">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Machine Learning and Data Science">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+                
+                <a class="post-title-link" href="/2017/09/26/cvpe/" itemprop="url">Cross-Validation Prediction Error</a></h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">Posted on</span>
+              
+              <time title="Post created" itemprop="dateCreated datePublished" datetime="2017-09-26T18:26:57+13:00">
+                2017-09-26
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+            <span class="post-category" >
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">In</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/Statistics/" itemprop="url" rel="index">
+                    <span itemprop="name">Statistics</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+            <p>In cross validation, we split the data randomly into k parts, use one part for the test set and the remaining k-1 parts for the training set, and estimate the prediction error with the test set estimator. We repeat this process using a different kth as the test set each time. We average the resulting k prediction error estimates to get a final estimate. This is (k-fold) cross-validation. In practice we fix k=5 or 10.</p>
+<p>In this post, I will use the abalone data set downloaded from UCI.</p>
+<h3 id="Read-the-data-and-save-it-to-a-local-CSV-file"><a href="#Read-the-data-and-save-it-to-a-local-CSV-file" class="headerlink" title="Read the data and save it to a local CSV file"></a>Read the data and save it to a local CSV file</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">url = &quot;https://archive.ics.uci.edu/ml/machine-learning-databases/abalone/abalone.data&quot;</span><br><span class="line"></span><br><span class="line">abalone = read.csv(url, header = FALSE)</span><br><span class="line">names(abalone) = c(&quot;Sex&quot;, &quot;Length&quot;, &quot;Diameter&quot;, &quot;Height&quot;, &quot;Whole_weight&quot;,</span><br><span class="line">                   &quot;Shucked_weight&quot;, &quot;Viscera_weight&quot;, &quot;Shell_weight&quot;, &quot;Rings&quot;)</span><br><span class="line">write.csv(abalone, &quot;abalone.csv&quot;)</span><br><span class="line">dim(abalone)</span><br></pre></td></tr></table></figure>
+<p>[1] 4177    9</p>
+<h3 id="Fit-a-simple-linear-regression-model-and-compute-the-in-sample-prediction-error-PE"><a href="#Fit-a-simple-linear-regression-model-and-compute-the-in-sample-prediction-error-PE" class="headerlink" title="Fit a simple linear regression model and compute the in-sample prediction error (PE)"></a>Fit a simple linear regression model and compute the in-sample prediction error (PE)</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">lmfit = lm(Rings ~ ., data = abalone)</span><br><span class="line">pred = predict(lmfit, newdata = abalone)</span><br><span class="line"># mean squared predict error (in-sample)</span><br><span class="line">mean((abalone$Rings - pred)^2)</span><br></pre></td></tr></table></figure>
+<p>[1] 4.802664</p>
+<h3 id="10-fold-cross-validation-prediction-Error"><a href="#10-fold-cross-validation-prediction-Error" class="headerlink" title="10 fold cross-validation prediction Error"></a>10 fold cross-validation prediction Error</h3><p>The following code is used to compute the cross-validation mean squared prediction error (CVPE)</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line"># 10-fold cv</span><br><span class="line">k = 10</span><br><span class="line">shuffer = sample(nrow(abalone))</span><br><span class="line">chunk = nrow(abalone)/k</span><br><span class="line">cvpe = rep(0, k)</span><br><span class="line">for(i in 1:k)&#123;</span><br><span class="line">  testindex = shuffer[((i-1)*chunk+1):(i*chunk)]</span><br><span class="line">  test = abalone[testindex, ]</span><br><span class="line">  train = abalone[-testindex, ]</span><br><span class="line">  cvlm = lm(Rings ~ ., data = train)</span><br><span class="line">  testpred = predict(cvlm, newdata = test)</span><br><span class="line">  actual = test$Rings</span><br><span class="line">  cvpe[i] = mean((testpred - actual)^2)</span><br><span class="line">&#125;</span><br><span class="line">mean(cvpe)</span><br></pre></td></tr></table></figure>
+<p>[1] 4.908085</p>
+<p>We can see that the CVPE is larger than the PE, this is because we use the same data set to train and predict when computing the PE. The result is too optimistic. CVPE can correct the error by leaving out one chunk to act as the test data set.</p>
+
+          
+        
+      
+    </div>
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+    
+      
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
     <link itemprop="mainEntityOfPage" href="http://yoursite.com/2017/09/11/crossvm/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
@@ -1763,329 +2065,6 @@
 
 
     
-      
-
-  
-
-  
-  
-  
-
-  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
-  
-  
-  
-  <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2017/08/07/webapi/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="name" content="Yifan Zhang">
-      <meta itemprop="description" content="">
-      <meta itemprop="image" content="/images/author.gif">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="Machine Learning and Data Science">
-    </span>
-
-    
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">
-                
-                <a class="post-title-link" href="/2017/08/07/webapi/" itemprop="url">Access Data From Restful API</a></h1>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">Posted on</span>
-              
-              <time title="Post created" itemprop="dateCreated datePublished" datetime="2017-08-07T11:50:51+12:00">
-                2017-08-07
-              </time>
-            
-
-            
-
-            
-          </span>
-
-          
-            <span class="post-category" >
-            
-              <span class="post-meta-divider">|</span>
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-folder-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">In</span>
-              
-              
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/web-scraping/" itemprop="url" rel="index">
-                    <span itemprop="name">web scraping</span>
-                  </a>
-                </span>
-
-                
-                
-              
-            </span>
-          
-
-          
-            
-          
-
-          
-          
-
-          
-
-          
-
-          
-
-        </div>
-      </header>
-    
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          
-            <h2 id="Data-description"><a href="#Data-description" class="headerlink" title="Data description:"></a>Data description:</h2><p>Auckland Transport has a Web API for accessing real-time traffic information (real-time trip updates)<br><a href="https://api.at.govt.nz/docs/v1#Realtime" target="_blank" rel="noopener">https://api.at.govt.nz/docs/v1#Realtime</a><br>You need to register to get access here …<br><a href="https://api.at.govt.nz/" target="_blank" rel="noopener">https://api.at.govt.nz/</a></p>
-<h2 id="The-goal"><a href="#The-goal" class="headerlink" title="The goal:"></a>The goal:</h2><ol>
-<li>Call the GTFS real-time trip updates API once every minute for 60 minutes and save the JSON results.</li>
-<li>Process the JSON results to extract the trip id, route id, vehicle, departure and arrival delay, stop sequence, stop id, and timestamp for each trip update.</li>
-</ol>
-<h2 id="Functions-and-packages"><a href="#Functions-and-packages" class="headerlink" title="Functions and packages:"></a>Functions and packages:</h2><ol>
-<li>Functions: <code>GET()</code>, <code>writeLines()</code>, <code>content()</code>, <code>htmlParse()</code>, <code>getNodeSet()</code>, <code>xpathSApply()</code>, <code>flatten</code></li>
-<li>Packages: <code>httr</code>, <code>jsonlite</code></li>
-</ol>
-<h3 id="Downloading-data-source"><a href="#Downloading-data-source" class="headerlink" title="Downloading data source"></a>Downloading data source</h3><p>First, we use the variable i as a counter, and call the GTFS real-time trip updates API with header <code>&quot;Ocp-Apim-Subscription-Key&quot;</code>. If the response code is 200, then we save the content of the response to local as a JSON file and add 1 to the counter. After that, we wait 1 minute and repeat the above steps until we get 60 JSON files.</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line">library(httr)</span><br><span class="line">library(jsonlite)</span><br><span class="line">i = 1</span><br><span class="line">while(i &lt;= 60)</span><br><span class="line">&#123;</span><br><span class="line">  json.result = GET(&quot;https://api.at.govt.nz/v2/public/realtime/tripupdates&quot;,</span><br><span class="line">                add_headers(&quot;Ocp-Apim-Subscription-Key&quot;=&quot;your key&quot;))</span><br><span class="line">  if(json.result$status_code == 200)&#123;</span><br><span class="line">    filenames = paste(&quot;realtimetrips_&quot;, format(Sys.time(), format=&quot;%Y%m%d-%H%M%S&quot;), &quot;.json&quot;, sep = &quot;&quot;)</span><br><span class="line">    writeLines(content(json.result, as = &quot;text&quot;, encoding = &quot;UTF-8&quot;), filenames)</span><br><span class="line">    print(i)</span><br><span class="line">    i = i + 1</span><br><span class="line">  &#125;</span><br><span class="line">  Sys.sleep(60)</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-<h3 id="Processing-data-source-to-a-data-frame"><a href="#Processing-data-source-to-a-data-frame" class="headerlink" title="Processing data source to a data frame"></a>Processing data source to a data frame</h3><p>Reading all the downloaded JSON files into R.  </p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"># converts json data to a list</span><br><span class="line">jsonfiles = list.files(pattern = &quot;*.json&quot;)</span><br><span class="line">docs = lapply(jsonfiles, fromJSON)</span><br></pre></td></tr></table></figure>
-<p>To extract the real time trips information to a data frame, we initialize an empty list to store the data frames. In the for loop, we use the <code>flatten</code> function to turn the nested data frame to a normal one, and then extract and save all the information to a data frame. At the last, we convert the list to data frame.</p>
-<figure class="highlight plain"><figcaption><span>extract json&#125;</span></figcaption><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br></pre></td><td class="code"><pre><span class="line"># initalizes an empty list to store the data</span><br><span class="line">trips = vector(&quot;list&quot;, length(docs))</span><br><span class="line"></span><br><span class="line"># extracts trip, route, vehicle, arrival departure, stop_sequence, stop_id and timestamp under entity</span><br><span class="line">for(i in 1:length(docs))&#123;</span><br><span class="line">  entity = flatten(docs[[i]]$response$entity)</span><br><span class="line">  trips[[i]] = data.frame(trip = entity$trip_update.trip.trip_id,</span><br><span class="line">                          route = entity$trip_update.trip.route_id,</span><br><span class="line">                          vehicle = entity$trip_update.vehicle.id,</span><br><span class="line">                          arrival = entity$trip_update.stop_time_update.arrival.delay,</span><br><span class="line">                          departure = entity$trip_update.stop_time_update.departure.delay,</span><br><span class="line">                          stop_sequence = entity$trip_update.stop_time_update.stop_sequence,</span><br><span class="line">                          stop_id = entity$trip_update.stop_time_update.stop_id,</span><br><span class="line">                          timestamp = entity$trip_update.timestamp,</span><br><span class="line">                          stringsAsFactors = FALSE)</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"># converts list to data frame</span><br><span class="line">trips = do.call(rbind, trips)</span><br><span class="line"></span><br><span class="line">dim(trips)</span><br></pre></td></tr></table></figure>
-<p>[1] 48281     8</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">head(trips)</span><br></pre></td></tr></table></figure>
-<p><img src="/2017/08/07/webapi/trips.jpg" alt=""></p>
-
-          
-        
-      
-    </div>
-    
-    
-    
-
-    
-
-    
-
-    
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </div>
-  
-  
-  
-  </article>
-
-
-    
-      
-
-  
-
-  
-  
-  
-
-  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
-  
-  
-  
-  <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2017/08/06/accesswebpage/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="name" content="Yifan Zhang">
-      <meta itemprop="description" content="">
-      <meta itemprop="image" content="/images/author.gif">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="Machine Learning and Data Science">
-    </span>
-
-    
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">
-                
-                <a class="post-title-link" href="/2017/08/06/accesswebpage/" itemprop="url">Access Data From Web Pages</a></h1>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">Posted on</span>
-              
-              <time title="Post created" itemprop="dateCreated datePublished" datetime="2017-08-06T11:50:51+12:00">
-                2017-08-06
-              </time>
-            
-
-            
-
-            
-          </span>
-
-          
-            <span class="post-category" >
-            
-              <span class="post-meta-divider">|</span>
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-folder-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">In</span>
-              
-              
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/web-scraping/" itemprop="url" rel="index">
-                    <span itemprop="name">web scraping</span>
-                  </a>
-                </span>
-
-                
-                
-              
-            </span>
-          
-
-          
-            
-          
-
-          
-          
-
-          
-
-          
-
-          
-
-        </div>
-      </header>
-    
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          
-            <h2 id="Data-description"><a href="#Data-description" class="headerlink" title="Data description:"></a>Data description:</h2><p>The “HOT 100” billboard web site contains the top 100 songs for each week. The URL for the week starting Sat 29 July (2017-07-29) is <a href="http://www.billboard.com/charts/hot-100/2017-07-29" target="_blank" rel="noopener">http://www.billboard.com/charts/hot-100/2017-07-29</a>.</p>
-<h2 id="The-goal"><a href="#The-goal" class="headerlink" title="The goal:"></a>The goal:</h2><ol>
-<li>Download the HOT 100 for the weeks so far in 2017 (from Sat 7 Jan to Sat 29 July).</li>
-<li>Use XPath to extract the rank, song, and artist, for the top 100 songs for each week.</li>
-</ol>
-<h2 id="Functions-and-packages"><a href="#Functions-and-packages" class="headerlink" title="Functions and packages:"></a>Functions and packages:</h2><ol>
-<li>Functions: <code>seq()</code>, <code>trimws()</code>, <code>order()</code>, <code>htmlParse()</code>, <code>getNodeSet()</code>, <code>xpathSApply()</code></li>
-<li>Packages: <code>XML</code></li>
-</ol>
-<h3 id="Downloading-data-source"><a href="#Downloading-data-source" class="headerlink" title="Downloading data source"></a>Downloading data source</h3><p>First, we get the date of all the Saturdays from 2017-01-07 to 2017-07-29, then use <code>sprintf</code> to get the <code>urls</code>.</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">startdate = as.Date(&quot;2017-01-07&quot;)</span><br><span class="line">enddate = as.Date(&quot;2017-07-29&quot;)</span><br><span class="line">saturdays = seq(startdate, enddate, by=&quot;weeks&quot;)</span><br><span class="line"></span><br><span class="line">urls = sprintf(&quot;http://www.billboard.com/charts/hot-100/%s&quot;, saturdays)</span><br></pre></td></tr></table></figure>
-<p>To download the data, we use <code>htmlParse</code> in the XML package. It parses the html file to an object ‘XMLInternalDocument’. After that, we use <code>getNodeSet</code> to find all the article nodes by its Xpath. The Xpath ‘//article[contains(@class, ‘chart-row’)]’ matches all the <article> elements with a class attribute that contains chart-row.</article></p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">library(XML)</span><br><span class="line">docs = lapply(urls, htmlParse)</span><br><span class="line">articleNodes = lapply(docs, getNodeSet, path = &quot;//article[contains(@class, &apos;chart-row&apos;)]&quot;)</span><br></pre></td></tr></table></figure>
-<h3 id="Processing-the-data-to-a-data-frame"><a href="#Processing-the-data-to-a-data-frame" class="headerlink" title="Processing the data to a data frame"></a>Processing the data to a data frame</h3><p>The following function is used to convert xml to data frame. There is only one argument in this function called <code>articleNode</code>. In this function, we extract rank, song and artists within an article node by their Xpath. Notice that the artist element is contained within either an <code>&lt;a&gt;</code> or a <code>&lt;h3&gt;</code> element. Also, we use <code>trimws</code> to remove all the whitespace in artist, including <code>[ \t\r\n]</code>. The output of this function is a data frame which contains the rank, song and artist.</p>
-<figure class="highlight plain"><figcaption><span>fromXMLTODF&#125;</span></figcaption><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line">fromXMLToDF = function(articleNode)&#123;</span><br><span class="line">  ranks = sapply(articleNode, xpathSApply,</span><br><span class="line">                 &quot;.//span[@class = &apos;chart-row__current-week&apos;]&quot;, xmlValue)</span><br><span class="line">  songs = sapply(articleNode, xpathSApply,</span><br><span class="line">                 &quot;.//h2&quot;, xmlValue)</span><br><span class="line">  artists = sapply(articleNode, xpathApply,</span><br><span class="line">                   &quot;.//a[@class = &apos;chart-row__artist&apos;] | .//h3[@class = &apos;chart-row__artist&apos;]&quot;,</span><br><span class="line">                   xmlValue)</span><br><span class="line">  artists = trimws(artists)</span><br><span class="line"></span><br><span class="line">  df = data.frame(rank = as.integer(ranks), song = songs, artist= artists,</span><br><span class="line">                  stringsAsFactors = FALSE)</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-<p>We apply the above function to all the article nodes, and get a list which contains 30 elements, and each element is a data frame. Finally, we convert the list to a data frame, and add the date column to the data frame.</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"># convert list to data frame</span><br><span class="line">articles = lapply(articleNodes, fromXMLToDF)</span><br><span class="line">billboard = do.call(rbind, articles)</span><br><span class="line"></span><br><span class="line"># add date column to data frame</span><br><span class="line">billboard = cbind(date = rep(saturdays, each = 100), billboard)</span><br><span class="line"></span><br><span class="line">dim(billboard)</span><br></pre></td></tr></table></figure>
-<p>[1] 3000 4</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">head(billboard)</span><br></pre></td></tr></table></figure>
-<p><img src="/2017/08/06/accesswebpage/billboard.jpg" alt=""></p>
-<p>We can now calculate the average rank for each artist, and order them by the average rank.</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">options(digits = 2)</span><br><span class="line">bestArtist = setNames(aggregate(billboard$rank, by = list(billboard$artist), mean),</span><br><span class="line">                      c(&quot;artist&quot;, &quot;rank&quot;))</span><br><span class="line">head(bestArtist[order(bestArtist$rank), ])</span><br></pre></td></tr></table></figure>
-<p><img src="/2017/08/06/accesswebpage/rank.jpg" alt=""></p>
-
-          
-        
-      
-    </div>
-    
-    
-    
-
-    
-
-    
-
-    
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </div>
-  
-  
-  
-  </article>
-
-
-    
   </section>
 
   
@@ -2140,7 +2119,7 @@
               
                 <a href="/archives/">
               
-                  <span class="site-state-item-count">21</span>
+                  <span class="site-state-item-count">23</span>
                   <span class="site-state-item-name">posts</span>
                 </a>
               </div>
@@ -2162,7 +2141,7 @@
               
               <div class="site-state-item site-state-tags">
                 <a href="/tags/index.html">
-                  <span class="site-state-item-count">24</span>
+                  <span class="site-state-item-count">25</span>
                   <span class="site-state-item-name">tags</span>
                 </a>
               </div>
